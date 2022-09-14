@@ -14,13 +14,15 @@ if (!$db->dbConnect()) ***REMOVED***
 	return;
 ***REMOVED***
 
-if ($db->logIn("users", $_POST['username'], $_POST['password'])) ***REMOVED***
-	http_response_code(200);
-	echo "Login Success";
-	return;
-***REMOVED***
-else***REMOVED***
+$result = $db->logIn($_POST['username'], $_POST['password']);
+if (gettype($result) == 'boolean') ***REMOVED***
 	http_response_code(400);
 	echo "Username or password wrong is wrong";
+	return;
+***REMOVED***
+
+else***REMOVED***
+	http_response_code(200);
+	echo $result;
 ***REMOVED***
 
