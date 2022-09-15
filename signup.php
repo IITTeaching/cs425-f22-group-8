@@ -20,7 +20,7 @@ if($db->usernameInUse($_POST['username']))***REMOVED***
 ***REMOVED*** else if($db->emailInUse($_POST["email"]))***REMOVED***
 	http_response_code(226);
 	echo "Email-address is already in use, please use a different one.";
-***REMOVED*** else if ($db->signUp($_POST['fullname'], $_POST['email'], $_POST['username'], $_POST['username'], $_POST['password'])) ***REMOVED***
+***REMOVED*** else if ($db->signUp($_POST['fullname'], $_POST['email'], $_POST['address'], $_POST['username'], $_POST['password'])) ***REMOVED***
 	http_response_code(201);
 	echo "Sign Up Success";
 ***REMOVED*** else ***REMOVED***

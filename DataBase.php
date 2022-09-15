@@ -27,8 +27,8 @@ class DataBase
 
 	function dbConnect()
 	***REMOVED***
-		$connection_string = sprintf("host=%s port=%s dbname=%s user=%s password=%s", $this->servername, $this->port, $this->databasename, $this->username, $this->password);
-		$this->connect = pg_connect($connection_string);
+		$connection_string = sprintf("host = %s port = %s dbname = %s user = %s password = %s", $this->servername, $this->port, $this->databasename, $this->username, $this->password);
+		$this->connect = pg_pconnect($connection_string);
 		return $this->connect;
 ***REMOVED***
 
@@ -52,7 +52,7 @@ class DataBase
 	function logIn($username, $password)
 	***REMOVED***
 		$username = $this->prepareData($username);
-		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
+		$password = $this->prepareData($password);
 		$this->sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
 		$result = pg_query($this->connect, $this->sql);
 		$row = pg_fetch_assoc($result);
@@ -64,7 +64,7 @@ class DataBase
 				$result = pg_query($this->connect, $this->sql);
 				$row = pg_fetch_assoc($result);
 				if (pg_affected_rows($result) == 0) ***REMOVED*** return false;***REMOVED***
-				return sprintf("|%s|,|%s|,|%s|", $row["id"], $row["fullname"], $row["email"]);
+				return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
 		***REMOVED***
 			return false;
 	***REMOVED***
@@ -80,7 +80,7 @@ class DataBase
 		$username = $this->prepareData($username);
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
 
-		$this->sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s','%s','%s')", $fullname, $address, $email);
+		$this->sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);
 		if (!pg_query($this->connect, $this->sql)) ***REMOVED***
 			// TODO: If return false, make sure the holder info wasn't added
 			return false;
