@@ -101,7 +101,7 @@ class DataBase
 		return true;
 ***REMOVED***
 
-	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): bool|PgSql\Result***REMOVED***
+	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): bool|string***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
@@ -110,14 +110,18 @@ class DataBase
 		$zipcode = $this->prepareData($zipcode);
 
 		if($id == null)***REMOVED***
-			return $this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode);
+			return $this->parseAddress($this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode));
 	***REMOVED***
 
 		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
 		if(pg_affected_rows($result) == 0)***REMOVED***
-			return $this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode);
+			return $this->parseAddress($this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode));
 	***REMOVED***
-		return $this->updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode);
+		return $this->parseAddress($this->updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode));
+***REMOVED***
+
+	private function parseAddress($row): string***REMOVED***
+		return sprintf("=%s=%s=%s=%s=%s=%s=%s=", $row["id"], $row["streetNumber"], $row["direction"], $row["streetName"], $row["city"], $row["state"], $row["zipcode"]);
 ***REMOVED***
 
 	private function updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): PgSql\Result | false***REMOVED***
