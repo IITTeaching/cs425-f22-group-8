@@ -42,7 +42,7 @@ class DataBase
 	 */
 	private function checkQueryResult($result)***REMOVED***
 		if(!$result)***REMOVED***
-			throw new Exception(pg_last_error(), E_ERROR);
+			throw new Exception(pg_last_error());
 	***REMOVED***
 ***REMOVED***
 
@@ -114,7 +114,7 @@ class DataBase
 		$this->sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);
 		if (!pg_query($this->connect, $this->sql)) ***REMOVED***
 			// TODO: If return false, make sure the holder info wasn't added
-			throw new Exception(pg_last_error(), E_ERROR);
+			throw new Exception(pg_last_error());
 	***REMOVED***
 
 		$result = pg_query($this->connect, sprintf("SELECT id FROM AccountHolders WHERE email = '%s'", $email));
@@ -128,12 +128,15 @@ class DataBase
 		// TODO: Get the row created in AccountHolders to grab the id and use it
 		if (!pg_query($this->connect, sprintf("INSERT INTO Logins VALUES ('%s','%s','%s')", $row["id"], $username, $password))) ***REMOVED***
 			// TODO: If return false, make sure the holder info wasn't added
-			throw new Exception(pg_last_error(), E_ERROR);
+			throw new Exception(pg_last_error());
 	***REMOVED***
 
 		return true;
 ***REMOVED***
 
+	/**
+	 * @throws Exception
+	 */
 	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): bool|string***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
@@ -210,11 +213,7 @@ class DataBase
 		$state = $this->prepareData($state);
 		$zipcode = $this->prepareData($zipcode);
 
-		$sql = sprintf("INSERT INTO addresses(number,direction,street_name,city,state,zipcode) VALUES(%s,'%s','%s','%s','%s','%s')", $streetNumber,$direction,$streetName,$city,$state,$zipcode);
-		$this->checkQueryResult(pg_query($this->connect, $sql));
-
-		$rowID = $this->connect->Insert_ID();
-		$sql = sprintf("SELECT * FROM addresses WHERE id = %s", $rowID);
+		$sql = sprintf("INSERT INTO addresses(number,direction,street_name,city,state,zipcode) VALUES(%s,'%s','%s','%s','%s','%s') RETURNING id", $streetNumber,$direction,$streetName,$city,$state,$zipcode);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
 
