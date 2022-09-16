@@ -146,7 +146,9 @@ class DataBase
 		$zipcode = $this->prepareData($zipcode);
 
 		if($id == null)***REMOVED***
-			return $this->parseAddress($this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode));
+			$row = $this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode);
+			$this->checkQueryResult($row);
+			return $this->parseAddress($row);
 	***REMOVED***
 
 		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
@@ -216,12 +218,7 @@ class DataBase
 		$sql = sprintf("INSERT INTO addresses(number,direction,street_name,city,state,zipcode) VALUES(%s,'%s','%s','%s','%s','%s') RETURNING id", $streetNumber,$direction,$streetName,$city,$state,$zipcode);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-
-		$row = pg_fetch_assoc($result);
-		if(pg_affected_rows($result) == 0)***REMOVED***
-			return false;
-	***REMOVED***
+		$row = pg_fetch_row($result);
 		return $row;
-
 ***REMOVED***
 ***REMOVED***
