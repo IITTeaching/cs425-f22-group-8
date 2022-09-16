@@ -37,31 +37,59 @@ class DataBase
 		return pg_escape_string($this->connect, stripslashes(htmlspecialchars($data)));
 ***REMOVED***
 
+	/**
+	 * @throws Exception
+	 */
+	private function checkQueryResult($result)***REMOVED***
+		if(!$result)***REMOVED***
+			throw new Exception(pg_last_error(), E_ERROR);
+	***REMOVED***
+***REMOVED***
+
+	/**
+	 * @throws Exception
+	 */
 	function usernameInUse($username): bool***REMOVED***
-		$this->sql = sprintf("SELECT username FROM Logins WHERE username = '%s'", $this->prepareData($username));
-		$result = pg_query($this->connect, $this->sql);
+		$sql = sprintf("SELECT username FROM Logins WHERE username = '%s'", $this->prepareData($username));
+		$result = pg_query($this->connect, $sql);
+
+		$this->checkQueryResult($result);
+
 		return pg_affected_rows($result) != 0;
 ***REMOVED***
 
+	/**
+	 * @throws Exception
+	 */
 	function emailInUse($email): bool***REMOVED***
-		$this->sql = sprintf("SELECT email FROM AccountHolders WHERE email = '%s'", $this->prepareData($email));
-		$result = pg_query($this->connect, $this->sql);
+		$sql = sprintf("SELECT email FROM AccountHolders WHERE email = '%s'", $this->prepareData($email));
+		$result = pg_query($this->connect, $sql);
+
+		$this->checkQueryResult($result);
+
 		return pg_affected_rows($result) != 0;
 ***REMOVED***
 
+	/**
+	 * @throws Exception
+	 */
 	function logIn($username, $password): string|bool
 	***REMOVED***
 		$username = $this->prepareData($username);
 		$password = $this->prepareData($password);
-		$this->sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
-		$result = pg_query($this->connect, $this->sql);
+		$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
+		$result = pg_query($this->connect, $sql);
+
+		$this->checkQueryResult($result);
+
 		$row = pg_fetch_assoc($result);
 		if (pg_affected_rows($result) != 0) ***REMOVED***
 			$dbusername = $row['username'];
 			$dbpassword = $row['password'];
 			if ($dbusername == $username && password_verify($password, $dbpassword)) ***REMOVED***
-				$this->sql = sprintf("SELECT * FROM AccountHolders WHERE id = %s", $row["id"]);
-				$result = pg_query($this->connect, $this->sql);
+				$sql = sprintf("SELECT * FROM AccountHolders WHERE id = %s", $row["id"]);
+				$result = pg_query($this->connect, $sql);
+				$this->checkQueryResult($result);
 				$row = pg_fetch_assoc($result);
 				if (pg_affected_rows($result) == 0) ***REMOVED*** return false;***REMOVED***
 				return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
@@ -71,6 +99,9 @@ class DataBase
 		return false;
 ***REMOVED***
 
+	/**
+	 * @throws Exception
+	 */
 	function signUp($fullname, $email, $address, $username, $password) : bool
 	***REMOVED***
 		$fullname = $this->prepareData($fullname);
@@ -83,10 +114,12 @@ class DataBase
 		$this->sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);
 		if (!pg_query($this->connect, $this->sql)) ***REMOVED***
 			// TODO: If return false, make sure the holder info wasn't added
-			return false;
+			throw new Exception(pg_last_error(), E_ERROR);
 	***REMOVED***
 
 		$result = pg_query($this->connect, sprintf("SELECT id FROM AccountHolders WHERE email = '%s'", $email));
+		$this->checkQueryResult($result);
+
 		$row = pg_fetch_assoc($result);
 		if(pg_affected_rows($result) == 0)***REMOVED***
 			return false;
@@ -95,7 +128,7 @@ class DataBase
 		// TODO: Get the row created in AccountHolders to grab the id and use it
 		if (!pg_query($this->connect, sprintf("INSERT INTO Logins VALUES ('%s','%s','%s')", $row["id"], $username, $password))) ***REMOVED***
 			// TODO: If return false, make sure the holder info wasn't added
-			return false;
+			throw new Exception(pg_last_error(), E_ERROR);
 	***REMOVED***
 
 		return true;
@@ -114,6 +147,7 @@ class DataBase
 	***REMOVED***
 
 		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
+		$this->checkQueryResult($result);
 		if(pg_affected_rows($result) == 0)***REMOVED***
 			return $this->parseAddress($this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode));
 	***REMOVED***
@@ -124,6 +158,9 @@ class DataBase
 		return sprintf("=%s=%s=%s=%s=%s=%s=%s=", $row["id"], $row["streetNumber"], $row["direction"], $row["streetName"], $row["city"], $row["state"], $row["zipcode"]);
 ***REMOVED***
 
+	/**
+	 * @throws Exception
+	 */
 	private function updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): PgSql\Result | false***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
@@ -147,18 +184,23 @@ class DataBase
 		***REMOVED***
 			//Checks if the value needs to be changed
 			$check = pg_query($this->connect, sprintf("SELECT %s FROM addresses WHERE id = %s", $attribute, $id));
+			$this->checkQueryResult($check);
 			$row = pg_fetch_assoc($check);
 			if($row[$attribute] == $value)***REMOVED***
 				continue;
 		***REMOVED***
 
-			pg_query($this->connect, sprintf("UPDATE addresses SET %s = %s WHERE id = %s", $attribute, $value, $id));
+			$this->checkQueryResult(pg_query($this->connect, sprintf("UPDATE addresses SET %s = %s WHERE id = %s", $attribute, $value, $id)));
 	***REMOVED***
 
 		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
+		$this->checkQueryResult($result);
 		return pg_fetch_assoc($result);
 ***REMOVED***
 
+	/**
+	 * @throws Exception
+	 */
 	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): bool|PgSql\Result
 	***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
@@ -169,7 +211,13 @@ class DataBase
 		$zipcode = $this->prepareData($zipcode);
 
 		$sql = sprintf("INSERT INTO addresses(number,direction,street_name,city,state,zipcode) VALUES(%s,'%s','%s','%s','%s','%s')", $streetNumber,$direction,$streetName,$city,$state,$zipcode);
+		$this->checkQueryResult(pg_query($this->connect, $sql));
+
+		$rowID = $this->connect->Insert_ID();
+		$sql = sprintf("SELECT * FROM addresses WHERE id = %s", $rowID);
 		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+
 		$row = pg_fetch_assoc($result);
 		if(pg_affected_rows($result) == 0)***REMOVED***
 			return false;

@@ -2,9 +2,15 @@
 require "DataBase.php";
 $db = new DataBase();
 
-if (isset($_POST['auth_code'])) ***REMOVED***
+if (!isset($_POST['auth_code'])) ***REMOVED***
 	http_response_code(400);
-	echo "The auth_code must be given.";
+	echo "The authorization code must be given.";
+	return;
+***REMOVED***
+
+if (!($_POST['streetNumber'] || $_POST['direction'] || $_POST['streetName'] || $_POST['city'] || $_POST['state'] || $_POST['zipcode'])) ***REMOVED***
+	http_response_code(400);
+	echo "Information must be given.";
 	return;
 ***REMOVED***
 
@@ -21,7 +27,13 @@ $city = $_POST['city'] ?? null;
 $state = $_POST['state'] ?? null;
 $zipcode = $_POST['zipcode'] ?? null;
 
-$result = $db->postAddress($_POST['id'], $streetNumber, $direction, $streetName, $city, $state, $zipcode);
+try ***REMOVED***
+	$result = $db->postAddress($_POST['id'], $streetNumber, $direction, $streetName, $city, $state, $zipcode);
+***REMOVED*** catch (Exception $e)***REMOVED***
+	http_response_code(409);
+	echo $e->getMessage();
+***REMOVED***
+
 if ($result) ***REMOVED***
 	http_response_code(200);
 	echo "Address successfully updated. \n " . $result;
