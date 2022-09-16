@@ -2,9 +2,9 @@
 require "DataBase.php";
 $db = new DataBase();
 
-if (!isset($_POST['id'])) ***REMOVED***
+if (isset($_POST['auth_code'])) ***REMOVED***
 	http_response_code(400);
-	echo "The id and auth_code must be given.";
+	echo "The auth_code must be given.";
 	return;
 ***REMOVED***
 
@@ -14,7 +14,15 @@ if (!$db->dbConnect()) ***REMOVED***
 	return;
 ***REMOVED***
 
-if ($db->logIn("users", $_POST['username'], $_POST['password'])) ***REMOVED***
+$streetNumber = $_POST['streetNumber'] ?? null;
+$direction = $_POST['direction'] ?? null;
+$streetName = $_POST['streetName'] ?? null;
+$city = $_POST['city'] ?? null;
+$state = $_POST['state'] ?? null;
+$zipcode = $_POST['zipcode'] ?? null;
+
+$result = $db->postAddress($_POST['id'], $streetNumber, $direction, $streetName, $city, $state, $zipcode);
+if ($result) ***REMOVED***
 	http_response_code(200);
 	echo "Login Success";
 	return;
