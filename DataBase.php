@@ -31,6 +31,7 @@ class DataBase
 		$this->port = $dbc->port;
 		$this->dbConnect();
 		$this->cookieManager = new CookieManager("Some random key");
+		echo "Database created: <br>";
 ***REMOVED***
 
 	/**
@@ -168,7 +169,7 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): bool|string***REMOVED***
+	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): string***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
@@ -197,7 +198,7 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	private function updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): PgSql\Result | false***REMOVED***
+	private function updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): PgSql\Result ***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
@@ -237,7 +238,7 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): bool|PgSql\Result
+	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): PgSql\Result
 	***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
@@ -249,7 +250,13 @@ class DataBase
 		$sql = sprintf("INSERT INTO addresses(number,direction,street_name,city,state,zipcode) VALUES(%s,'%s','%s','%s','%s','%s') RETURNING id", $streetNumber,$direction,$streetName,$city,$state,$zipcode);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-		$row = pg_fetch_row($result);
-		return $row;
+		$row = pg_fetch_assoc($result);
+		$id = $row["id"];
+
+		$sql = sprintf("SELECT * FROM Addresses WHERE id = %s", $id);
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+
+		return pg_fetch_assoc($result);
 ***REMOVED***
 ***REMOVED***

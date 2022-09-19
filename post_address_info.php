@@ -1,6 +1,8 @@
 ***REMOVED***
 require "DataBase.php";
 
+echo "hi";
+
 try***REMOVED***
 	$db = new DataBase();
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
