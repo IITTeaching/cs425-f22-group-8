@@ -1,7 +1,7 @@
 ***REMOVED***
 require "DataBaseConfig.php";
-require "DataBase.php";
 require "PGException.php";
+require "CookieManager.php";
 
 class DataBase
 ***REMOVED***

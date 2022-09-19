@@ -1,7 +1,5 @@
 ***REMOVED***
 require "DataBase.php";
-require "PGException.php";
-
 
 if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['address']) && isset($_POST['username']) && isset($_POST['password']))) ***REMOVED***
 	http_response_code(400);

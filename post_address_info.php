@@ -1,6 +1,13 @@
 ***REMOVED***
 require "DataBase.php";
-$db = new DataBase();
+
+try***REMOVED***
+	$db = new DataBase();
+***REMOVED*** catch(PGException $pgException)***REMOVED***
+	http_response_code(501);
+	echo $pgException;
+	return;
+***REMOVED***
 
 if (!isset($_POST['auth_code'])) ***REMOVED***
 	http_response_code(400);
@@ -11,12 +18,6 @@ if (!isset($_POST['auth_code'])) ***REMOVED***
 if (!($_POST['streetNumber'] || $_POST['direction'] || $_POST['streetName'] || $_POST['city'] || $_POST['state'] || $_POST['zipcode'])) ***REMOVED***
 	http_response_code(400);
 	echo "Information must be given.";
-	return;
-***REMOVED***
-
-if (!$db->dbConnect()) ***REMOVED***
-	http_response_code(500);
-	echo "Error: Database connection";
 	return;
 ***REMOVED***
 
