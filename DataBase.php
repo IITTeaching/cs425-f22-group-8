@@ -54,10 +54,16 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	private function checkQueryResult($result)***REMOVED***
+	private function checkQueryResult($result): void
+	***REMOVED***
 		if(!$result)***REMOVED***
 			throw new PGException(pg_last_error());
 	***REMOVED***
+***REMOVED***
+
+	function _print($statement): void
+	***REMOVED***
+		echo $statement . "<br>";
 ***REMOVED***
 
 	/**
@@ -192,7 +198,7 @@ class DataBase
 ***REMOVED***
 
 	private function parseAddress($row): string***REMOVED***
-		return sprintf("=%s=%s=%s=%s=%s=%s=%s=", $row["id"], $row["streetNumber"], $row["direction"], $row["streetName"], $row["city"], $row["state"], $row["zipcode"]);
+		return sprintf("=%s=%s=%s=%s=%s=%s=%s=", $row["id"], $row["number"], $row["direction"], $row["street_name"], $row["city"], $row["state"], $row["zipcode"]);
 ***REMOVED***
 
 	/**
@@ -238,7 +244,7 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): PgSql\Result
+	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): array
 	***REMOVED***
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
