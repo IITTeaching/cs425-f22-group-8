@@ -31,7 +31,6 @@ class DataBase
 		$this->port = $dbc->port;
 		$this->dbConnect();
 		$this->cookieManager = new CookieManager("Some random key");
-		echo "Database created: <br>";
 ***REMOVED***
 
 	/**
@@ -49,6 +48,10 @@ class DataBase
 	function prepareData($data): string
 	***REMOVED***
 		return pg_escape_string($this->connect, stripslashes(htmlspecialchars($data)));
+***REMOVED***
+
+	function checkCookie(): bool***REMOVED***
+		return $this->cookieManager->isValidCookie();
 ***REMOVED***
 
 	/**

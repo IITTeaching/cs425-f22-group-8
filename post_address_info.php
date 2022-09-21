@@ -1,8 +1,6 @@
 ***REMOVED***
 require "DataBase.php";
 
-echo "hi";
-
 try***REMOVED***
 	$db = new DataBase();
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
@@ -35,6 +33,7 @@ try ***REMOVED***
 ***REMOVED*** catch (Exception $e)***REMOVED***
 	http_response_code(409);
 	echo $e->getMessage();
+	return;
 ***REMOVED***
 
 if ($result) ***REMOVED***
