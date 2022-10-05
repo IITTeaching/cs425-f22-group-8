@@ -57,10 +57,13 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	private function checkQueryResult($result): void
+	private function checkQueryResult($result, $errorMessage=""): void
 	***REMOVED***
 		if(!$result)***REMOVED***
-			throw new PGException(pg_last_error());
+			if(strlen($errorMessage) == 0)***REMOVED***
+				$errorMessage = pg_last_error();
+		***REMOVED***
+			throw new PGException($errorMessage);
 	***REMOVED***
 ***REMOVED***
 
@@ -99,19 +102,20 @@ class DataBase
 	 */
 	function logIn($username, $password): string|bool
 	***REMOVED***
+		$defaultErrorMessage = "Incorrect username/password";
 		if(!$this->cookieManager->isValidCookie())***REMOVED***
 			$username = $this->prepareData($username);
 			$password = $this->prepareData($password);
 			$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
 			$result = pg_query($this->connect, $sql);
 
-			$this->checkQueryResult($result);
+			$this->checkQueryResult($result, $defaultErrorMessage);
 
 			$row = pg_fetch_assoc($result);
 			if (pg_affected_rows($result) == 0) ***REMOVED***
 				$pg_error = pg_last_error();
 				if(strlen($pg_error) == 0)***REMOVED***
-					$pg_error = "Incorrect username or password.";
+					$pg_error = $defaultErrorMessage;
 			***REMOVED***
 				throw new PGException($pg_error);
 		***REMOVED***
@@ -120,7 +124,7 @@ class DataBase
 			$dbpassword = $row['password'];
 
 			if (!($dbusername == $username && password_verify($password, $dbpassword))) ***REMOVED***
-				throw new InvalidArgumentException("Incorrect username/password");
+				throw new InvalidArgumentException($defaultErrorMessage);
 		***REMOVED***
 	***REMOVED*** else***REMOVED***
 			$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
