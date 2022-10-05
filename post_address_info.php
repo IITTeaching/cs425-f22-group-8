@@ -5,7 +5,7 @@ try***REMOVED***
 	$db = new DataBase();
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
 	http_response_code(501);
-	echo $pgException;
+	echo $pgException->getMessage();
 	return;
 ***REMOVED***
 

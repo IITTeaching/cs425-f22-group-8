@@ -2,6 +2,7 @@
 require "DataBase.php";
 
 try***REMOVED***
+	echo
 	$db = new DataBase();
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
 	http_response_code(500);
@@ -9,4 +10,8 @@ try***REMOVED***
 	return;
 ***REMOVED***
 
-$db->_print($db->checkCookie());
+if($db->checkCookie())***REMOVED***
+	$db->_print("You have a proper cookie.");
+***REMOVED*** else***REMOVED***
+	$db->_print("Your cookie is not proper.");
+***REMOVED***

@@ -109,7 +109,11 @@ class DataBase
 
 			$row = pg_fetch_assoc($result);
 			if (pg_affected_rows($result) == 0) ***REMOVED***
-				throw new PGException(pg_last_error());
+				$pg_error = pg_last_error();
+				if(strlen($pg_error) == 0)***REMOVED***
+					$pg_error = "Incorrect username or password.";
+			***REMOVED***
+				throw new PGException($pg_error);
 		***REMOVED***
 
 			$dbusername = $row['username'];

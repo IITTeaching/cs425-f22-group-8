@@ -23,7 +23,7 @@ try***REMOVED***
 ***REMOVED***
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
 	http_response_code(500);
-	echo $pgException;
+	echo $pgException->getMessage();
 	return;
 ***REMOVED***
 
@@ -35,7 +35,7 @@ try ***REMOVED***
 ***REMOVED***
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
 	http_response_code(500);
-	echo $pgException;
+	echo $pgException->getMessage();
 	return;
 ***REMOVED***
 
@@ -49,5 +49,5 @@ try ***REMOVED***
 ***REMOVED***
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
 	http_response_code(500);
-	echo $pgException;
+	echo $pgException->getMessage();
 ***REMOVED***

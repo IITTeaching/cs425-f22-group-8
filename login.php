@@ -9,9 +9,9 @@ if (!(isset($_POST['username']) && isset($_POST['password']))) ***REMOVED***
 
 try***REMOVED***
 	$db = new DataBase();
-***REMOVED*** catch(PGException $PGException)***REMOVED***
+***REMOVED*** catch(PGException $exception)***REMOVED***
 	http_response_code(500);
-	echo "Internal Database Error, please try again later: " . pg_last_error();
+	echo "Internal Database Error, please try again later: " . $exception->getMessage();
 	return;
 ***REMOVED***
 
@@ -19,11 +19,11 @@ try***REMOVED***
 	$result = $db->logIn($_POST['username'], $_POST['password']);
 ***REMOVED*** catch(PGException $pgException)***REMOVED***
 	http_response_code(500);
-	echo $pgException;
+	echo $pgException->getMessage();
 	return;
 ***REMOVED*** catch(InvalidArgumentException $argumentException)***REMOVED***
 	http_response_code(401);
-	echo $argumentException;
+	echo $argumentException->getMessage();
 	return;
 ***REMOVED***
 

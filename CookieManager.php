@@ -23,7 +23,7 @@ class CookieManager
 	***REMOVED***
 
 		$cookieValue = $_COOKIE[$this->cookieName];
-		$username = preg_split("]", $cookieValue)[0];
+		$username = explode("]", $cookieValue)[0];
 		return $this->createCookieValue($username) == $cookieValue;
 ***REMOVED***
 
