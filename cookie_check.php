@@ -1,17 +1,17 @@
-***REMOVED***
+<?php
 require "DataBase.php";
 
-try***REMOVED***
+try{
 	echo
 	$db = new DataBase();
-***REMOVED*** catch(PGException $pgException)***REMOVED***
+} catch(PGException $pgException){
 	http_response_code(500);
 	echo "Error: Database connection";
 	return;
-***REMOVED***
+}
 
-if($db->checkCookie())***REMOVED***
+if($db->checkCookie()){
 	$db->_print("You have a proper cookie.");
-***REMOVED*** else***REMOVED***
+} else{
 	$db->_print("Your cookie is not proper.");
-***REMOVED***
+}

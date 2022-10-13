@@ -1,109 +1,104 @@
-***REMOVED***
+<?php
 require "DataBaseConfig.php";
 require "PGException.php";
 require "CookieManager.php";
 
 class DataBase
-***REMOVED***
-	public $connect;
-	public $data;
-	private $sql;
+{
+	protected PgSql\Connection $connect;
 	private string $servername;
 	private string $username;
 	private string $password;
-	private string $databasename;
+	private string $dbname;
 	private string $port;
 	private CookieManager $cookieManager;
 
 	/**
 	 * @throws PGException
 	 */
-***REMOVED***
-	***REMOVED***
-		$this->connect = null;
-		$this->data = null;
-		$this->sql = null;
+	public function __construct()
+	{
 		$dbc = new DataBaseConfig();
 		$this->servername = $dbc->servername;
 		$this->username = $dbc->username;
 		$this->password = $dbc->password;
-		$this->databasename = $dbc->databasename;
+		$this->dbname = $dbc->databasename;
 		$this->port = $dbc->port;
 		$this->dbConnect();
 		$this->cookieManager = new CookieManager("Some random key");
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
 	function dbConnect(): void
-	***REMOVED***
-		$connection_string = sprintf("host = %s port = %s dbname = %s user = %s password = %s", $this->servername, $this->port, $this->databasename, $this->username, $this->password);
+	{
+		$connection_string = sprintf("host = %s port = %s dbname = %s user = %s password = %s", $this->servername, $this->port, $this->dbname, $this->username, $this->password);
 		$this->connect = pg_pconnect($connection_string);
-		if(!$this->connect)***REMOVED***
+		if(!$this->connect){
 			throw new PGException(pg_last_error());
-	***REMOVED***
-***REMOVED***
+		}
+	}
 
 	function prepareData($data): string
-	***REMOVED***
+	{
 		return pg_escape_string($this->connect, stripslashes(htmlspecialchars($data)));
-***REMOVED***
+	}
 
-	function checkCookie(): bool***REMOVED***
+	function checkCookie(): bool{
 		return $this->cookieManager->isValidCookie();
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
 	private function checkQueryResult($result, $errorMessage=""): void
-	***REMOVED***
-		if(!$result)***REMOVED***
-			if(strlen($errorMessage) == 0)***REMOVED***
+	{
+		if(!$result){
+			if(strlen($errorMessage) == 0){
 				$errorMessage = pg_last_error();
-		***REMOVED***
+			}
 			throw new PGException($errorMessage);
-	***REMOVED***
-***REMOVED***
+		}
+	}
 
 	function _print($statement): void
-	***REMOVED***
+	{
 		echo $statement . "<br>";
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
-	function usernameInUse($username): bool***REMOVED***
+	function usernameInUse($username): bool{
 		$sql = sprintf("SELECT username FROM Logins WHERE username = '%s'", $this->prepareData($username));
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
 
 		return pg_affected_rows($result) != 0;
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
-	function emailInUse($email): bool***REMOVED***
+	function emailInUse($email): bool{
 		$sql = sprintf("SELECT email FROM AccountHolders WHERE email = '%s'", $this->prepareData($email));
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
 
 		return pg_affected_rows($result) != 0;
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 * @throws InvalidArgumentException
 	 */
 	function logIn($username, $password): string|bool
-	***REMOVED***
-		$defaultErrorMessage = "Incorrect username/password";
-		if(!$this->cookieManager->isValidCookie())***REMOVED***
+	{
+		$defaultErrorMessage = "Incorrect username/password.";
+		if(!$this->cookieManager->isValidCookie()){
 			$username = $this->prepareData($username);
 			$password = $this->prepareData($password);
 			$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
@@ -112,46 +107,51 @@ class DataBase
 			$this->checkQueryResult($result, $defaultErrorMessage);
 
 			$row = pg_fetch_assoc($result);
-			if (pg_affected_rows($result) == 0) ***REMOVED***
+			$affected_rows = pg_affected_rows($result);
+			if ($affected_rows == 0) {
 				$pg_error = pg_last_error();
-				if(strlen($pg_error) == 0)***REMOVED***
+				if(strlen($pg_error) == 0){
 					$pg_error = $defaultErrorMessage;
-			***REMOVED***
+				}
 				throw new PGException($pg_error);
-		***REMOVED***
+			}
+
+			if ($affected_rows > 1){ // Look into blocking this IP
+				throw new InvalidArgumentException("Don't even try to inject this.");
+			}
 
 			$dbusername = $row['username'];
 			$dbpassword = $row['password'];
 
-			if (!($dbusername == $username && password_verify($password, $dbpassword))) ***REMOVED***
+			if (!($dbusername == $username && password_verify($password, $dbpassword))) {
 				throw new InvalidArgumentException($defaultErrorMessage);
-		***REMOVED***
-	***REMOVED*** else***REMOVED***
+			}
+		} else{
 			$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
 			$result = pg_query($this->connect, $sql);
 			$this->checkQueryResult($result);
 
 			$row = pg_fetch_assoc($result);
-			if (pg_affected_rows($result) == 0)***REMOVED***
+			if (pg_affected_rows($result) == 0){
 				throw new PGException(pg_last_error());
-		***REMOVED***
-	***REMOVED***
+			}
+		}
 
 		$sql = sprintf("SELECT * FROM AccountHolders WHERE id = %s", $row["id"]);
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
 		$row = pg_fetch_assoc($result);
-		if (pg_affected_rows($result) == 0) ***REMOVED*** return false;***REMOVED***
+		if (pg_affected_rows($result) == 0) { return false;}
 		$this->cookieManager->createCookie($username);
 		return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
 	function signUp($fullname, $email, $address, $username, $password) : bool
-	***REMOVED***
+	{
 		$fullname = $this->prepareData($fullname);
 		$address = $this->prepareData($address);
 		$password = $this->prepareData($password);
@@ -159,34 +159,34 @@ class DataBase
 		$username = $this->prepareData($username);
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
 
-		$this->sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);
-		if (!pg_query($this->connect, $this->sql)) ***REMOVED***
+		$sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);
+		if (!pg_query($this->connect, $sql)) {
 			// TODO: If return false, make sure the holder info wasn't added
 			throw new PGException(pg_last_error());
-	***REMOVED***
+		}
 
 		$result = pg_query($this->connect, sprintf("SELECT id FROM AccountHolders WHERE email = '%s'", $email));
 		$this->checkQueryResult($result);
 
 		$row = pg_fetch_assoc($result);
-		if(pg_affected_rows($result) == 0)***REMOVED***
+		if(pg_affected_rows($result) == 0){
 			throw new PGException(pg_last_error());
-	***REMOVED***
+		}
 
 		// TODO: Get the row created in AccountHolders to grab the id and use it
-		if (!pg_query($this->connect, sprintf("INSERT INTO Logins VALUES ('%s','%s','%s')", $row["id"], $username, $password))) ***REMOVED***
+		if (!pg_query($this->connect, sprintf("INSERT INTO Logins VALUES ('%s','%s','%s')", $row["id"], $username, $password))) {
 			// TODO: If return false, make sure the holder info wasn't added
 			throw new PGException(pg_last_error());
-	***REMOVED***
+		}
 
 		$this->cookieManager->createCookie($username);
 		return true;
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
-	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): string***REMOVED***
+	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): string{
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
@@ -194,28 +194,28 @@ class DataBase
 		$state = $this->prepareData($state);
 		$zipcode = $this->prepareData($zipcode);
 
-		if($id == null)***REMOVED***
+		if($id == null){
 			$row = $this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode);
 			$this->checkQueryResult($row);
 			return $this->parseAddress($row);
-	***REMOVED***
+		}
 
 		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
 		$this->checkQueryResult($result);
-		if(pg_affected_rows($result) == 0)***REMOVED***
+		if(pg_affected_rows($result) == 0){
 			return $this->parseAddress($this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode));
-	***REMOVED***
+		}
 		return $this->parseAddress($this->updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode));
-***REMOVED***
+	}
 
-	private function parseAddress($row): string***REMOVED***
+	private function parseAddress($row): string{
 		return sprintf("=%s=%s=%s=%s=%s=%s=%s=", $row["id"], $row["number"], $row["direction"], $row["street_name"], $row["city"], $row["state"], $row["zipcode"]);
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
-	private function updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): PgSql\Result ***REMOVED***
+	private function updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): array {
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
@@ -232,31 +232,31 @@ class DataBase
 			"zipcode" => $zipcode
 		);
 
-		foreach($dct as $attribute => $value)***REMOVED***
-			if($value == null)***REMOVED***
+		foreach($dct as $attribute => $value){
+			if($value == null){
 				continue;
-		***REMOVED***
+			}
 			//Checks if the value needs to be changed
 			$check = pg_query($this->connect, sprintf("SELECT %s FROM addresses WHERE id = %s", $attribute, $id));
 			$this->checkQueryResult($check);
 			$row = pg_fetch_assoc($check);
-			if($row[$attribute] == $value)***REMOVED***
+			if($row[$attribute] == $value){
 				continue;
-		***REMOVED***
+			}
 
 			$this->checkQueryResult(pg_query($this->connect, sprintf("UPDATE addresses SET %s = %s WHERE id = %s", $attribute, $value, $id)));
-	***REMOVED***
+		}
 
 		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
 		$this->checkQueryResult($result);
 		return pg_fetch_assoc($result);
-***REMOVED***
+	}
 
 	/**
 	 * @throws PGException
 	 */
 	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): array
-	***REMOVED***
+	{
 		$streetNumber = $this->prepareData($streetNumber);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
@@ -275,5 +275,5 @@ class DataBase
 		$this->checkQueryResult($result);
 
 		return pg_fetch_assoc($result);
-***REMOVED***
-***REMOVED***
+	}
+}

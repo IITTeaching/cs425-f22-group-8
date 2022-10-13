@@ -1,53 +1,53 @@
-***REMOVED***
+<?php
 require "DataBase.php";
 
-if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['address']) && isset($_POST['username']) && isset($_POST['password']))) ***REMOVED***
+if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['address']) && isset($_POST['username']) && isset($_POST['password']))) {
 	http_response_code(400);
 	echo "All fields are required";
 	return;
-***REMOVED***
+}
 
-try***REMOVED***
+try{
 	$db = new DataBase();
-***REMOVED*** catch(PGException $pgException)***REMOVED***
+} catch(PGException $pgException){
 	http_response_code(500);
 	echo "Error: Database connection";
 	return;
-***REMOVED***
+}
 
-try***REMOVED***
-	if($db->usernameInUse($_POST['username']))***REMOVED***
+try{
+	if($db->usernameInUse($_POST['username'])){
 		http_response_code(226);
 		echo "Username is already taken. Try a different one.";
 		return;
-***REMOVED***
-***REMOVED*** catch(PGException $pgException)***REMOVED***
+	}
+} catch(PGException $pgException){
 	http_response_code(500);
 	echo $pgException->getMessage();
 	return;
-***REMOVED***
+}
 
-try ***REMOVED***
-	if($db->emailInUse($_POST["email"]))***REMOVED***
+try {
+	if($db->emailInUse($_POST["email"])){
 		http_response_code(226);
 		echo "Email-address is already in use, please use a different one.";
 		return;
-***REMOVED***
-***REMOVED*** catch(PGException $pgException)***REMOVED***
+	}
+} catch(PGException $pgException){
 	http_response_code(500);
 	echo $pgException->getMessage();
 	return;
-***REMOVED***
+}
 
-try ***REMOVED***
-	if ($db->signUp($_POST['fullname'], $_POST['email'], $_POST['address'], $_POST['username'], $_POST['password'])) ***REMOVED***
+try {
+	if ($db->signUp($_POST['fullname'], $_POST['email'], $_POST['address'], $_POST['username'], $_POST['password'])) {
 		http_response_code(201);
 		echo "Sign Up Success";
-***REMOVED*** else ***REMOVED***
+	} else {
 		http_response_code(500);
 		echo "Sign up Failed";
-***REMOVED***
-***REMOVED*** catch(PGException $pgException)***REMOVED***
+	}
+} catch(PGException $pgException){
 	http_response_code(500);
 	echo $pgException->getMessage();
-***REMOVED***
+}
