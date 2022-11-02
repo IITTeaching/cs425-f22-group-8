@@ -11,6 +11,7 @@ class DataBase
 	private string $password;
 	private string $dbname;
 	private string $port;
+	private bool $loggedIn;
 	private CookieManager $cookieManager;
 
 	/**
@@ -275,5 +276,9 @@ class DataBase
 		$this->checkQueryResult($result);
 
 		return pg_fetch_assoc($result);
+	}
+
+	public function isLoggedIn(): bool{
+		return $this->isLoggedIn();  // This is going to need to check the cookie, because this is recalled on every time the page changes
 	}
 }

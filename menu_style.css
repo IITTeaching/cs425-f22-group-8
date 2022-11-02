@@ -1,0 +1,20 @@
+div.content {
+    margin-bottom: 200%;
+}
+
+.floating-menu {
+    font-family: sans-serif;
+    background: yellowgreen;
+    padding: 5px;;
+    width: 130px;
+    z-index: 100;
+    position: fixed;
+    right: 0px;/* You can change float left/right */
+}
+
+.floating-menu a, .floating-menu h3 {
+    font-size: 0.9em;
+    display: block;
+    margin: 0 0.5em;
+    color: white;
+}
