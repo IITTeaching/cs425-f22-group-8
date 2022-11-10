@@ -27,6 +27,7 @@ class DataBase
 		$this->port = $dbc->port;
 		$this->dbConnect();
 		$this->cookieManager = new CookieManager("Some random key");
+		$this->loggedIn = false;
 	}
 
 	/**
@@ -145,6 +146,7 @@ class DataBase
 		$row = pg_fetch_assoc($result);
 		if (pg_affected_rows($result) == 0) { return false;}
 		$this->cookieManager->createCookie($username);
+		$this->loggedIn = true;
 		return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
 	}
 
@@ -279,6 +281,6 @@ class DataBase
 	}
 
 	public function isLoggedIn(): bool{
-		return $this->isLoggedIn();  // This is going to need to check the cookie, because this is recalled on every time the page changes
+		return $this->loggedIn;  // This is going to need to check the cookie, because this is recalled on every time the page changes
 	}
 }

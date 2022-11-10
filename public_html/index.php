@@ -16,7 +16,7 @@ try{
 <head>
 	<meta charset="UTF-8">
 	<title>WCS Banking</title>
-	<link href="menu_style.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 	<div id="content">
