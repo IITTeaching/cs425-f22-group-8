@@ -21,19 +21,19 @@ try{
 } catch(PGException $pgException){
 	http_response_code(500);
 	echo $pgException->getMessage();
-	header("Location: https://cs425.lenwashingtoniii.com\login.php");
+	header("Location: https://cs425.lenwashingtoniii.com\login");
 	return;
 } catch(InvalidArgumentException $argumentException){
 	http_response_code(401);
 	echo $argumentException->getMessage();
-	header("Location: https://cs425.lenwashingtoniii.com\login.php");
+	header("Location: https://cs425.lenwashingtoniii.com\login");
 	return;
 }
 
 if (gettype($result) == 'boolean') {
 	http_response_code(401);
 	echo "Username or password wrong is wrong.";
-	header("Location: https://cs425.lenwashingtoniii.com\login.php");
+	header("Location: https://cs425.lenwashingtoniii.com\login");
 	return;
 }
 

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<form name="form" action="/api/signup.php" method="POST">
+<form name="form" action="/api/signup" method="POST">
 	<label for="username">Username: </label>
 	<input type="text" id="username" name="username" value=""><br>
 

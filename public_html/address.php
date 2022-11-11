@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form name="form" action="/api/post_address_info.php" method="POST">
+<form name="form" action="/api/post_address_info" method="POST">
 	<input type="text" name="auth_code" value="4630">
 	<input type="text" name="streetNumber" value="4630">
 	<input type="text" name="direction" value="S">

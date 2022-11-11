@@ -8,7 +8,6 @@ try{
 	echo "There was an internal database error, try again later. If this problem persists, contact the system administrator.";
 	return;
 }
-# TODO: Find a way to grab the user info (name, balance) quickly.
 ?>
 
 <!DOCTYPE html>
@@ -25,15 +24,16 @@ try{
 		<nav class="floating-menu">
 			<?php if(!$db->isLoggedIn()): ?>
 			<h3>We sold you?</h3>
-			<a href="login.php">Log In</a>
-			<a href="signup.php">Sign Up</a>
+			<a href="/login">Log In</a>
+			<a href="/signup">Sign Up</a>
 			<?php else: ?>
 			<h3>Hello <?php try {
 					echo $db->getName();
 				} catch (PGException $e) {
 					echo "Internal Server Error";
 			} ?></h3>
-			<a href="profile">Check My Profile</a>
+			<a href="/profile">Check My Profile</a>
+			<a href="/api/logout">Logout</a>
 			<?php endif; ?>
 
 		</nav>
