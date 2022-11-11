@@ -144,8 +144,8 @@ class DataBase
 		$row = pg_fetch_assoc($result);
 		if (pg_affected_rows($result) == 0) { return false;}
 		$this->cookieManager->createCookie($username);
-		$this->loggedIn = true;
-		return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
+		return "Logged In Successfully";
+		//return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
 	}
 
 	/**
