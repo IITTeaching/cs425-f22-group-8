@@ -81,6 +81,6 @@ CREATE TABLE LOANS(
     original_value DOUBLE PRECISION NOT NULL,
     apr DOUBLE PRECISION NOT NULL,
     n INT NOT NULL, -- Number of payments
-    compounding_period INT NOT NULL,  -- Yearly, Monthly, as an integer
+    compounding_period INT NOT NULL -- Yearly, Monthly, as an integer
     -- TODO: Code an amortization table in PHP
 );

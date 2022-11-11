@@ -62,11 +62,6 @@ class DataBase
 		}
 	}
 
-	function _print($statement): void
-	{
-		echo $statement . "<br>";
-	}
-
 	/**
 	 * @throws PGException
 	 */
@@ -151,13 +146,14 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	function signUp($fullname, $email, $address, $username, $password) : bool
+	function signUp($fullname, $email, $address, $username, $ssn, $password) : bool
 	{
 		$fullname = $this->prepareData($fullname);
 		$address = $this->prepareData($address);
 		$password = $this->prepareData($password);
 		$email = $this->prepareData($email);
 		$username = $this->prepareData($username);
+		$ssn = password_hash($this->prepareData($ssn), CRYPT_SHA512);
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
 
 		$sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);

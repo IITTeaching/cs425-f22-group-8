@@ -11,7 +11,7 @@ RedirectMatch 404 /\..*$
 RedirectMatch 404 api/DataBaseConfig\.php$
 RedirectMatch 404 api/CookieManager\.php$
 RedirectMatch 404 api/DataBase\.php$
-RedirectMatch 404 /test\.php
+RedirectMatch 404 api/Tools\.php
 
 # Force non-www in a Generic Way
 RewriteCond %{HTTP_HOST} ^www\.

@@ -8,10 +8,10 @@ RewriteRule ^([\w_]+)$ $1.php [L]
 RedirectMatch 404 /\..*$
 
 # Hide php files that don't directly interact with users
-RedirectMatch 404 api/DataBaseConfig\.php$
-RedirectMatch 404 api/CookieManager\.php$
-RedirectMatch 404 api/DataBase\.php$
-RedirectMatch 404 /test\.php
+RedirectMatch 404 DataBaseConfig\.php$
+RedirectMatch 404 CookieManager\.php$
+RedirectMatch 404 DataBase\.php$
+RedirectMatch 404 Tools\.php
 
 # Force non-www in a Generic Way
 RewriteCond %{HTTP_HOST} ^www\.
