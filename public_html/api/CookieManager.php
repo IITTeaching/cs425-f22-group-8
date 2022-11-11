@@ -4,11 +4,13 @@ class CookieManager
 {
 	private string $key;
 	private string $cookieName;
+	private int $expire_time;
 
 	public function __construct($key)
 	{
 		$this->key = $key;
 		$this->cookieName = "authCookie";
+		$this->expire_time = 3600;
 	}
 
 	function createCookie($username): void
@@ -18,23 +20,41 @@ class CookieManager
 	}
 
 	function isValidCookie(): bool{
-		$username = $this->getCookieUsername();
-		if(!$username){
+		$cookie_data = $this->getCookieData();
+		if(!$cookie_data){
 			return false;
 		}
-		return $this->createCookieValue($username) == $_COOKIE[$this->cookieName]; // TODO: Check expiration time, as well
+
+		if($cookie_data["expiry"] < time()){
+			$this->deleteCookie();
+			return false;
+		}
+
+		return true;
 	}
 
-	function getCookieUsername(): string|bool{
+	private function getCookieData(): array|bool{
 		if(!isset($_COOKIE[$this->cookieName])){
 			return false;
 		}
+		return json_decode($_COOKIE[$this->cookieName]);
+	}
 
-		$cookieValue = $_COOKIE[$this->cookieName];
-		return explode("]", $cookieValue)[0];
+	function getCookieUsername(): string|bool{
+		return $this->getCookieData()["username"];
+	}
+
+	function getExpireTime(): int{
+		return $this->expire_time;
 	}
 
 	private function createCookieValue($username): string{
-		return $username . "]" . hash("sha256", sprintf("%s-%s", $username, $this->key));
+		$expires = time() + $this->expire_time;
+		return json_encode((object) array("username" => $username, "expires"=>$expires, "encryption"=>hash("sha256", sprintf("%s-%s", $username, $this->key))));
+	}
+
+	public function deleteCookie(): void
+	{
+		setcookie($this->cookieName, "", time() - $this->expire_time, "/", "cs425.lenwashingtoniii.com");
 	}
 }

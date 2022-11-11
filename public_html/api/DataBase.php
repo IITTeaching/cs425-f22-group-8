@@ -295,4 +295,8 @@ class DataBase
 		$this->checkQueryResult($result);
 		return pg_fetch_result($result, 0);
 	}
+
+	public function logout(): void{
+		$this->cookieManager->deleteCookie();
+	}
 }
