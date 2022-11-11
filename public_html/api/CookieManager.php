@@ -25,7 +25,7 @@ class CookieManager
 			return false;
 		}
 
-		if($cookie_data["expiry"] < time()){
+		if($cookie_data->expires < time()){
 			$this->deleteCookie();
 			return false;
 		}
@@ -41,7 +41,7 @@ class CookieManager
 	}
 
 	function getCookieUsername(): string|bool{
-		return $this->getCookieData()["username"];
+		return $this->getCookieData()->username;
 	}
 
 	function getExpireTime(): int{
