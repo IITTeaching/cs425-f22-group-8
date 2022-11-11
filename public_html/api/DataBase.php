@@ -11,7 +11,6 @@ class DataBase
 	private string $password;
 	private string $dbname;
 	private string $port;
-	private bool $loggedIn;
 	private CookieManager $cookieManager;
 
 	/**
@@ -27,7 +26,6 @@ class DataBase
 		$this->port = $dbc->port;
 		$this->dbConnect();
 		$this->cookieManager = new CookieManager("Some random key");
-		$this->loggedIn = false;
 	}
 
 	/**
@@ -281,6 +279,20 @@ class DataBase
 	}
 
 	public function isLoggedIn(): bool{
-		return $this->loggedIn;  // This is going to need to check the cookie, because this is recalled on every time the page changes
+		return $this->cookieManager->isValidCookie();
+	}
+
+	/**
+	 * @throws PGException
+	 */
+	public function getName(): string{
+		$username = $this->cookieManager->getCookieUsername();
+		if(!$username){
+			return "";
+		}
+		$sql = sprintf("SELECT fullname FROM accountholders WHERE id = (SELECT id FROM logins WHERE username = '%s') LIMIT 1", $username);
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		return pg_fetch_assoc($result);
 	}
 }

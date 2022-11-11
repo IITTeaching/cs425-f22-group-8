@@ -23,12 +23,16 @@ try{
 		<h1 class="title">Welcome to WCS Banking</h1>
 		<h2>A banking system of the people, by the people, for the people, EAGLE!</h2>
 		<nav class="floating-menu">
-			<?php if($db->isLoggedIn()): ?>
+			<?php if(!$db->isLoggedIn()): ?>
 			<h3>We sold you?</h3>
 			<a href="login.php">Log In</a>
 			<a href="signup.php">Sign Up</a>
 			<?php else: ?>
-			<h3>Hello Name</h3>
+			<h3>Hello <?php try {
+					echo $db->getName();
+				} catch (PGException $e) {
+					echo "Internal Server Error";
+			} ?></h3>
 			<a href="profile">Check My Profile</a>
 			<?php endif; ?>
 

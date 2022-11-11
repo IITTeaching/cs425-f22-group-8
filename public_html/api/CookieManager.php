@@ -18,13 +18,20 @@ class CookieManager
 	}
 
 	function isValidCookie(): bool{
+		$username = $this->getCookieUsername();
+		if(!$username){
+			return false;
+		}
+		return $this->createCookieValue($username) == $_COOKIE[$this->cookieName]; // TODO: Check expiration time, as well
+	}
+
+	function getCookieUsername(): string|bool{
 		if(!isset($_COOKIE[$this->cookieName])){
 			return false;
 		}
 
 		$cookieValue = $_COOKIE[$this->cookieName];
-		$username = explode("]", $cookieValue)[0];
-		return $this->createCookieValue($username) == $cookieValue;
+		return explode("]", $cookieValue)[0];
 	}
 
 	private function createCookieValue($username): string{
