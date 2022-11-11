@@ -293,6 +293,6 @@ class DataBase
 		$sql = sprintf("SELECT fullname FROM accountholders WHERE id = (SELECT id FROM logins WHERE username = '%s') LIMIT 1", $username);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-		return pg_fetch_assoc($result);
+		return pg_fetch_result($result, 0);
 	}
 }
