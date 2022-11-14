@@ -51,13 +51,12 @@ CREATE TABLE Account(
     account_name VARCHAR(15) DEFAULT NULL,
     interest FLOAT DEFAULT 0,
     monthly_fee FLOAT DEFAULT 0,
-    can_go_negative BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY (holder, type)
+    can_go_negative BOOLEAN DEFAULT FALSE
 );
 
 
 CREATE TABLE Logins(
-    id SERIAL REFERENCES AccountHolders(id) PRIMARY KEY,
+    id SERIAL REFERENCES Customers(id) PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 );
@@ -65,7 +64,7 @@ CREATE TABLE Logins(
 
 CREATE TABLE AuthorizedUsers(
     account_number INT REFERENCES Account(number),
-    owner_number INT REFERENCES accountholders(id)
+    owner_number INT REFERENCES Customers(id)
 );
 
 
@@ -77,7 +76,7 @@ CREATE TABLE Transactions(
 );
 
 
-CREATE TABLE LOANS(
+CREATE TABLE Loans(
     original_value DOUBLE PRECISION NOT NULL,
     apr DOUBLE PRECISION NOT NULL,
     n INT NOT NULL, -- Number of payments

@@ -1,4 +1,7 @@
 <?php
+
+use PgSql\Result;
+
 require "DataBaseConfig.php";
 require "PGException.php";
 require "CookieManager.php";
@@ -78,7 +81,7 @@ class DataBase
 	 * @throws PGException
 	 */
 	function emailInUse($email): bool{
-		$sql = sprintf("SELECT email FROM AccountHolders WHERE email = '%s'", $this->prepareData($email));
+		$sql = sprintf("SELECT email FROM Customers WHERE email = '%s'", $this->prepareData($email));
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
@@ -132,7 +135,7 @@ class DataBase
 			}
 		}
 
-		$sql = sprintf("SELECT * FROM AccountHolders WHERE id = %s", $row["id"]);
+		$sql = sprintf("SELECT * FROM Customers WHERE id = %s", $row["id"]);
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
@@ -146,23 +149,24 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	function signUp($fullname, $email, $address, $username, $ssn, $password) : bool
+	function signUp($fullname, $email, $address, $phoneNumber, $username, $password) : bool
 	{
 		$fullname = $this->prepareData($fullname);
 		$address = $this->prepareData($address);
 		$password = $this->prepareData($password);
 		$email = $this->prepareData($email);
+		$phoneNumber = $this->prepareData($phoneNumber);
 		$username = $this->prepareData($username);
-		$ssn = password_hash($this->prepareData($ssn), CRYPT_SHA512);
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
+		// TODO: Figure out how users select where their home branch is
 
-		$sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);
+		$sql = sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s',%s,%s,%s)", $fullname, $email, $phoneNumber, $branch, $address);
 		if (!pg_query($this->connect, $sql)) {
 			// TODO: If return false, make sure the holder info wasn't added
 			throw new PGException(pg_last_error());
 		}
 
-		$result = pg_query($this->connect, sprintf("SELECT id FROM AccountHolders WHERE email = '%s'", $email));
+		$result = pg_query($this->connect, sprintf("SELECT id FROM customers WHERE email = '%s'", $email));
 		$this->checkQueryResult($result);
 
 		$row = pg_fetch_assoc($result);
@@ -234,17 +238,17 @@ class DataBase
 				continue;
 			}
 			//Checks if the value needs to be changed
-			$check = pg_query($this->connect, sprintf("SELECT %s FROM addresses WHERE id = %s", $attribute, $id));
+			$check = pg_query($this->connect, sprintf("SELECT %s FROM Addresses WHERE id = %s", $attribute, $id));
 			$this->checkQueryResult($check);
 			$row = pg_fetch_assoc($check);
 			if($row[$attribute] == $value){
 				continue;
 			}
 
-			$this->checkQueryResult(pg_query($this->connect, sprintf("UPDATE addresses SET %s = %s WHERE id = %s", $attribute, $value, $id)));
+			$this->checkQueryResult(pg_query($this->connect, sprintf("UPDATE Addresses SET %s = %s WHERE id = %s", $attribute, $value, $id)));
 		}
 
-		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
+		$result = pg_query($this->connect, sprintf("SELECT * FROM Addresses WHERE id = %s", $id));
 		$this->checkQueryResult($result);
 		return pg_fetch_assoc($result);
 	}
@@ -286,7 +290,7 @@ class DataBase
 		if(!$currentId){
 			return false;
 		}
-		$sql = sprintf("SELECT fullname FROM accountholders WHERE id = '%s' LIMIT 1", $currentId);
+		$sql = sprintf("SELECT name FROM Customers WHERE id = '%s' LIMIT 1", $currentId);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
 		return pg_fetch_result($result, 0);
@@ -296,7 +300,7 @@ class DataBase
 		$this->cookieManager->deleteCookie();
 	}
 
-	public function query($command): bool|\PgSql\Result
+	public function query($command): bool|Result
 	{
 		return pg_query($this->connect, $command);
 	}

@@ -13,7 +13,6 @@ class User
 	public function __construct($db){
 		$this->db = $db;
 		$this->id = $this->db->getCurrentUserId();
-
 	}
 
 	/**
@@ -25,7 +24,7 @@ class User
 	}
 
 	public function getNumberOfAccounts(): bool|int{
-		$result = $this->db->query("SELECT COUNT(*) FROM Account WHERE holder = %s", $this->id);
-
+		$result = $this->db->query(sprintf("SELECT COUNT(*) FROM Account WHERE holder = %s", $this->id));
+		return pg_fetch_result($result, 0);
 	}
 }
