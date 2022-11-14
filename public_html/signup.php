@@ -7,11 +7,57 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>CS425 Test Signup</title>
+	<title>WCS Account Signup</title>
 </head>
 <body>
 
-<form name="form" action="/api/signup" method="POST">
+<script>
+	function validate(){
+		let form = document.forms["signup_form"];
+		let password = form["password"].value;
+		let email = form["email"].value;
+
+		if(password.length < 8){
+			alert("Your password must be at least 8 characters long.");
+			return false;
+		}
+
+		let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		if(!email_regex.test(email.toLowerCase())){
+			alert("Your email must be valid.");
+			return false;
+		}
+
+		let number_regex = /.*\d.*/;
+		if(!number_regex.test(password)){
+			alert("Your password must have at least one number in it.");
+			return false;
+		}
+
+		let upper_regex = /.*[A-Z].*/;
+		if(!upper_regex.test(password)){
+			alert("Your password must have at least one upper case letter.");
+			return false;
+		}
+
+		let lower_regex = /.*[a-z].*/;
+		if(!lower_regex.test(password)){
+			alert("Your password must have at least one lower case letter.");
+			return false;
+		}
+
+		let symbol_regex = /.*[!#$@%()^&;:-].*/;
+		if(!symbol_regex.test(password)){
+			alert("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
+			return false;
+		}
+
+		return true;
+	}
+</script>
+
+<form name="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
 	<input type="text" id="username" name="username" value=""><br>
 

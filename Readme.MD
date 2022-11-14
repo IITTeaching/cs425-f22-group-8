@@ -11,9 +11,9 @@ Login Structure: ```ssh [your_username]@lenwashingtoniii.com -p 5069 -i {Path to
 Directory Structure: Everything related to the project is stored in ```/cs425``` for ease.
 
 ## Git
-To update the running version on the server, run the following commands.<br>
-```git fetch```<br>
-```git reset --hard origin/{branch}```, replacing ```{branch}``` with the name of the current branch, usually ```master```.
+To update the running version on the server, go to the project root, in right now is ```/cs425```, and run the following command: ```cs425git```
+It should say HEAD is now at ... . If not, or you see fatal: not a git repository, you're in the wrong folder.
+
 
 ## Website
 All parts of the project that access the website's API is inside the public_html folder. <br>

@@ -17,6 +17,7 @@ CREATE TABLE Addresses(
 
 CREATE TABLE Branch(
     id SERIAL PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
     address INT REFERENCES Addresses(id) NOT NULL
 );
 
@@ -83,3 +84,14 @@ CREATE TABLE Loans(
     compounding_period INT NOT NULL -- Yearly, Monthly, as an integer
     -- TODO: Code an amortization table in PHP
 );
+
+
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(2417, 'N', 'Western', 'Chicago', 'IL', '60629');
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(6140, 'S', 'Wolcott', 'Chicago', 'IL', '60636');
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(8456, 'E', 'Cottage Grove', 'Chicago', 'IL', '60654');
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(4638, 'S', 'Woodlawn', 'Chicago', 'IL', '60653');
+
+INSERT INTO Branch(name, address) VALUES('WCS Western', 2);
+INSERT INTO Branch(name, address) VALUES('WCS Green Line', 3);
+INSERT INTO Branch(name, address) VALUES('WCS Cottage Grove', 4);
+INSERT INTO Branch(name, address) VALUES('WCS Woodlawn', 5);
