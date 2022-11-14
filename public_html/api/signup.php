@@ -5,7 +5,7 @@ require "tools.php";
 if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['address']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['ssn']))) {
 	http_response_code(400);
 	echo "All fields are required";
-	header("Location: https://cs425.lenwashingtoniii.com\signup");
+	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;
 }
 

@@ -281,12 +281,12 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	public function getName(): string{
-		$username = $this->cookieManager->getCookieUsername();
-		if(!$username){
-			return "";
+	public function getName(): string|bool{
+		$currentId = $this->getCurrentUserId();
+		if(!$currentId){
+			return false;
 		}
-		$sql = sprintf("SELECT fullname FROM accountholders WHERE id = (SELECT id FROM logins WHERE username = '%s') LIMIT 1", $username);
+		$sql = sprintf("SELECT fullname FROM accountholders WHERE id = '%s' LIMIT 1", $currentId);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
 		return pg_fetch_result($result, 0);
@@ -294,5 +294,24 @@ class DataBase
 
 	public function logout(): void{
 		$this->cookieManager->deleteCookie();
+	}
+
+	public function query($command): bool|\PgSql\Result
+	{
+		return pg_query($this->connect, $command);
+	}
+
+	/**
+	 * @throws PGException
+	 */
+	public function getCurrentUserId(): int|bool{
+		$username = $this->cookieManager->getCookieUsername();
+		if(!$username){
+			return false;
+		}
+		$sql = sprintf("SELECT id FROM logins WHERE username = '%s' LIMIT 1", $username);
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		return pg_fetch_result($result, 0);
 	}
 }

@@ -26,7 +26,7 @@ CREATE TABLE Employee(
     name TEXT NOT NULL,
     role BankRole NOT NULL,
     address INT REFERENCES Addresses(id) NOT NULL,
-    SSN INT NOT NULL UNIQUE,
+    SSN CHAR(60) NOT NULL UNIQUE,  -- Saving Hashed Social Security Numbers
     branch INT REFERENCES Branch(id) NOT NULL,
     salary DOUBLE PRECISION NOT NULL
 );
