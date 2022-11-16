@@ -83,7 +83,7 @@ while($row = pg_fetch_array($result)){
 	<input type="text" id="username" name="username" value="" required autocomplete="username"><br>
 
 	<label for="password">Password: </label>
-	<input type="password" id="password" name="password" value="" required autocomplete="new-password"><br>
+	<input type="password" id="password" name="password" value="" required autocomplete="new-password" minlength="8"><br>
 
 	<label for="fullname">Fullname: </label>
 	<input type="text" id="fullname" name="fullname" value="" required autocomplete="name"><br>
