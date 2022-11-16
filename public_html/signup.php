@@ -1,6 +1,27 @@
 <?php
+require "api/DataBase.php";
 
+try{
+	$db = new DataBase();
+}catch (PGException $exception){
+	http_response_code(500);
+	echo $exception->getMessage();
+	return;
+}
 
+$result = $db->query("SELECT subquery.name, address FROM ( SELECT name, cast(a.number AS TEXT) || ' ' || a.direction || ' ' || a.street_name || ', ' || a.city || ', ' || a.state || ', ' || a.zipcode AS address FROM branch JOIN addresses a on a.id = branch.address) subquery;");
+$numRows = pg_affected_rows($result);
+if(!$result){
+	http_response_code(500);
+	echo pg_last_error();
+	return;
+}
+
+$dct = array();
+
+while($row = pg_fetch_array($result)){
+	$dct[$row["name"]] = $row["address"];
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,20 +80,36 @@
 
 <form name="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
-	<input type="text" id="username" name="username" value=""><br>
+	<input type="text" id="username" name="username" value="" required><br>
 
 	<label for="password">Password: </label>
-	<input type="password" id="password" name="password" value=""><br>
+	<input type="password" id="password" name="password" value="" required><br>
 
 	<label for="fullname">Fullname: </label>
-	<input type="text" id="fullname" name="fullname" value=""><br>
-
-	<label for="address">Address: </label>
-	<input type="text" id="address" name="address" value=""><br>
+	<input type="text" id="fullname" name="fullname" value="" required><br>
 
 	<label for="email">Email: </label>
-	<input type="text" id="email" name="email" value=""><br>
+	<input type="text" id="email" name="email" value="" required><br>
 
+	<label for="address_number">Address: </label>
+	<input type="number" id="address_number" name="address_number" value="" required>
+	<select name="direction" id="direction">
+		<option value="None"></option>
+		<option value="N">North</option>
+		<option value="E">East</option>
+		<option value="S">South</option>
+		<option value="W">West</option>
+	</select>
+	<input type="text" name="streetname" id="streetname" value="" required>,
+	<input type="text" name="city" id="city" value="" required>,
+	<input type="text" name="state" id="state" value="" required maxlength="2">,
+	<input type="number" name="zipcode" id="zipcode" value="" required min="10000" max="99999">
+
+	<label for="branch">Your favorite (or closest) branch:</label><select name="branch" id="branch" required>
+		<?php foreach($dct as $key => $value) { ?>
+			<option value="<?php echo $key?>"><?php echo $value ?></option>
+		<?php }; ?>
+	</select><br>
 
 	<input type="submit" name="submit" value="Sign up!">
 </form>
