@@ -139,7 +139,6 @@ class DataBase
 		if (pg_affected_rows($result) == 0) { return false;}
 		$this->cookieManager->createCookie($username);
 		return "Logged In Successfully";
-		//return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
 	}
 
 	/**
@@ -154,47 +153,15 @@ class DataBase
 		$username = $this->prepareData($username);
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
 		$phone = $this->prepareData($phone);
-		$address_number = $this->prepareData($address_number);
-		$direction = $this->prepareData($direction);
-		$streetname = $this->prepareData($streetname);
-		$city = $this->prepareData($city);
-		$state = $this->prepareData($state);
-		$zipcode = $this->prepareData($zipcode);
-		$apt = $this->prepareData($apt);
 		$branch = $this->prepareData($branch);
+		$address_id = $this->createAddress($address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
 		#endregion
-
-		# region Getting the address id from the database
-		# TODO: Move this into its own function to create addresses
-		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction::TEXT) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = '%s' AND UPPER(unitnumber) = '%s'",
-			$address_number, strtoupper($direction), strtoupper($streetname), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
-
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
-		$address_count = pg_num_rows($result);
-		if($address_count == 0){ // Address isn't in the database, add it
-			if(strlen($apt) == 0){
-				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(%s,'%s','%s','%s','%s',%s) RETURNING id",
-				$address_number, $direction, $streetname, $city, $state, $zipcode);
-			} else{
-				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode, unitnumber) VALUES(%s,'%s','%s','%s','%s',%s,'%s') RETURNING id",
-					$address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
-			}
-			$result = pg_query($this->connect, $sql);
-			$this->checkQueryResult($result);
-			if(pg_num_rows($result) == 0){
-				throw new InvalidArgumentException("Something happened creating the address tuple");
-			}
-		}
-		$address_id = pg_fetch_result($result, 0, 0);
-		# endregion
 
 		# region Getting the branch id
 		$sql = sprintf("SELECT id FROM Branch WHERE name = '%s'", $branch);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
 		if(pg_num_rows($result) == 0){
-			// TODO: If something happened, make sure the new address isn't committed
 			throw new InvalidArgumentException(sprintf("The branch with the name \"%s\" could not be found", $branch));
 		}
 		$branch_id = pg_fetch_result($result, 0, 0);
@@ -285,26 +252,37 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): array
+	private function createAddress($address_number, $direction, $streetName, $city, $state, $zipcode, $apt): int
 	{
-		$streetNumber = $this->prepareData($streetNumber);
+		$address_number = $this->prepareData($address_number);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
 		$city = $this->prepareData($city);
 		$state = $this->prepareData($state);
 		$zipcode = $this->prepareData($zipcode);
+		$apt = $this->prepareData($apt);
 
-		$sql = sprintf("INSERT INTO addresses(number,direction,street_name,city,state,zipcode) VALUES(%s,'%s','%s','%s','%s','%s') RETURNING id", $streetNumber,$direction,$streetName,$city,$state,$zipcode);
+		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction::TEXT) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = '%s' AND UPPER(unitnumber) = '%s'",
+			$address_number, strtoupper($direction), strtoupper($streetName), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
+
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-		$row = pg_fetch_assoc($result);
-		$id = $row["id"];
-
-		$sql = sprintf("SELECT * FROM Addresses WHERE id = %s", $id);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
-
-		return pg_fetch_assoc($result);
+		$address_count = pg_num_rows($result);
+		if($address_count == 0){ // Address isn't in the database, add it
+			if(strlen($apt) == 0){
+				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(%s,'%s','%s','%s','%s',%s) RETURNING id",
+					$address_number, $direction, $streetName, $city, $state, $zipcode);
+			} else{
+				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode, unitnumber) VALUES(%s,'%s','%s','%s','%s',%s,'%s') RETURNING id",
+					$address_number, $direction, $streetName, $city, $state, $zipcode, $apt);
+			}
+			$result = pg_query($this->connect, $sql);
+			$this->checkQueryResult($result);
+			if(pg_num_rows($result) == 0){
+				throw new InvalidArgumentException("Something happened creating the address tuple");
+			}
+		}
+		return pg_fetch_result($result, 0, 0);
 	}
 
 	public function isLoggedIn(): bool{
@@ -314,7 +292,7 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	public function getName(): string|bool{
+	public function getName(): string|false{
 		$currentId = $this->getCurrentUserId();
 		if(!$currentId){
 			return false;
@@ -325,12 +303,23 @@ class DataBase
 		return pg_fetch_result($result, 0);
 	}
 
+	public function getFirstName(): string|false{
+		$name = $this->getName();
+		if(!$name){
+			return false;
+		}
+		return explode(" ", $name)[0];
+	}
+
 	public function logout(): void{
 		$this->cookieManager->deleteCookie();
 	}
 
 	public function query($command): bool|Result
 	{
+		if(!str_starts_with($command, "SELECT")){
+			return false;
+		}
 		return pg_query($this->connect, $command);
 	}
 

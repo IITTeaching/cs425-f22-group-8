@@ -28,7 +28,7 @@ try{
 			<a href="/signup">Sign Up</a>
 			<?php else: ?>
 			<h3>Hello <?php try {
-					echo $db->getName();
+					echo $db->getFirstName();
 				} catch (PGException $e) {
 					echo "Internal Server Error";
 			} ?></h3>
