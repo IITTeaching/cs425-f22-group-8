@@ -1,7 +1,6 @@
 RewriteEngine on
 
 # Remove file extensions
-#RewriteRule ^signup$ signup.php [L]
 RewriteRule ^([\w_]+)$ $1.php [L]
 
 # Redirect hidden files/folders to not found

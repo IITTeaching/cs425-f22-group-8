@@ -2,7 +2,7 @@
 require "DataBase.php";
 require "tools.php";
 
-if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['address']) && isset($_POST['username']) &&
+if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['username']) &&
 	isset($_POST['password']) && isset($_POST['phone']) && isset($_POST["address_number"])  && isset($_POST["direction"]) &&
 	isset($_POST["streetname"]) && isset($_POST["city"]) && isset($_POST["state"]) && isset($_POST["zipcode"])
 	&& isset($_POST['apt']) && isset($_POST["branch"])
@@ -37,7 +37,7 @@ try{
 }
 
 if(!isValidEmail($_POST["email"])){
-	http_response_code(4711);
+	http_response_code(406);
 	echo "You must input a valid email address.";
 	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;

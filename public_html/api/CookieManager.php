@@ -2,13 +2,11 @@
 
 class CookieManager
 {
-	private string $key;
 	private string $cookieName;
 	private int $expire_time;
 
-	public function __construct($key)
+	public function __construct()
 	{
-		$this->key = $key;
 		$this->cookieName = "authCookie";
 		$this->expire_time = 3600;
 	}

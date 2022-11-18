@@ -28,7 +28,7 @@ class DataBase
 		$this->dbname = $dbc->databasename;
 		$this->port = $dbc->port;
 		$this->dbConnect();
-		$this->cookieManager = new CookieManager("Some random key");
+		$this->cookieManager = new CookieManager();
 	}
 
 	/**
@@ -69,24 +69,20 @@ class DataBase
 	 * @throws PGException
 	 */
 	function usernameInUse($username): bool{
-		$sql = sprintf("SELECT username FROM Logins WHERE username = '%s'", $this->prepareData($username));
+		$sql = sprintf("SELECT COUNT(username) FROM Logins WHERE username = '%s'", $this->prepareData($username));
 		$result = pg_query($this->connect, $sql);
-
 		$this->checkQueryResult($result);
-
-		return pg_affected_rows($result) != 0;
+		return pg_fetch_result($result, 0, 0) == 1;
 	}
 
 	/**
 	 * @throws PGException
 	 */
 	function emailInUse($email): bool{
-		$sql = sprintf("SELECT email FROM Customers WHERE email = '%s'", $this->prepareData($email));
+		$sql = sprintf("SELECT COUNT(email) FROM Customers WHERE email = '%s'", $this->prepareData($email));
 		$result = pg_query($this->connect, $sql);
-
 		$this->checkQueryResult($result);
-
-		return pg_affected_rows($result) != 0;
+		return pg_fetch_result($result, 0, 0) != 0;
 	}
 
 	/**
@@ -169,7 +165,8 @@ class DataBase
 		#endregion
 
 		# region Getting the address id from the database
-		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = %s AND UPPER(unitnumber) = '%s'",
+		# TODO: Move this into its own function to create addresses
+		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction::TEXT) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = '%s' AND UPPER(unitnumber) = '%s'",
 			$address_number, strtoupper($direction), strtoupper($streetname), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
 
 		$result = pg_query($this->connect, $sql);
