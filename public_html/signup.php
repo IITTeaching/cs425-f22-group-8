@@ -104,10 +104,10 @@ while($row = pg_fetch_array($result)){
 		<option value="S">South</option>
 		<option value="W">West</option>
 	</select>
-	<input type="text" name="streetname" id="streetname" placeholder="State" required>,
-	<input type="text" name="city" id="city" placeholder="Chicago" required>,
-	<input type="text" name="state" id="state" placeholder="IL" required maxlength="2">,
-	<input type="number" name="zipcode" id="zipcode" placeholder="60616" required min="10000" max="99999" autocomplete="postal-code"><br>
+	<input type="text" name="streetname" id="streetname" placeholder="Streetname" required>,
+	<input type="text" name="city" id="city" placeholder="City" required>,
+	<input type="text" name="state" id="state" placeholder="State Abbreviation" required maxlength="2">,
+	<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" required min="10000" max="99999" autocomplete="postal-code"><br>
 	<label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
 	<label for="branch">Your favorite (or closest) branch: </label><select name="branch" id="branch" required>

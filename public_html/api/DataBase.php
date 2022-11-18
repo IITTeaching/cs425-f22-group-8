@@ -149,36 +149,68 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	function signUp($fullname, $email, $address, $phoneNumber, $username, $password) : bool
+	function signUp($fullname, $email, $username, $password, $phone, $address_number, $direction, $streetname, $city, $state, $zipcode, $apt, $branch) : bool
 	{
+		#region Data preparation
 		$fullname = $this->prepareData($fullname);
-		$address = $this->prepareData($address);
 		$password = $this->prepareData($password);
 		$email = $this->prepareData($email);
-		$phoneNumber = $this->prepareData($phoneNumber);
 		$username = $this->prepareData($username);
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
-		// TODO: Figure out how users select where their home branch is
+		$phone = $this->prepareData($phone);
+		$address_number = $this->prepareData($address_number);
+		$direction = $this->prepareData($direction);
+		$streetname = $this->prepareData($streetname);
+		$city = $this->prepareData($city);
+		$state = $this->prepareData($state);
+		$zipcode = $this->prepareData($zipcode);
+		$apt = $this->prepareData($apt);
+		$branch = $this->prepareData($branch);
+		#endregion
 
-		$sql = sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s',%s,%s,%s)", $fullname, $email, $phoneNumber, $branch, $address);
-		if (!pg_query($this->connect, $sql)) {
-			// TODO: If return false, make sure the holder info wasn't added
-			throw new PGException(pg_last_error());
-		}
+		# region Getting the address id from the database
+		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = %s AND UPPER(unitnumber) = '%s'",
+			$address_number, strtoupper($direction), strtoupper($streetname), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
 
-		$result = pg_query($this->connect, sprintf("SELECT id FROM customers WHERE email = '%s'", $email));
+		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-
-		$row = pg_fetch_assoc($result);
-		if(pg_affected_rows($result) == 0){
-			throw new PGException(pg_last_error());
+		$address_count = pg_num_rows($result);
+		if($address_count == 0){ // Address isn't in the database, add it
+			if(strlen($apt) == 0){
+				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(%s,'%s','%s','%s','%s',%s) RETURNING id",
+				$address_number, $direction, $streetname, $city, $state, $zipcode);
+			} else{
+				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode, unitnumber) VALUES(%s,'%s','%s','%s','%s',%s,'%s') RETURNING id",
+					$address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
+			}
+			$result = pg_query($this->connect, $sql);
+			$this->checkQueryResult($result);
+			if(pg_num_rows($result) == 0){
+				throw new InvalidArgumentException("Something happened creating the address tuple");
+			}
 		}
+		$address_id = pg_fetch_result($result, 0, 0);
+		# endregion
 
-		// TODO: Get the row created in AccountHolders to grab the id and use it
-		if (!pg_query($this->connect, sprintf("INSERT INTO Logins VALUES ('%s','%s','%s')", $row["id"], $username, $password))) {
-			// TODO: If return false, make sure the holder info wasn't added
-			throw new PGException(pg_last_error());
+		# region Getting the branch id
+		$sql = sprintf("SELECT id FROM Branch WHERE name = '%s'", $branch);
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		if(pg_num_rows($result) == 0){
+			// TODO: If something happened, make sure the new address isn't committed
+			throw new InvalidArgumentException(sprintf("The branch with the name \"%s\" could not be found", $branch));
 		}
+		$branch_id = pg_fetch_result($result, 0, 0);
+
+		# endregion
+
+		$sql = sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s','%s',%s,%s) RETURNING id", $fullname, $email, $phone, $branch_id, $address_id);
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		$user_id = pg_fetch_result($result, 0, 0);
+
+		$result = pg_query($this->connect, sprintf("INSERT INTO Logins VALUES (%s,'%s','%s')", $user_id, $username, $password));
+		$this->checkQueryResult($result);
 
 		$this->cookieManager->createCookie($username);
 		return true;

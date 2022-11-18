@@ -37,7 +37,7 @@ CREATE TABLE Customers(
     id SERIAL PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
     email TEXT NOT NULL, -- TODO: Add Regex check to make sure it's a valid email, maybe implement a bot to check
-    phone INT NOT NULL,
+    phone TEXT NOT NULL, -- TODO: Make email unique
     home_branch INT REFERENCES Branch(id) NOT NULL,
     address INT REFERENCES Addresses(id) NOT NULL
 );
@@ -56,6 +56,12 @@ CREATE TABLE Account(
 );
 
 
+CREATE TABLE TEST(
+    id SERIAL PRIMARY KEY NOT NULL,
+    col int not null
+);
+
+
 CREATE TABLE Logins(
     id SERIAL REFERENCES Customers(id) PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
@@ -71,9 +77,11 @@ CREATE TABLE AuthorizedUsers(
 
 CREATE TABLE Transactions(
     account_number INT REFERENCES account(number) NOT NULL,
+    date DATE NOT NULL,
     type TransactionType NOT NULL,
     amount DOUBLE PRECISION NOT NULL,
-    description TEXT -- TODO: Figure out how to do this
+    description TEXT, -- TODO: Figure out how to do this
+    PRIMARY KEY (account_number, date, type)
 );
 
 

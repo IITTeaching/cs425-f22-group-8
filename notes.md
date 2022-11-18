@@ -1,0 +1,1 @@
+If you need to get a specific value from a query, like ```SELECT COUNT(name) FROM Customers```, in PHP, use ```customer_count = pg_fetch_result($result, 0, 0)```. The first zero specifies the row, starting at 0, and the second zero specifies which column.
