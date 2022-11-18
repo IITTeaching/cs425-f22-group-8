@@ -17,6 +17,7 @@ CREATE TABLE Addresses(
 
 CREATE TABLE Branch(
     id SERIAL PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
     address INT REFERENCES Addresses(id) NOT NULL
 );
 
@@ -26,17 +27,17 @@ CREATE TABLE Employee(
     name TEXT NOT NULL,
     role BankRole NOT NULL,
     address INT REFERENCES Addresses(id) NOT NULL,
-    SSN INT NOT NULL UNIQUE,
+    SSN CHAR(60) NOT NULL UNIQUE,  -- Saving Hashed Social Security Numbers
     branch INT REFERENCES Branch(id) NOT NULL,
     salary DOUBLE PRECISION NOT NULL
 );
 
 
 CREATE TABLE Customers(
-    id SERIAL PRIMARY KEY NOT NULL,
+    id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     name TEXT NOT NULL,
-    email TEXT NOT NULL, -- TODO: Add Regex check to make sure it's a valid email, maybe implement a bot to check
-    phone INT NOT NULL,
+    email TEXT NOT NULL UNIQUE CHECK ( email ~ '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$' ),
+    phone TEXT NOT NULL UNIQUE,
     home_branch INT REFERENCES Branch(id) NOT NULL,
     address INT REFERENCES Addresses(id) NOT NULL
 );
@@ -51,13 +52,12 @@ CREATE TABLE Account(
     account_name VARCHAR(15) DEFAULT NULL,
     interest FLOAT DEFAULT 0,
     monthly_fee FLOAT DEFAULT 0,
-    can_go_negative BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY (holder, type)
+    can_go_negative BOOLEAN DEFAULT FALSE
 );
 
 
 CREATE TABLE Logins(
-    id SERIAL REFERENCES AccountHolders(id) PRIMARY KEY,
+    id SERIAL REFERENCES Customers(id) PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 );
@@ -65,22 +65,92 @@ CREATE TABLE Logins(
 
 CREATE TABLE AuthorizedUsers(
     account_number INT REFERENCES Account(number),
-    owner_number INT REFERENCES accountholders(id)
+    owner_number INT REFERENCES Customers(id)
 );
 
 
 CREATE TABLE Transactions(
     account_number INT REFERENCES account(number) NOT NULL,
+    date DATE NOT NULL,
     type TransactionType NOT NULL,
     amount DOUBLE PRECISION NOT NULL,
-    description TEXT -- TODO: Figure out how to do this
+    description TEXT, -- TODO: Figure out how to do this
+    PRIMARY KEY (account_number, date, type)
 );
 
 
-CREATE TABLE LOANS(
-    original_value DOUBLE PRECISION NOT NULL,
-    apr DOUBLE PRECISION NOT NULL,
+CREATE TABLE Loans(
+    original_value DOUBLE PRECISION NOT NULL, -- Present Value (P)
+    apr DOUBLE PRECISION NOT NULL,  -- (I)
     n INT NOT NULL, -- Number of payments
-    compounding_period INT NOT NULL -- Yearly, Monthly, as an integer
-    -- TODO: Code an amortization table in PHP
+    compounding_period INT NOT NULL, -- Yearly, Monthly, as an integer
+    payment FLOAT NOT NULL, -- A
+    balance FLOAT NOT NULL -- How much is currently owed
 );
+
+CREATE TABLE States(
+    name TEXT NOT NULL UNIQUE,
+    abbreviation CHAR(2) NOT NULL UNIQUE PRIMARY KEY
+);
+
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(2417, 'N', 'Western', 'Chicago', 'IL', '60629');
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(6140, 'S', 'Wolcott', 'Chicago', 'IL', '60636');
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(8456, 'E', 'Cottage Grove', 'Chicago', 'IL', '60654');
+INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(4638, 'S', 'Woodlawn', 'Chicago', 'IL', '60653');
+
+INSERT INTO Branch(name, address) VALUES('WCS Western', 2);
+INSERT INTO Branch(name, address) VALUES('WCS Green Line', 3);
+INSERT INTO Branch(name, address) VALUES('WCS Cottage Grove', 4);
+INSERT INTO Branch(name, address) VALUES('WCS Woodlawn', 5);
+
+INSERT INTO States VALUES('Alabama','AL');
+INSERT INTO States VALUES('Alaska','AK');
+INSERT INTO States VALUES('Arizona','AZ');
+INSERT INTO States VALUES('Arkansas','AR');
+INSERT INTO States VALUES('California','CA');
+INSERT INTO States VALUES('Colorado','CO');
+INSERT INTO States VALUES('Connecticut','CT');
+INSERT INTO States VALUES('Delaware','DE');
+INSERT INTO States VALUES('District of Columbia','DC');
+INSERT INTO States VALUES('Florida','FL');
+INSERT INTO States VALUES('Georgia','GA');
+INSERT INTO States VALUES('Hawaii','HI');
+INSERT INTO States VALUES('Idaho','ID');
+INSERT INTO States VALUES('Illinois','IL');
+INSERT INTO States VALUES('Indiana','IN');
+INSERT INTO States VALUES('Iowa','IA');
+INSERT INTO States VALUES('Kansas','KS');
+INSERT INTO States VALUES('Kentucky','KY');
+INSERT INTO States VALUES('Louisiana','LA');
+INSERT INTO States VALUES('Maine','ME');
+INSERT INTO States VALUES('Montana','MT');
+INSERT INTO States VALUES('Nebraska','NE');
+INSERT INTO States VALUES('Nevada','NV');
+INSERT INTO States VALUES('New Hampshire','NH');
+INSERT INTO States VALUES('New Jersey','NJ');
+INSERT INTO States VALUES('New Mexico','NM');
+INSERT INTO States VALUES('New York','NY');
+INSERT INTO States VALUES('North Carolina','NC');
+INSERT INTO States VALUES('North Dakota','ND');
+INSERT INTO States VALUES('Ohio','OH');
+INSERT INTO States VALUES('Oklahoma','OK');
+INSERT INTO States VALUES('Oregon','OR');
+INSERT INTO States VALUES('Maryland','MD');
+INSERT INTO States VALUES('Massachusetts','MA');
+INSERT INTO States VALUES('Michigan','MI');
+INSERT INTO States VALUES('Minnesota','MN');
+INSERT INTO States VALUES('Mississippi','MS');
+INSERT INTO States VALUES('Missouri','MO');
+INSERT INTO States VALUES('Pennsylvania','PA');
+INSERT INTO States VALUES('Rhode Island','RI');
+INSERT INTO States VALUES('South Carolina','SC');
+INSERT INTO States VALUES('South Dakota','SD');
+INSERT INTO States VALUES('Tennessee','TN');
+INSERT INTO States VALUES('Texas','TX');
+INSERT INTO States VALUES('Utah','UT');
+INSERT INTO States VALUES('Vermont','VT');
+INSERT INTO States VALUES('Virginia','VA');
+INSERT INTO States VALUES('Washington','WA');
+INSERT INTO States VALUES('West Virginia','WV');
+INSERT INTO States VALUES('Wisconsin','WI');
+INSERT INTO States VALUES('Wyoming','WY');

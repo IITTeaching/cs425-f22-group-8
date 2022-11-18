@@ -1,7 +1,6 @@
 RewriteEngine on
 
 # Remove file extensions
-#RewriteRule ^signup$ signup.php [L]
 RewriteRule ^([\w_]+)$ $1.php [L]
 
 # Redirect hidden files/folders to not found
@@ -9,9 +8,11 @@ RedirectMatch 404 /\..*$
 
 # Hide php files that don't directly interact with users
 RedirectMatch 404 api/DataBaseConfig\.php$
+RedirectMatch 404 api/PGException\.php$
 RedirectMatch 404 api/CookieManager\.php$
 RedirectMatch 404 api/DataBase\.php$
 RedirectMatch 404 api/Tools\.php
+RedirectMatch 404 api/User\.php
 
 # Force non-www in a Generic Way
 RewriteCond %{HTTP_HOST} ^www\.

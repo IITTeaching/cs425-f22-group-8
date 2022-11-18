@@ -9,9 +9,11 @@ RedirectMatch 404 /\..*$
 
 # Hide php files that don't directly interact with users
 RedirectMatch 404 DataBaseConfig\.php$
+RedirectMatch 404 PGException\.php$
 RedirectMatch 404 CookieManager\.php$
 RedirectMatch 404 DataBase\.php$
 RedirectMatch 404 Tools\.php
+RedirectMatch 404 User\.php
 
 # Force non-www in a Generic Way
 RewriteCond %{HTTP_HOST} ^www\.

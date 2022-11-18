@@ -1,4 +1,7 @@
 <?php
+
+use PgSql\Result;
+
 require "DataBaseConfig.php";
 require "PGException.php";
 require "CookieManager.php";
@@ -25,7 +28,7 @@ class DataBase
 		$this->dbname = $dbc->databasename;
 		$this->port = $dbc->port;
 		$this->dbConnect();
-		$this->cookieManager = new CookieManager("Some random key");
+		$this->cookieManager = new CookieManager();
 	}
 
 	/**
@@ -66,24 +69,20 @@ class DataBase
 	 * @throws PGException
 	 */
 	function usernameInUse($username): bool{
-		$sql = sprintf("SELECT username FROM Logins WHERE username = '%s'", $this->prepareData($username));
+		$sql = sprintf("SELECT COUNT(username) FROM Logins WHERE username = '%s'", $this->prepareData($username));
 		$result = pg_query($this->connect, $sql);
-
 		$this->checkQueryResult($result);
-
-		return pg_affected_rows($result) != 0;
+		return pg_fetch_result($result, 0, 0) == 1;
 	}
 
 	/**
 	 * @throws PGException
 	 */
 	function emailInUse($email): bool{
-		$sql = sprintf("SELECT email FROM AccountHolders WHERE email = '%s'", $this->prepareData($email));
+		$sql = sprintf("SELECT COUNT(email) FROM Customers WHERE email = '%s'", $this->prepareData($email));
 		$result = pg_query($this->connect, $sql);
-
 		$this->checkQueryResult($result);
-
-		return pg_affected_rows($result) != 0;
+		return pg_fetch_result($result, 0, 0) != 0;
 	}
 
 	/**
@@ -132,7 +131,7 @@ class DataBase
 			}
 		}
 
-		$sql = sprintf("SELECT * FROM AccountHolders WHERE id = %s", $row["id"]);
+		$sql = sprintf("SELECT * FROM Customers WHERE id = %s", $row["id"]);
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
@@ -140,41 +139,42 @@ class DataBase
 		if (pg_affected_rows($result) == 0) { return false;}
 		$this->cookieManager->createCookie($username);
 		return "Logged In Successfully";
-		//return sprintf("=%s=,=%s=,=%s=", $row["id"], $row["fullname"], $row["email"]);
 	}
 
 	/**
 	 * @throws PGException
 	 */
-	function signUp($fullname, $email, $address, $username, $ssn, $password) : bool
+	function signUp($fullname, $email, $username, $password, $phone, $address_number, $direction, $streetname, $city, $state, $zipcode, $apt, $branch) : bool
 	{
+		#region Data preparation
 		$fullname = $this->prepareData($fullname);
-		$address = $this->prepareData($address);
 		$password = $this->prepareData($password);
 		$email = $this->prepareData($email);
 		$username = $this->prepareData($username);
-		$ssn = password_hash($this->prepareData($ssn), CRYPT_SHA512);
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
+		$phone = $this->prepareData($phone);
+		$branch = $this->prepareData($branch);
+		$address_id = $this->createAddress($address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
+		#endregion
 
-		$sql = sprintf("INSERT INTO AccountHolders(fullname, address_id, email) VALUES ('%s',%s,'%s')", $fullname, $address, $email);
-		if (!pg_query($this->connect, $sql)) {
-			// TODO: If return false, make sure the holder info wasn't added
-			throw new PGException(pg_last_error());
-		}
-
-		$result = pg_query($this->connect, sprintf("SELECT id FROM AccountHolders WHERE email = '%s'", $email));
+		# region Getting the branch id
+		$sql = sprintf("SELECT id FROM Branch WHERE name = '%s'", $branch);
+		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-
-		$row = pg_fetch_assoc($result);
-		if(pg_affected_rows($result) == 0){
-			throw new PGException(pg_last_error());
+		if(pg_num_rows($result) == 0){
+			throw new InvalidArgumentException(sprintf("The branch with the name \"%s\" could not be found", $branch));
 		}
+		$branch_id = pg_fetch_result($result, 0, 0);
 
-		// TODO: Get the row created in AccountHolders to grab the id and use it
-		if (!pg_query($this->connect, sprintf("INSERT INTO Logins VALUES ('%s','%s','%s')", $row["id"], $username, $password))) {
-			// TODO: If return false, make sure the holder info wasn't added
-			throw new PGException(pg_last_error());
-		}
+		# endregion
+
+		$sql = sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s','%s',%s,%s) RETURNING id", $fullname, $email, $phone, $branch_id, $address_id);
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		$user_id = pg_fetch_result($result, 0, 0);
+
+		$result = pg_query($this->connect, sprintf("INSERT INTO Logins VALUES (%s,'%s','%s')", $user_id, $username, $password));
+		$this->checkQueryResult($result);
 
 		$this->cookieManager->createCookie($username);
 		return true;
@@ -234,17 +234,17 @@ class DataBase
 				continue;
 			}
 			//Checks if the value needs to be changed
-			$check = pg_query($this->connect, sprintf("SELECT %s FROM addresses WHERE id = %s", $attribute, $id));
+			$check = pg_query($this->connect, sprintf("SELECT %s FROM Addresses WHERE id = %s", $attribute, $id));
 			$this->checkQueryResult($check);
 			$row = pg_fetch_assoc($check);
 			if($row[$attribute] == $value){
 				continue;
 			}
 
-			$this->checkQueryResult(pg_query($this->connect, sprintf("UPDATE addresses SET %s = %s WHERE id = %s", $attribute, $value, $id)));
+			$this->checkQueryResult(pg_query($this->connect, sprintf("UPDATE Addresses SET %s = %s WHERE id = %s", $attribute, $value, $id)));
 		}
 
-		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
+		$result = pg_query($this->connect, sprintf("SELECT * FROM Addresses WHERE id = %s", $id));
 		$this->checkQueryResult($result);
 		return pg_fetch_assoc($result);
 	}
@@ -252,26 +252,37 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	private function createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode): array
+	private function createAddress($address_number, $direction, $streetName, $city, $state, $zipcode, $apt): int
 	{
-		$streetNumber = $this->prepareData($streetNumber);
+		$address_number = $this->prepareData($address_number);
 		$direction = $this->prepareData($direction);
 		$streetName = $this->prepareData($streetName);
 		$city = $this->prepareData($city);
 		$state = $this->prepareData($state);
 		$zipcode = $this->prepareData($zipcode);
+		$apt = $this->prepareData($apt);
 
-		$sql = sprintf("INSERT INTO addresses(number,direction,street_name,city,state,zipcode) VALUES(%s,'%s','%s','%s','%s','%s') RETURNING id", $streetNumber,$direction,$streetName,$city,$state,$zipcode);
+		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction::TEXT) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = '%s' AND UPPER(unitnumber) = '%s'",
+			$address_number, strtoupper($direction), strtoupper($streetName), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
+
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-		$row = pg_fetch_assoc($result);
-		$id = $row["id"];
-
-		$sql = sprintf("SELECT * FROM Addresses WHERE id = %s", $id);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
-
-		return pg_fetch_assoc($result);
+		$address_count = pg_num_rows($result);
+		if($address_count == 0){ // Address isn't in the database, add it
+			if(strlen($apt) == 0){
+				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(%s,'%s','%s','%s','%s',%s) RETURNING id",
+					$address_number, $direction, $streetName, $city, $state, $zipcode);
+			} else{
+				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode, unitnumber) VALUES(%s,'%s','%s','%s','%s',%s,'%s') RETURNING id",
+					$address_number, $direction, $streetName, $city, $state, $zipcode, $apt);
+			}
+			$result = pg_query($this->connect, $sql);
+			$this->checkQueryResult($result);
+			if(pg_num_rows($result) == 0){
+				throw new InvalidArgumentException("Something happened creating the address tuple");
+			}
+		}
+		return pg_fetch_result($result, 0, 0);
 	}
 
 	public function isLoggedIn(): bool{
@@ -281,18 +292,48 @@ class DataBase
 	/**
 	 * @throws PGException
 	 */
-	public function getName(): string{
-		$username = $this->cookieManager->getCookieUsername();
-		if(!$username){
-			return "";
+	public function getName(): string|false{
+		$currentId = $this->getCurrentUserId();
+		if(!$currentId){
+			return false;
 		}
-		$sql = sprintf("SELECT fullname FROM accountholders WHERE id = (SELECT id FROM logins WHERE username = '%s') LIMIT 1", $username);
+		$sql = sprintf("SELECT name FROM Customers WHERE id = '%s' LIMIT 1", $currentId);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
 		return pg_fetch_result($result, 0);
 	}
 
+	public function getFirstName(): string|false{
+		$name = $this->getName();
+		if(!$name){
+			return false;
+		}
+		return explode(" ", $name)[0];
+	}
+
 	public function logout(): void{
 		$this->cookieManager->deleteCookie();
+	}
+
+	public function query($command): bool|Result
+	{
+		if(!str_starts_with($command, "SELECT")){
+			return false;
+		}
+		return pg_query($this->connect, $command);
+	}
+
+	/**
+	 * @throws PGException
+	 */
+	public function getCurrentUserId(): int|bool{
+		$username = $this->cookieManager->getCookieUsername();
+		if(!$username){
+			return false;
+		}
+		$sql = sprintf("SELECT id FROM logins WHERE username = '%s' LIMIT 1", $username);
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		return pg_fetch_result($result, 0);
 	}
 }
