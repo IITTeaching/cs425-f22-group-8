@@ -56,12 +56,6 @@ CREATE TABLE Account(
 );
 
 
-CREATE TABLE TEST(
-    id SERIAL PRIMARY KEY NOT NULL,
-    col int not null
-);
-
-
 CREATE TABLE Logins(
     id SERIAL REFERENCES Customers(id) PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,

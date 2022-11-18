@@ -66,19 +66,9 @@ if(strlen($_POST["state"]) != 2){
 
 
 try {
-	if($db->signUp($_POST['fullname'],
-		$_POST["email"],
-		$_POST["username"],
-		$_POST["password"],
-		$_POST["phone"],
-		$_POST["address_number"],
-		$_POST["direction"],
-		$_POST["streetname"],
-		$_POST["city"],
-		$_POST["state"],
-		$_POST["zipcode"],
-		$_POST["apt"],
-		$_POST["branch"])) {
+	if($db->signUp($_POST['fullname'], $_POST["email"], $_POST["username"], $_POST["password"], $_POST["phone"],
+		$_POST["address_number"], $_POST["direction"], $_POST["streetname"], $_POST["city"], $_POST["state"],
+		$_POST["zipcode"], $_POST["apt"], $_POST["branch"])) {
 		http_response_code(201);
 		echo "Sign Up Success";
 		header("Location: https://cs425.lenwashingtoniii.com/profile");
