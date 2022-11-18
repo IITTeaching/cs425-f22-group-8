@@ -15,6 +15,7 @@ try{
 <head>
 	<meta charset="UTF-8">
 	<title>WCS Banking</title>
+	<link rel="icon" type="image/x-icon" href="/images/wcstransparent.ico"
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
