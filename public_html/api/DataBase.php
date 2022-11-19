@@ -5,6 +5,7 @@ use PgSql\Result;
 require "DataBaseConfig.php";
 require "PGException.php";
 require "CookieManager.php";
+require "Verifications.php";
 
 class DataBase
 {
@@ -136,7 +137,7 @@ class DataBase
 
 		$this->checkQueryResult($result);
 		$row = pg_fetch_assoc($result);
-		if (pg_affected_rows($result) == 0) { return false;}
+		if (pg_affected_rows($result) == 0) { return false;}  # TODO: Make sure the user is email validated before letting them login.
 		$this->cookieManager->createCookie($username);
 		return "Logged In Successfully";
 	}
@@ -177,6 +178,9 @@ class DataBase
 		$this->checkQueryResult($result);
 
 		$this->cookieManager->createCookie($username);
+
+		$verification = new Verifications();
+		$verification->send_verification_email($email, $fullname);
 		return true;
 	}
 
