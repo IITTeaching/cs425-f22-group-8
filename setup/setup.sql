@@ -14,6 +14,7 @@ CREATE TABLE Addresses(
     unitNumber TEXT DEFAULT NULL
 );
 
+SELECT * FROM Logins;
 
 CREATE TABLE Branch(
     id SERIAL PRIMARY KEY NOT NULL,
@@ -57,14 +58,14 @@ CREATE TABLE Account(
 
 
 CREATE TABLE Logins(
-    id SERIAL REFERENCES Customers(id) PRIMARY KEY,
+    id SERIAL REFERENCES Customers(id) ON DELETE CASCADE PRIMARY KEY ,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 );
 
 
 CREATE TABLE AuthorizedUsers(
-    account_number INT REFERENCES Account(number),
+    account_number INT REFERENCES Account(number) ON DELETE CASCADE,
     owner_number INT REFERENCES Customers(id)
 );
 
@@ -93,8 +94,6 @@ CREATE TABLE AwaitingVerification(
     name TEXT NOT NULL,
     time_of_creation INT NOT NULL
 );
-
-INSERT INTO AwaitingVerification VALUES ('lwashington3@hawk.iit.edu', 'Len Washington III', 0);
 
 CREATE TABLE States(
     name TEXT NOT NULL UNIQUE,

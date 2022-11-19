@@ -40,7 +40,7 @@ class Verifications
 		$time = time();
 		$sql = sprintf("INSERT INTO AwaitingVerification VALUES('%s','%s',%s)", $email, $name, $time);
 		$result = pg_query($this->connect, $sql);
-		return password_hash(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), CRYPT_SHA512);
+		return password_hash(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), PASSWORD_DEFAULT);
 	}
 
 	public function check_verification($email, $code): bool{
@@ -49,17 +49,16 @@ class Verifications
 		$name = pg_fetch_result($result, 0, 0);
 		$time = pg_fetch_result($result, 0, 1);
 
-		if($time < time()){
+		if($time > time()){
 			return false;
 		}
 
-		$newly_generated = password_hash(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), CRYPT_SHA512);
-
-		if($newly_generated != $code){
+		if(!password_verify(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), $code)){
+			echo "Didn't work";
 			return false;
 		}
 
-		$sql = sprintf("DELETE FROM awaitingverification WHERE email = '%s'", $email);  // TODO: Make a verifybot role that has the necessary roles in PG
+		$sql = sprintf("DELETE FROM awaitingverification WHERE email = '%s'", $email);
 		if(!pg_query($this->connect, $sql)){
 			header("Error: Your verification code was correct, but something happened when unlocking your account");
 			return false;
@@ -67,7 +66,7 @@ class Verifications
 
 		$sql = sprintf("UPDATE Customers SET authenticated_email = TRUE WHERE email = '%s'", $email);
 		if(!pg_query($this->connect, $sql)){
-			header("Error: Your verification code was correct, but something happened when unlocking your account");
+			header("Error: " . pg_last_error());
 			return false;
 		}
 

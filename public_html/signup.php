@@ -10,20 +10,19 @@ try{
 }
 
 $result = $db->query("SELECT subquery.name, address FROM ( SELECT name, cast(a.number AS TEXT) || ' ' || a.direction || ' ' || a.street_name || ', ' || a.city || ', ' || a.state || ', ' || a.zipcode AS address FROM branch JOIN addresses a on a.id = branch.address) subquery;");
-$numRows = pg_affected_rows($result);
 if(!$result){
 	http_response_code(500);
-	echo pg_last_error();
+	header("Error: " . error_get_last());
 	return;
 }
 
+$numRows = pg_affected_rows($result);
 $dct = array();
 
 while($row = pg_fetch_array($result)){
 	$dct[$row["name"]] = $row["address"];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
