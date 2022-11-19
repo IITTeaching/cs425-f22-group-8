@@ -39,9 +39,9 @@ CREATE TABLE Customers(
     email TEXT NOT NULL UNIQUE CHECK ( email ~ '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$' ),
     phone TEXT NOT NULL UNIQUE,
     home_branch INT REFERENCES Branch(id) NOT NULL,
-    address INT REFERENCES Addresses(id) NOT NULL
+    address INT REFERENCES Addresses(id) NOT NULL,
+    authenticated_email BOOLEAN DEFAULT FALSE
 );
-
 
 -- Accounts - checkings, savings,
 CREATE TABLE Account(
@@ -87,6 +87,14 @@ CREATE TABLE Loans(
     payment FLOAT NOT NULL, -- A
     balance FLOAT NOT NULL -- How much is currently owed
 );
+
+CREATE TABLE AwaitingVerification(
+    email TEXT NOT NULL REFERENCES Customers(email) PRIMARY KEY,
+    name TEXT NOT NULL,
+    time_of_creation INT NOT NULL
+);
+
+INSERT INTO AwaitingVerification VALUES ('lwashington3@hawk.iit.edu', 'Len Washington III', 0);
 
 CREATE TABLE States(
     name TEXT NOT NULL UNIQUE,
