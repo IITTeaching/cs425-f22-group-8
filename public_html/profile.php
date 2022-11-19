@@ -1,5 +1,6 @@
 <?php
 require "api/DataBase.php";
+require "api/constants.php";
 
 try{
 	$db = new DataBase();
@@ -22,6 +23,7 @@ $db->getAccounts($db->getCurrentUser());
 	<meta charset="UTF-8">
 	<title>WCS Banking</title>
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
+	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 </head>
 <body>
 <div id="content">

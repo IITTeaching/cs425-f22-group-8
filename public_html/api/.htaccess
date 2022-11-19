@@ -15,6 +15,7 @@ RedirectMatch 404 DataBase\.php$
 RedirectMatch 404 Tools\.php$
 RedirectMatch 404 User\.php$
 RedirectMatch 404 VerificationConfig\.php$
+RedirectMatch 404 constants\.php$
 
 # Force non-www in a Generic Way
 RewriteCond %{HTTP_HOST} ^www\.

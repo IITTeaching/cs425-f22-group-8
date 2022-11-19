@@ -1,5 +1,6 @@
 <?php
 require "api/DataBase.php";
+require "api/constants.php";
 
 try{
 	$db = new DataBase();
@@ -28,6 +29,7 @@ while($row = pg_fetch_array($result)){
 <head>
 	<meta charset="UTF-8">
 	<title>WCS Account Signup</title>
+	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 </head>
 <body>
 
