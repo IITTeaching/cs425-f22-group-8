@@ -110,8 +110,7 @@ class Verifications
 		// It is mandatory to set the content-type when sending HTML email
 		$headers = "MIME-Version: 1.0" . "\r\n";
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headers .= 'From: <info@example.com>' . "\r\n";
-		$headers .= 'Cc: sales@example.com' . "\r\n";
+		$headers .= 'From: <cs425@lenwashingtoniii.com>' . "\r\n";
 
 		mail($email, $subject, $message, $headers);
 	}
