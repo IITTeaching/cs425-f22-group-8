@@ -1,3 +1,4 @@
+<?php
 # TODO: Add 2FA key column to the Login Table
 # TODO: Create generator for new keys
 # TODO: Find a way for PHP to create a TOTP
