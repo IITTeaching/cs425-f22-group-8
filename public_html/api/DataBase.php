@@ -138,9 +138,13 @@ class DataBase
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
-		if (pg_affected_rows($result) == 0) { return false;}
+		if (pg_affected_rows($result) == 0) {
+			header("Response: You do not have an account with us, please create one at https://cs425.lenwashingtoniii.com/signup.");
+			return false;
+		}
 		$row = convert_to_bool(pg_fetch_result($result, 0, 0));
 		if(!$row){
+			header("Response: You must verify your email before you log in.");
 			return false;
 		}
 

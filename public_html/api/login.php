@@ -16,7 +16,7 @@ try{
 	return;
 }
 
-try{  # TODO: If the user is awaiting verification, don't let them in.
+try{
 	$result = $db->logIn($_POST['username'], $_POST['password']);
 } catch(PGException $pgException){
 	http_response_code(500);
@@ -32,7 +32,6 @@ try{  # TODO: If the user is awaiting verification, don't let them in.
 
 if (gettype($result) == 'boolean') {
 	http_response_code(401);
-	header("Response: Username or password wrong is wrong.");
 	header("Location: https://cs425.lenwashingtoniii.com/login");
 	return;
 }
