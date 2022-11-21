@@ -89,10 +89,30 @@ CREATE TABLE Loans(
     balance FLOAT NOT NULL -- How much is currently owed
 );
 
+
 CREATE TABLE AwaitingVerification(
     email TEXT NOT NULL REFERENCES Customers(email) PRIMARY KEY,
     name TEXT NOT NULL,
     time_of_creation INT NOT NULL
+);
+
+
+CREATE TABLE LoanRequests(
+    customer_id INT NOT NULL REFERENCES Customers(id),
+    amount FLOAT NOT NULL CHECK (amount > 0),
+    payback_period INT NOT NULL CHECK (payback_period > 0),
+    compounding_per_year INT NOT NULL CHECK (compounding_per_year >= 1),
+    apr FLOAT NOT NULL CHECK ( apr > 0 )
+);
+
+CREATE TABLE LoanApprovals(
+    approver_id INT NOT NULL REFERENCES Employee(id),
+    approval_date DATE NOT NULL DEFAULT now(),
+    customer_id INT NOT NULL REFERENCES Customers(id),
+    amount FLOAT NOT NULL CHECK (amount > 0),
+    payback_period INT NOT NULL CHECK (payback_period > 0),
+    compounding_per_year INT NOT NULL CHECK (compounding_per_year >= 1),
+    apr FLOAT NOT NULL CHECK ( apr > 0 )
 );
 
 CREATE TABLE States(

@@ -6,7 +6,7 @@ try{
 	$db = new DataBase();
 } catch(PGException $exception){
 	http_response_code(500);
-	echo "There was an internal database error, try again later. If this problem persists, contact the system administrator.";
+	header("Response: There was an internal database error, try again later. If this problem persists, contact the system administrator.");
 	return;
 }
 ?>

@@ -60,13 +60,13 @@ class Verifications
 
 		$sql = sprintf("DELETE FROM awaitingverification WHERE email = '%s'", $email);
 		if(!pg_query($this->connect, $sql)){
-			header("Error: Your verification code was correct, but something happened when unlocking your account");
+			header("Response: Your verification code was correct, but something happened when unlocking your account");
 			return false;
 		}
 
 		$sql = sprintf("UPDATE Customers SET authenticated_email = TRUE WHERE email = '%s'", $email);
 		if(!pg_query($this->connect, $sql)){
-			header("Error: " . pg_last_error());
+			header("Response: " . pg_last_error());
 			return false;
 		}
 

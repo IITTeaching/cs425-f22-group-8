@@ -13,7 +13,7 @@ try{
 $result = $db->query("SELECT subquery.name, address FROM ( SELECT name, cast(a.number AS TEXT) || ' ' || a.direction || ' ' || a.street_name || ', ' || a.city || ', ' || a.state || ', ' || a.zipcode AS address FROM branch JOIN addresses a on a.id = branch.address) subquery;");
 if(!$result){
 	http_response_code(500);
-	header("Error: " . error_get_last());
+	header("Response: " . error_get_last());
 	return;
 }
 

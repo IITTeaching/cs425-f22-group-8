@@ -6,7 +6,7 @@ try{
 	$db = new DataBase();
 }catch (PGException $exception){
 	http_response_code(500);
-	echo $exception->getMessage();
+	header("Response: " . $exception->getMessage());
 	return;
 }
 
@@ -14,7 +14,7 @@ $result = $db->query("SELECT subquery.name, address FROM ( SELECT name, cast(a.n
 $numRows = pg_affected_rows($result);
 if(!$result){
 	http_response_code(500);
-	echo pg_last_error();
+	header("Response: " . pg_last_error());
 	return;
 }
 

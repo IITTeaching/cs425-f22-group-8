@@ -8,7 +8,7 @@ if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['usern
 	&& isset($_POST['apt']) && isset($_POST["branch"])
 )) {
 	http_response_code(400);
-	header("Error: All fields are required");
+	header("Response: All fields are required");
 	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;
 }
@@ -17,7 +17,7 @@ try{
 	$db = new DataBase();
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Error: Internal Database connection");
+	header("Response: Internal Database connection");
 	header("Location: https://cs425.lenwashingtoniii.com");
 	return;
 }
@@ -25,20 +25,20 @@ try{
 try{
 	if($db->usernameInUse($_POST['username'])){
 		http_response_code(226);
-		header("Error: Username is already taken. Try a different one.");
+		header("Response: Username is already taken. Try a different one.");
 		header("Location: https://cs425.lenwashingtoniii.com/signup");
 		return;
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Error: " . $pgException->getMessage());
+	header("Response: " . $pgException->getMessage());
 	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;
 }
 
 if(!isValidEmail($_POST["email"])){
 	http_response_code(406);
-	header("Error: You must input a valid email address.");
+	header("Response: You must input a valid email address.");
 	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;
 }
@@ -46,20 +46,20 @@ if(!isValidEmail($_POST["email"])){
 try {
 	if($db->emailInUse($_POST["email"])){
 		http_response_code(226);
-		header("Error: Email-address is already in use, please use a different one.");
+		header("Response: Email-address is already in use, please use a different one.");
 		header("Location: https://cs425.lenwashingtoniii.com/signup");
 		return;
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Error: " . $pgException->getMessage());
+	header("Response: " . $pgException->getMessage());
 	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;
 }
 
 if(strlen($_POST["state"]) != 2){
 	http_response_code(400);
-	header("Error: The state should be the 2 letter US state abbreviation, not: " . $_POST["state"]);
+	header("Response: The state should be the 2 letter US state abbreviation, not: " . $_POST["state"]);
 	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;
 }
@@ -67,7 +67,7 @@ if(strlen($_POST["state"]) != 2){
 $result = $db->query(sprintf("SELECT COUNT(abbreviation) FROM States WHERE abbreviation = UPPER('%s')", $_POST["state"]));
 if(pg_fetch_result($result, 0, 0) == 0){
 	http_response_code(400);
-	header("Error: I wasn't aware we had a US state abbreviated: " . $_POST["state"] . ".");
+	header("Response: I wasn't aware we had a US state abbreviated: " . $_POST["state"] . ".");
 	header("Location: https://cs425.lenwashingtoniii.com/signup");
 	return;
 }
@@ -77,15 +77,15 @@ try {
 		$_POST["address_number"], $_POST["direction"], $_POST["streetname"], $_POST["city"], $_POST["state"],
 		$_POST["zipcode"], $_POST["apt"], $_POST["branch"])) {
 		http_response_code(201);
-		header("Error: Sign Up Success");
-		header("Location: https://cs425.lenwashingtoniii.com/profile");
+		header("Response: Sign Up Success");
+		header("Location: https://cs425.lenwashingtoniii.com/login");
 	} else {
 		http_response_code(500);
-		header("Error: Sign up Failed");
+		header("Response: Sign up Failed");
 		header("Location: https://cs425.lenwashingtoniii.com/signup");
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Error: " . $pgException->getMessage());
+	header("Response: " . $pgException->getMessage());
 	header("Location: https://cs425.lenwashingtoniii.com");
 }
