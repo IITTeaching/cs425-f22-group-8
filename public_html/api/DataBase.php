@@ -6,6 +6,7 @@ require "DataBaseConfig.php";
 require "PGException.php";
 require "CookieManager.php";
 require "Verifications.php";
+require "tools.php";
 
 class DataBase
 {
@@ -90,7 +91,7 @@ class DataBase
 	 * @throws PGException
 	 * @throws InvalidArgumentException
 	 */
-	function logIn($username, $password): string|bool
+	function logIn($username, $password): string|false
 	{
 		$defaultErrorMessage = "Incorrect username/password.";
 		if(!$this->cookieManager->isValidCookie()){
@@ -132,12 +133,17 @@ class DataBase
 			}
 		}
 
-		$sql = sprintf("SELECT * FROM Customers WHERE id = %s", $row["id"]);
+		$user_id = $row["id"];
+		$sql = sprintf("SELECT authenticated_email FROM Customers WHERE id = %s", $user_id);
 		$result = pg_query($this->connect, $sql);
 
 		$this->checkQueryResult($result);
-		$row = pg_fetch_assoc($result);
-		if (pg_affected_rows($result) == 0) { return false;}  # TODO: Make sure the user is email validated before letting them login.
+		if (pg_affected_rows($result) == 0) { return false;}
+		$row = convert_to_bool(pg_fetch_result($result, 0, 0));
+		if(!$row){
+			return false;
+		}
+
 		$this->cookieManager->createCookie($username);
 		return "Logged In Successfully";
 	}
