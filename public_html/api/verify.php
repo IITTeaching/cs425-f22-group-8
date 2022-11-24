@@ -1,6 +1,6 @@
 <?php
 
-require($_SERVER['DOCUMENT_ROOT'] . "/api/ClassFiles/Verifications.php");
+require("ClassFiles/Verifications.php");
 
 if(!(isset($_GET["email"]) && isset($_GET["code"]))){
 	http_response_code(400);

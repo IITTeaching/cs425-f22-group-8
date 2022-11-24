@@ -2,11 +2,11 @@
 
 use PgSql\Result;
 
-require($_SERVER['DOCUMENT_ROOT'] . "/api/ConfigFiles/DataBaseConfig.php");
-require($_SERVER['DOCUMENT_ROOT'] . "/api/Exceptions/PGException.php");
+require(dirname(__DIR__) . "/ConfigFiles/DataBaseConfig.php");
+require(dirname(__DIR__) . "/Exceptions/PGException.php");
+require(dirname(__DIR__) . "/tools.php");
 require "CookieManager.php";
 require "Verifications.php";
-require($_SERVER['DOCUMENT_ROOT'] . "/api/tools.php");
 
 class DataBase
 {

@@ -1,5 +1,6 @@
 <?php
-require($_SERVER['DOCUMENT_ROOT'] . "/api/ConfigFiles/VerificationConfig.php");
+
+require(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
 
 class Verifications
 {
