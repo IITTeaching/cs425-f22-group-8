@@ -10,7 +10,7 @@ try{
 }
 
 if(!$db->isLoggedIn()){
-	header("Location: https://cs425.lenwashingtoniii.com/");
+	header("Location: " . HTTPS_HOST . "/");
 }
 
 $db->getAccounts($db->getCurrentUser());

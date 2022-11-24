@@ -9,7 +9,7 @@ if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['usern
 )) {
 	http_response_code(400);
 	header("Response: All fields are required");
-	header("Location: https://cs425.lenwashingtoniii.com/signup");
+	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
@@ -18,7 +18,7 @@ try{
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: Internal Database connection");
-	header("Location: https://cs425.lenwashingtoniii.com");
+	header("Location: " . HTTPS_HOST . "");
 	return;
 }
 
@@ -26,20 +26,20 @@ try{
 	if($db->usernameInUse($_POST['username'])){
 		http_response_code(226);
 		header("Response: Username is already taken. Try a different one.");
-		header("Location: https://cs425.lenwashingtoniii.com/signup");
+		header("Location: " . HTTPS_HOST . "/signup");
 		return;
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: " . $pgException->getMessage());
-	header("Location: https://cs425.lenwashingtoniii.com/signup");
+	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
 if(!isValidEmail($_POST["email"])){
 	http_response_code(406);
 	header("Response: You must input a valid email address.");
-	header("Location: https://cs425.lenwashingtoniii.com/signup");
+	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
@@ -47,20 +47,20 @@ try {
 	if($db->emailInUse($_POST["email"])){
 		http_response_code(226);
 		header("Response: Email-address is already in use, please use a different one.");
-		header("Location: https://cs425.lenwashingtoniii.com/signup");
+		header("Location: " . HTTPS_HOST . "/signup");
 		return;
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: " . $pgException->getMessage());
-	header("Location: https://cs425.lenwashingtoniii.com/signup");
+	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
 if(strlen($_POST["state"]) != 2){
 	http_response_code(400);
 	header("Response: The state should be the 2 letter US state abbreviation, not: " . $_POST["state"]);
-	header("Location: https://cs425.lenwashingtoniii.com/signup");
+	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
@@ -68,7 +68,7 @@ $result = $db->query(sprintf("SELECT COUNT(abbreviation) FROM States WHERE abbre
 if(pg_fetch_result($result, 0, 0) == 0){
 	http_response_code(400);
 	header("Response: I wasn't aware we had a US state abbreviated: " . $_POST["state"] . ".");
-	header("Location: https://cs425.lenwashingtoniii.com/signup");
+	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
@@ -78,14 +78,14 @@ try {
 		$_POST["zipcode"], $_POST["apt"], $_POST["branch"])) {
 		http_response_code(201);
 		header("Response: Sign Up Success");
-		header("Location: https://cs425.lenwashingtoniii.com/login");
+		header("Location: " . HTTPS_HOST . "/login");
 	} else {
 		http_response_code(500);
 		header("Response: Sign up Failed");
-		header("Location: https://cs425.lenwashingtoniii.com/signup");
+		header("Location: " . HTTPS_HOST . "/signup");
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: " . $pgException->getMessage());
-	header("Location: https://cs425.lenwashingtoniii.com");
+	header("Location: " . HTTPS_HOST . "");
 }

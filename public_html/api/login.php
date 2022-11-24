@@ -12,7 +12,7 @@ try{
 } catch(PGException $exception){
 	http_response_code(500);
 	header("Response: Internal Database Response, please try again later: " . $exception->getMessage());
-	header("Location: https://cs425.lenwashingtoniii.com");
+	header("Location: " . HTTPS_HOST . "");
 	return;
 }
 
@@ -21,24 +21,24 @@ try{
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: " . $pgException->getMessage());
-	header("Location: https://cs425.lenwashingtoniii.com/login");
+	header("Location: " . HTTPS_HOST . "/login");
 	return;
 } catch(InvalidArgumentException $argumentException){
 	http_response_code(401);
 	header("Response: " . $argumentException->getMessage());
-	header("Location: https://cs425.lenwashingtoniii.com/login");
+	header("Location: " . HTTPS_HOST . "/login");
 	return;
 }
 
 if (gettype($result) == 'boolean') {
 	http_response_code(401);
-	header("Location: https://cs425.lenwashingtoniii.com/login");
+	header("Location: " . HTTPS_HOST . "/login");
 	return;
 }
 
 else{
 	http_response_code(200);
 	header("Response: " . $result);
-	header("Location: https://cs425.lenwashingtoniii.com");
+	header("Location: " . HTTPS_HOST . "");
 }
 

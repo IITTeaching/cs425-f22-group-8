@@ -76,7 +76,7 @@ class Verifications
 
 	public function send_verification_email($email, $name){
 		$verification_code = $this->createVerificationCode($email, $name);
-		$verification_link = sprintf("https://cs425.lenwashingtoniii.com/api/verify?email=%s&code=%s", $email, $verification_code);
+		$verification_link = sprintf("" . HTTPS_HOST . "/api/verify?email=%s&code=%s", $email, $verification_code);
 		$subject = "WCS Account Creation";
 		$message = sprintf("
 			<html lang='en'>

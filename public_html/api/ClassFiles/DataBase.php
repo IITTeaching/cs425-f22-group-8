@@ -7,6 +7,7 @@ require(dirname(__DIR__) . "/Exceptions/PGException.php");
 require(dirname(__DIR__) . "/tools.php");
 require "CookieManager.php";
 require "Verifications.php";
+require(dirname(__DIR__) . "/constants.php");
 
 class DataBase
 {
@@ -139,7 +140,7 @@ class DataBase
 
 		$this->checkQueryResult($result);
 		if (pg_affected_rows($result) == 0) {
-			header("Response: You do not have an account with us, please create one at https://cs425.lenwashingtoniii.com/signup.");
+			header("Response: You do not have an account with us, please create one at " . HTTPS_HOST . "/signup.");
 			return false;
 		}
 		$row = convert_to_bool(pg_fetch_result($result, 0, 0));

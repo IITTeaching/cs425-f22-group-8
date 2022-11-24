@@ -9,5 +9,5 @@ try{
 	header("Response: Internal Database Error, please try again later: " . $exception->getMessage());
 }
 
-header("Location: https://cs425.lenwashingtoniii.com");
+header("Location: " . HTTPS_HOST . "");
 return;
