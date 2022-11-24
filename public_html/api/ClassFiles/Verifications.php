@@ -1,5 +1,5 @@
 <?php
-require "VerificationConfig.php";
+require($_SERVER['DOCUMENT_ROOT'] . "/api/ConfigFiles/VerificationConfig.php");
 
 class Verifications
 {

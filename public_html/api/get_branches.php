@@ -1,6 +1,6 @@
 <?php
 
-require "DataBase.php";
+require($_SERVER['DOCUMENT_ROOT'] . "/api/ClassFiles/DataBase.php");
 
 try{
 	$db = new DataBase();

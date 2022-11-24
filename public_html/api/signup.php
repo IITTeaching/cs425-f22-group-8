@@ -1,5 +1,5 @@
 <?php
-require "DataBase.php";
+require($_SERVER['DOCUMENT_ROOT'] . "/api/ClassFiles/DataBase.php");
 require "tools.php";
 
 if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['username']) &&

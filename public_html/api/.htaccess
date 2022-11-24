@@ -8,6 +8,9 @@ RewriteRule ^([\w_]+)$ $1.php [L]
 RedirectMatch 404 /\..*$
 
 # Hide php files that don't directly interact with users
+RedirectMath 404 ClassFiles/*\.php$
+RedirectMath 404 ConfigFiles/*\.php$
+
 RedirectMatch 404 DataBaseConfig\.php$
 RedirectMatch 404 PGException\.php$
 RedirectMatch 404 CookieManager\.php$
