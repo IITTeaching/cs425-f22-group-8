@@ -5,6 +5,7 @@ require_once "api/constants.php";
 
 try{
 	$db = new DataBase();
+	$user = $db->getCurrentUser();
 } catch(PGException $PGException){
 	http_response_code(500);
 	header("Response: " . $PGException->getMessage());
@@ -15,7 +16,7 @@ if(!$db->isLoggedIn()){
 	header("Location: " . HTTPS_HOST . "/");
 }
 
-$db->getAccounts($db->getCurrentUser());
+$accounts = $user->getAccounts();
 ?>
 
 

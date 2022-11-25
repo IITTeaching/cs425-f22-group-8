@@ -12,7 +12,7 @@ Directory Structure: Everything related to the project is stored in ```/cs425```
 
 ## Git
 To update the running version on the server, go to the project root, in right now is ```/cs425```, and run the following command: ```sudo cs425git```.
-It should say HEAD is now at {commit id} {Your commit message}. If not, or you see ```fatal: not a git repository```, you're in the wrong folder. If it asks for a password, let me know, yours won't work.
+It should say HEAD is now at {commit id} {Your commit message}. If not, or you see ```fatal: not a git repository```, you're in the wrong folder. If it asks for a password, let me know, yours _might_ won't work.
 
 
 ## Website

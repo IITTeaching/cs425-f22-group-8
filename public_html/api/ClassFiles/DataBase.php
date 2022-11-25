@@ -6,6 +6,7 @@ require_once (dirname(__DIR__) . "/ConfigFiles/DataBaseConfig.php");
 require_once (dirname(__DIR__) . "/Exceptions/PGException.php");
 require_once (dirname(__DIR__) . "/tools.php");
 require_once "CookieManager.php";
+require_once "User.php";
 require_once "Verifications.php";
 require_once "CS425Class.php";
 require_once (dirname(__DIR__) . "/constants.php");
@@ -26,7 +27,6 @@ class DataBase extends CS425Class
 	function checkCookie(): bool{
 		return $this->cookieManager->isValidCookie();
 	}
-
 
 	/**
 	 * @throws PGException
@@ -264,28 +264,6 @@ class DataBase extends CS425Class
 		return $this->cookieManager->isValidCookie();
 	}
 
-	/**
-	 * @throws PGException
-	 */
-	public function getName(): string|false{
-		$currentId = $this->getCurrentUserId();
-		if(!$currentId){
-			return false;
-		}
-		$sql = sprintf("SELECT name FROM Customers WHERE id = '%s' LIMIT 1", $currentId);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
-		return pg_fetch_result($result, 0);
-	}
-
-	public function getFirstName(): string|false{
-		$name = $this->getName();
-		if(!$name){
-			return false;
-		}
-		return explode(" ", $name)[0];
-	}
-
 	public function logout(): void{
 		$this->cookieManager->deleteCookie();
 	}
@@ -301,14 +279,12 @@ class DataBase extends CS425Class
 	/**
 	 * @throws PGException
 	 */
-	public function getCurrentUserId(): int|bool{
+	public function getCurrentUserId(): User|false {
 		$username = $this->cookieManager->getCookieUsername();
-		if(!$username){
-			return false;
-		}
+		if(!$username){ return false; }
 		$sql = sprintf("SELECT id FROM logins WHERE username = '%s' LIMIT 1", $username);
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
-		return pg_fetch_result($result, 0);
+		return new User(pg_fetch_result($result, 0));
 	}
 }
