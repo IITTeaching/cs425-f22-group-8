@@ -1,12 +1,14 @@
 <?php
 require "api/ClassFiles/DataBase.php";
 require "api/constants.php";
+require "api/constants.php";
 
 try{
 	$db = new DataBase();
 } catch(PGException $PGException){
 	http_response_code(500);
-	echo $PGException->getMessage();
+	header("Response: " . $PGException->getMessage());
+	return;
 }
 
 if(!$db->isLoggedIn()){

@@ -1,6 +1,7 @@
 <?php
 require("ClassFiles/DataBase.php");
 require "tools.php";
+require "constants.php";
 
 if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['username']) &&
 	isset($_POST['password']) && isset($_POST['phone']) && isset($_POST["address_number"])  && isset($_POST["direction"]) &&
@@ -18,7 +19,7 @@ try{
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: Internal Database connection");
-	header("Location: " . HTTPS_HOST . "");
+	header("Location: " . HTTPS_HOST);
 	return;
 }
 
@@ -87,5 +88,5 @@ try {
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: " . $pgException->getMessage());
-	header("Location: " . HTTPS_HOST . "");
+	header("Location: " . HTTPS_HOST);
 }

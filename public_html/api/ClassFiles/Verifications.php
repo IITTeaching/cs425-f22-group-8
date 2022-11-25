@@ -1,40 +1,17 @@
 <?php
 
 require(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
+require(dirname(__DIR__) . "/constants.php");
+require "CS425Class.php";
 
-class Verifications
+class Verifications extends CS425Class
 {
-	protected PgSql\Connection $connect;
-	private string $servername;
-	private string $username;
-	private string $password;
-	private string $dbname;
-	private string $port;
-
 	/**
 	 * @throws PGException
 	 */
 	public function __construct()
 	{
-		$dbc = new VerificationConfig();
-		$this->servername = $dbc->servername;
-		$this->username = $dbc->username;
-		$this->password = $dbc->password;
-		$this->dbname = $dbc->databasename;
-		$this->port = $dbc->port;
-		$this->dbConnect();
-	}
-
-	/**
-	 * @throws PGException
-	 */
-	function dbConnect(): void
-	{
-		$connection_string = sprintf("host = %s port = %s dbname = %s user = %s password = %s", $this->servername, $this->port, $this->dbname, $this->username, $this->password);
-		$this->connect = pg_pconnect($connection_string);
-		if(!$this->connect){
-			throw new PGException(pg_last_error());
-		}
+		parent::__construct(new VerificationConfig());
 	}
 
 	public function createVerificationCode($email, $name){
@@ -76,7 +53,7 @@ class Verifications
 
 	public function send_verification_email($email, $name){
 		$verification_code = $this->createVerificationCode($email, $name);
-		$verification_link = sprintf("" . HTTPS_HOST . "/api/verify?email=%s&code=%s", $email, $verification_code);
+		$verification_link = sprintf(HTTPS_HOST . "/api/verify?email=%s&code=%s", $email, $verification_code);
 		$subject = "WCS Account Creation";
 		$message = sprintf("
 			<html lang='en'>

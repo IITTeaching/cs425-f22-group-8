@@ -1,5 +1,6 @@
 <?php
 require("ClassFiles/DataBase.php");
+require "constants.php";
 
 try{
 	$db = new DataBase();
@@ -9,5 +10,5 @@ try{
 	header("Response: Internal Database Error, please try again later: " . $exception->getMessage());
 }
 
-header("Location: " . HTTPS_HOST . "");
+header("Location: " . HTTPS_HOST);
 return;

@@ -114,7 +114,7 @@ while($row = pg_fetch_array($result)){
 	<label for="branch">Your favorite (or closest) branch: </label><select name="branch" id="branch" required>
 		<?php foreach($dct as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>
-		<?php }; ?>
+		<?php } ?>
 	</select><br>
 
 	<input type="submit" name="submit" value="Sign up!">

@@ -1,6 +1,7 @@
 <?php
 
 require("ClassFiles/Verifications.php");
+require "constants.php";
 
 if(!(isset($_GET["email"]) && isset($_GET["code"]))){
 	http_response_code(400);

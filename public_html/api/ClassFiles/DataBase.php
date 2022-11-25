@@ -7,16 +7,11 @@ require(dirname(__DIR__) . "/Exceptions/PGException.php");
 require(dirname(__DIR__) . "/tools.php");
 require "CookieManager.php";
 require "Verifications.php";
+require "CS425Class.php";
 require(dirname(__DIR__) . "/constants.php");
 
-class DataBase
+class DataBase extends CS425Class
 {
-	protected PgSql\Connection $connect;
-	private string $servername;
-	private string $username;
-	private string $password;
-	private string $dbname;
-	private string $port;
 	private CookieManager $cookieManager;
 
 	/**
@@ -24,49 +19,14 @@ class DataBase
 	 */
 	public function __construct()
 	{
-		$dbc = new DataBaseConfig();
-		$this->servername = $dbc->servername;
-		$this->username = $dbc->username;
-		$this->password = $dbc->password;
-		$this->dbname = $dbc->databasename;
-		$this->port = $dbc->port;
-		$this->dbConnect();
+		parent::__construct(new DataBaseConfig());
 		$this->cookieManager = new CookieManager();
-	}
-
-	/**
-	 * @throws PGException
-	 */
-	function dbConnect(): void
-	{
-		$connection_string = sprintf("host = %s port = %s dbname = %s user = %s password = %s", $this->servername, $this->port, $this->dbname, $this->username, $this->password);
-		$this->connect = pg_pconnect($connection_string);
-		if(!$this->connect){
-			throw new PGException(pg_last_error());
-		}
-	}
-
-	function prepareData($data): string
-	{
-		return pg_escape_string($this->connect, stripslashes(htmlspecialchars($data)));
 	}
 
 	function checkCookie(): bool{
 		return $this->cookieManager->isValidCookie();
 	}
 
-	/**
-	 * @throws PGException
-	 */
-	private function checkQueryResult($result, $errorMessage=""): void
-	{
-		if(!$result){
-			if(strlen($errorMessage) == 0){
-				$errorMessage = pg_last_error();
-			}
-			throw new PGException($errorMessage);
-		}
-	}
 
 	/**
 	 * @throws PGException
