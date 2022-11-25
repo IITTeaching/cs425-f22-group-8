@@ -1,6 +1,6 @@
 <?php
 
-require_once "../ConfigFiles/Config.php";
+require_once (dirname(__DIR__) . "/ConfigFiles/Config.php");
 
 class CS425Class
 {
@@ -17,9 +17,15 @@ class CS425Class
 	/**
 	 * @throws PGException
 	 */
-	private function dbConnect(Config $config): void
+	private function dbConnect(Config $cfg): void
 	{
-		$connection_string = sprintf("host = %s port = %s dbname = %s user = %s password = %s", $this->servername, $this->port, $this->dbname, $this->username, $this->password);
+		$connection_string = sprintf("host = %s port = %d dbname = %s user = %s password = %s",
+			$cfg->getHost(),
+			$cfg->getPort(),
+			$cfg->getDataBaseName(),
+			$cfg->getUserName(),
+			$cfg->getPassword()
+		);
 		$this->connect = pg_pconnect($connection_string);
 		if(!$this->connect){
 			throw new PGException(pg_last_error());

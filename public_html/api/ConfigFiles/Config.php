@@ -4,25 +4,20 @@ abstract class Config
 {
 	public function __construct()
 	{
-		$this->servername = 'localhost';
-		$this->username = 'bankbot';
-		$this->password = 'b299ecdcc0c02a319625205a804991255fdff2470dddbc7fa05c0c3934dbffae';
-		$this->databasename = 'cs425';
-		$this->port = '5078';
 	}
 
-	abstract public function getUserName();
-	abstract public function getPassword();
+	abstract public function getUserName() : string;
+	abstract public function getPassword() : string;
 
-	public function getServerName(){
+	public function getHost(): string {
 		return "localhost";
 	}
 
-	public function getDataBaseName(){
+	public function getDataBaseName(): string {
 		return "cs425";
 	}
 
-	public function getPort(){
-		return "5078";
+	public function getPort(): int {
+		return 5078;
 	}
 }
