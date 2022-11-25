@@ -34,6 +34,10 @@ class User extends CS425Class
 		return explode(" ", $name)[0];
 	}
 
+	public function getUserId(): int{
+		return $this->id;
+	}
+
 	public function getAccounts(): array{
 		# TODO: Create a holder class for Accounts
 	}
