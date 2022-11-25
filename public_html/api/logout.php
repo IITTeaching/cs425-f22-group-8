@@ -1,6 +1,6 @@
 <?php
-require("ClassFiles/DataBase.php");
-require "constants.php";
+require_once"ClassFiles/DataBase.php");
+require_once"constants.php";
 
 try{
 	$db = new DataBase();

@@ -1,8 +1,8 @@
 <?php
 
-require "CS425Class.php";
-require(dirname(__DIR__) . "/ConfigFiles/LoanConfig.php");
-require(dirname(__DIR__) . "/constants.php");
+require_once"CS425Class.php";
+require_oncedirname(__DIR__) . "/ConfigFiles/LoanConfig.php");
+require_oncedirname(__DIR__) . "/constants.php");
 
 class Loans extends CS425Class
 {

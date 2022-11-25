@@ -1,6 +1,6 @@
 <?php
 
-require "Config.php";
+require_once"Config.php";
 
 class DataBaseConfig extends Config
 {
