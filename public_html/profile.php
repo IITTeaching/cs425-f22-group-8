@@ -1,7 +1,7 @@
 <?php
-require_once"api/ClassFiles/DataBase.php";
-require_once"api/constants.php";
-require_once"api/constants.php";
+require_once "api/ClassFiles/DataBase.php";
+require_once "api/constants.php";
+require_once "api/constants.php";
 
 try{
 	$db = new DataBase();

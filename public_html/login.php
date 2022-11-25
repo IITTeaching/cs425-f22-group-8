@@ -1,5 +1,5 @@
 <?php
-require_once"api/constants.php";
+require_once "api/constants.php";
 ?>
 
 <!DOCTYPE html>

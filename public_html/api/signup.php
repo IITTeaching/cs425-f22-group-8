@@ -1,7 +1,7 @@
 <?php
-require_once"ClassFiles/DataBase.php");
-require_once"tools.php";
-require_once"constants.php";
+require_once("ClassFiles/DataBase.php");
+require_once "tools.php";
+require_once "constants.php";
 
 if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['username']) &&
 	isset($_POST['password']) && isset($_POST['phone']) && isset($_POST["address_number"])  && isset($_POST["direction"]) &&

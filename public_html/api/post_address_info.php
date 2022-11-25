@@ -1,5 +1,5 @@
 <?php
-require_once"ClassFiles/DataBase.php");
+require_once ("ClassFiles/DataBase.php");
 
 try{
 	$db = new DataBase();

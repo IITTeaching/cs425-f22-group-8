@@ -1,8 +1,8 @@
 <?php
 
-require_oncedirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
-require_oncedirname(__DIR__) . "/constants.php");
-require_once"CS425Class.php";
+require_once(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
+require_once(dirname(__DIR__) . "/constants.php");
+require_once "CS425Class.php";
 
 class Verifications extends CS425Class
 {
@@ -61,7 +61,7 @@ class Verifications extends CS425Class
 				<hr style=\"color:grey\">
 				<table style=\"background-color:#ffffff;width:600px;text-align:center\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 					<td style=\"padding-top:24px;padding-left:16px;padding-bottom:10px\">
-						<tbody><tr style=\"margin:24px;margin-left:0px\">
+						<tbody><tr style=\"margin:24px;margin-left:0\">
 						<td align=\"left\">
 							<p style=\"word-wrap:break-word;font-size:15px;margin:0px;padding:0px\">Hello %s,</p>
 							<p style=\"word-wrap:break-word;font-size:13px;margin-top:24px;padding:0px;line-height:19px\">We have recently received a request to open an account with us registered to this email (<b><a href=\"mailto:%s\" target=\"_blank\">%s</a></b>). If this was you, please click the button below, or go to the link under it if the button doesn't work. If you did not make this request, please forward this email to us at <b><a href=\"mailto:cs425@lenwashingtoniii.com\">cs425@lenwashingtoniii.com</a></b> and we will handle it.</p>

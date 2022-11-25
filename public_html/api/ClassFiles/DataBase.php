@@ -2,13 +2,13 @@
 
 use PgSql\Result;
 
-require_oncedirname(__DIR__) . "/ConfigFiles/DataBaseConfig.php");
-require_oncedirname(__DIR__) . "/Exceptions/PGException.php");
-require_oncedirname(__DIR__) . "/tools.php");
-require_once"CookieManager.php";
-require_once"Verifications.php";
-require_once"CS425Class.php";
-require_oncedirname(__DIR__) . "/constants.php");
+require_once (dirname(__DIR__) . "/ConfigFiles/DataBaseConfig.php");
+require_once (dirname(__DIR__) . "/Exceptions/PGException.php");
+require_once (dirname(__DIR__) . "/tools.php");
+require_once "CookieManager.php";
+require_once "Verifications.php";
+require_once "CS425Class.php";
+require_once (dirname(__DIR__) . "/constants.php");
 
 class DataBase extends CS425Class
 {

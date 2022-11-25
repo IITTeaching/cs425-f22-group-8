@@ -1,6 +1,6 @@
 <?php
 
-require_once"../ConfigFiles/Config.php";
+require_once "../ConfigFiles/Config.php";
 
 class CS425Class
 {
