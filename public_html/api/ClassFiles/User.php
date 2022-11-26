@@ -2,6 +2,7 @@
 
 require_once "CS425Class.php";
 require_once (dirname(__DIR__) . "/ConfigFiles/ProfileConfig.php");
+require_once "Account.php";
 
 class User extends CS425Class
 {

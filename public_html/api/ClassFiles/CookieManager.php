@@ -32,14 +32,14 @@ class CookieManager
 	}
 
 	private function getCookieData(): array|bool{
-		if(!isset($_COOKIE[$this->cookieName])){
-			return false;
-		}
+		if(!isset($_COOKIE[$this->cookieName])){ return false; }
 		return json_decode($_COOKIE[$this->cookieName], true);
 	}
 
 	function getCookieUsername(): string|bool{
-		return $this->getCookieData()["username"];
+		$data = $this->getCookieUsername();
+		if(!$data) { return false; }
+		return $data["username"];
 	}
 
 	function getExpireTime(): int{
