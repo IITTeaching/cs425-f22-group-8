@@ -49,4 +49,15 @@ class CS425Class
 			throw new PGException($errorMessage);
 		}
 	}
+
+	/**
+	 * Gets a single result from an SQL query
+	 * @param $query
+	 * @return false|string
+	 */
+	protected function getBasicResult($query){
+		$result = pg_query($this->connect, $query);
+		$this->checkQueryResult($result);
+		return pg_fetch_result($result, 0, 0);
+	}
 }
