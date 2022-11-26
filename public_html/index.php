@@ -36,7 +36,7 @@ try{
 			<h3>Hello <?php try {
 					echo $user->getFirstName();
 				} catch (PGException $e) {
-					echo "Internal Server Error";
+					echo $e->getMessage();
 			} ?></h3>
 			<a href="/profile">Check My Profile</a>
 			<a href="/api/logout">Logout</a>
