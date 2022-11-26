@@ -1,11 +1,10 @@
 <?php
 require_once "api/ClassFiles/DataBase.php";
 require_once "api/constants.php";
-require_once "api/constants.php";
 
 try{
 	$db = new DataBase();
-	$user = $db->getCurrentUser();
+	$user = $db->getCurrentUserId();
 } catch(PGException $PGException){
 	http_response_code(500);
 	header("Response: " . $PGException->getMessage());
@@ -14,6 +13,7 @@ try{
 
 if(!$db->isLoggedIn()){
 	header("Location: " . HTTPS_HOST . "/");
+	return;
 }
 
 $accounts = $user->getAccounts();

@@ -19,13 +19,7 @@ class CS425Class
 	 */
 	private function dbConnect(Config $cfg): void
 	{
-		$connection_string = sprintf("host = %s port = %d dbname = %s user = %s password = %s",
-			$cfg->getHost(),
-			$cfg->getPort(),
-			$cfg->getDataBaseName(),
-			$cfg->getUserName(),
-			$cfg->getPassword()
-		);
+		$connection_string = sprintf("host = %s port = %d dbname = %s user = %s password = %s", $cfg->getHost(), $cfg->getPort(), $cfg->getDataBaseName(), $cfg->getUserName(), $cfg->getPassword());
 		$this->connect = pg_pconnect($connection_string);
 		if(!$this->connect){
 			throw new PGException(pg_last_error());

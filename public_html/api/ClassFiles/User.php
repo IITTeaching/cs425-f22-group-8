@@ -19,10 +19,7 @@ class User extends CS425Class
 	 * @throws PGException
 	 */
 	public function getName(): string|false{
-		$sql = sprintf("SELECT name FROM Customers WHERE id = '%s' LIMIT 1", $this->id);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
-		return pg_fetch_result($result, 0);
+		return $this->getBasicResult(sprintf("SELECT name FROM Customers WHERE id = '%s' LIMIT 1", $this->id));
 	}
 
 	/**
@@ -40,19 +37,22 @@ class User extends CS425Class
 
 	/**
 	 * @return Account[]
+	 * @throws PGException
 	 */
 	public function getAccounts(){
-		$sql = sprintf("SELECT * FROM Account a WHERE holder = %d OR EXISTS(SELECT account_number FROM AuthorizedUsers WHERE owner_number = a.holder)");  # TODO: Once accounts have been generated, test to make sure this works.
+		$sql = sprintf("SELECT number FROM Account a WHERE holder = %d OR number = (SELECT account_number FROM AuthorizedUsers WHERE owner_number = %d)", $this->getUserId(), $this->getUserId());
 		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		$accounts = array();
+		while($row = pg_fetch_array($result)){
+			$accounts[] = new Account($row["number"]);
+		}
+		return $accounts;
 	}
 
 	public function getNumberOfAccounts(): int{
-		$result = pg_query($this->connect, sprintf("SELECT COUNT(*) FROM Account WHERE holder = %d", $this->id));
-		$this->checkQueryResult($result);
-		$owned = pg_fetch_result($result, 0, 0);
-		$result = pg_query($this->connect, sprintf("SELECT COUNT(*) FROM AuthorizedUsers WHERE owner_number = %d", $this->id));
-		$this->checkQueryResult($result);
-		$authorized_user = pg_fetch_result($result, 0, 0);
+		$owned = $this->getBasicResult(sprintf("SELECT COUNT(*) FROM Account WHERE holder = %d", $this->id));
+		$authorized_user = $this->getBasicResult(sprintf("SELECT COUNT(*) FROM AuthorizedUsers WHERE owner_number = %d", $this->id));
 		return $owned + $authorized_user;
 	}
 }
