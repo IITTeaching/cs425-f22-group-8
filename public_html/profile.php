@@ -26,11 +26,11 @@ $accounts = $user->getAccounts();
 	<meta charset="UTF-8">
 	<title>WCS Banking</title>
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/account_tables.css" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 </head>
 <body>
 <div id="content">
-	<h1 class="title">Welcome to WCS Banking</h1>
 	<h2>My Accounts</h2>
 	<table>
 		<tr>
@@ -46,9 +46,9 @@ $accounts = $user->getAccounts();
 				<td><?php echo $account->getName(); ?></td>
 				<td><?php echo $account->getBalance(); ?></td>
 				<td><?php echo $account->getType(); ?></td>
-				<td><?php echo $account->getInterest(); ?></td>
-				<td><?php echo $account->getMonthlyFree(); ?></td>
-				<td><?php echo $account->canGoNegative(); ?></td>
+				<td><?php echo $account->getInterest(); ?>%</td>
+				<td>$<?php echo $account->getMonthlyFee(); ?></td>
+				<td><?php if($account->canGoNegative()) { echo "True"; } else{ echo "False";} ?></td>
 			</tr>
 		<?php }; ?>
 	</table>
