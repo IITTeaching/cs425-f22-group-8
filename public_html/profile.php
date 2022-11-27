@@ -44,11 +44,28 @@ $accounts = $user->getAccounts();
 		<?php foreach($user->getAccounts() as $account) { ?>
 			<tr>
 				<td><?php echo $account->getName(); ?></td>
-				<td><?php echo $account->getBalance(); ?></td>
+				<td>$<?php echo sprintf("%.2f", $account->getBalance()); ?></td>
 				<td><?php echo $account->getType(); ?></td>
 				<td><?php echo $account->getInterest(); ?>%</td>
-				<td>$<?php echo $account->getMonthlyFee(); ?></td>
+				<td>$<?php echo sprintf("%.2f", $account->getMonthlyFee()); ?></td>
 				<td><?php if($account->canGoNegative()) { echo "True"; } else{ echo "False";} ?></td>
+			</tr>
+		<?php }; ?>
+	</table>
+	<h2>My Loans</h2>
+	<table>
+		<tr>
+			<th>Loan Name</th>
+			<th>Initial Amount</th>
+			<th>Remaining Amount</th>
+			<th>APR</th>
+		</tr>
+		<?php foreach($user->getLoans() as $loan) { ?>
+			<tr>
+				<td><?php echo $loan->getName(); ?></td>
+				<td>$<?php echo sprintf("%.2f", $loan->getInitialAmount()); ?></td>
+				<td>$<?php echo sprintf("%.2f", $loan->getAmountRemaining()); ?></td>
+				<td><?php echo $loan->getAPR(); ?>%</td>
 			</tr>
 		<?php }; ?>
 	</table>

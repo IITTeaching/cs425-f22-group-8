@@ -58,7 +58,7 @@ CREATE TABLE Account(
 
 
 CREATE TABLE Logins(
-    id SERIAL REFERENCES Customers(id) ON DELETE CASCADE PRIMARY KEY ,
+    id INT REFERENCES Customers(id) ON DELETE CASCADE PRIMARY KEY ,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 );
@@ -79,37 +79,29 @@ CREATE TABLE Transactions(
     PRIMARY KEY (account_number, date, type)
 );
 
-
-CREATE TABLE Loans(
-    original_value DOUBLE PRECISION NOT NULL, -- Present Value (P)
-    apr DOUBLE PRECISION NOT NULL,  -- (I)
-    n INT NOT NULL, -- Number of payments
-    compounding_period INT NOT NULL, -- Yearly, Monthly, as an integer
-    payment FLOAT NOT NULL, -- A
-    balance FLOAT NOT NULL -- How much is currently owed
-);
-
-
 CREATE TABLE AwaitingVerification(
     email TEXT NOT NULL REFERENCES Customers(email) PRIMARY KEY,
     name TEXT NOT NULL,
     time_of_creation INT NOT NULL
 );
 
-
 CREATE TABLE LoanRequests(
     customer_id INT NOT NULL REFERENCES Customers(id),
-    amount FLOAT NOT NULL CHECK (amount > 0),
-    payback_period INT NOT NULL CHECK (payback_period > 0),
+    amount FLOAT NOT NULL CHECK (amount > 0), -- Present Value (P)
+    payback_period INT NOT NULL CHECK (payback_period > 0),  --
     compounding_per_year INT NOT NULL CHECK (compounding_per_year >= 1),
-    apr FLOAT NOT NULL CHECK ( apr > 0 )
-);
+    apr FLOAT NOT NULL CHECK ( apr > 0 ),
+    request_date DATE NOT NULL DEFAULT now()
+); -- I = APR / Compounding per Year
 
 CREATE TABLE LoanApprovals(
+    loan_number SERIAL PRIMARY KEY NOT NULL,
+    loan_name TEXT DEFAULT NULL,
     approver_id INT NOT NULL REFERENCES Employee(id),
     approval_date DATE NOT NULL DEFAULT now(),
     customer_id INT NOT NULL REFERENCES Customers(id),
-    amount FLOAT NOT NULL CHECK (amount > 0),
+    initial_amount FLOAT NOT NULL CHECK (initial_amount > 0),
+    amount_remaining FLOAT NOT NULL CHECK (amount_remaining > 0),
     payback_period INT NOT NULL CHECK (payback_period > 0),
     compounding_per_year INT NOT NULL CHECK (compounding_per_year >= 1),
     apr FLOAT NOT NULL CHECK ( apr > 0 )

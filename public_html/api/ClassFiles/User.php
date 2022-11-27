@@ -3,6 +3,7 @@
 require_once "CS425Class.php";
 require_once (dirname(__DIR__) . "/ConfigFiles/ProfileConfig.php");
 require_once "Account.php";
+require_once "Loan.php";
 
 class User extends CS425Class
 {
@@ -51,9 +52,28 @@ class User extends CS425Class
 		return $accounts;
 	}
 
+	/**
+	 * @return Loan[]
+	 * @throws PGException
+	 */
+	public function getLoans(){
+		$sql = sprintf("SELECT loan_number FROM LoanApprovals WHERE customer_id = %d", $this->getUserId());
+		$result = pg_query($this->connect, $sql);
+		$this->checkQueryResult($result);
+		$loans = array();
+		while($row = pg_fetch_array($result)){
+			$loans[] = new Loan($row["number"]);
+		}
+		return $loans;
+	}
+
 	public function getNumberOfAccounts(): int{
 		$owned = $this->getBasicResult(sprintf("SELECT COUNT(*) FROM Account WHERE holder = %d", $this->id));
 		$authorized_user = $this->getBasicResult(sprintf("SELECT COUNT(*) FROM AuthorizedUsers WHERE owner_number = %d", $this->id));
 		return $owned + $authorized_user;
+	}
+
+	public function getNumberOfLoans(): int{
+		$this->getBasicResult(sprintf("SELECT COUNT(loan_number) FROM LoanApprovals WHERE customer_id = %d", $this->id));
 	}
 }

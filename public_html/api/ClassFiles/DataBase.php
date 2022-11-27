@@ -100,6 +100,7 @@ class DataBase extends CS425Class
 
 		$this->checkQueryResult($result);
 		if (pg_affected_rows($result) == 0) {
+			// The login is for an employee
 			header("Response: You do not have an account with us, please create one at " . HTTPS_HOST . "/signup.");
 			return false;
 		}
