@@ -89,10 +89,8 @@ class Authentication# extends CS425Class
 
 		$code = $this->genHTOPValue(substr($output["0"], 13), $length);
 
-		$code = str_pad($code, $length, "0", STR_PAD_LEFT);
-		$code = substr($code, (-1 * $length));
-
-		return $code;
+		$code = str_pad((string)$code, $length, "0", STR_PAD_LEFT);
+		return substr($code, (-1 * $length));
 	}
 
 	private function genHTOPValue($hash, $length)
@@ -146,7 +144,7 @@ class Authentication# extends CS425Class
 	# endregion
 }
 
-$totp = new Authentication();
-echo $totp->GenerateToken("ACAHAACAAJGILAOC") . PHP_EOL;
-echo $totp->generateQRCode("employee_username1","ACAHAACAAJGILAOC") . PHP_EOL;
+# $totp = new Authentication();
+# echo $totp->GenerateToken("ACAHAACAAJGILAOC") . PHP_EOL;
+# echo $totp->generateQRCode("employee_username1","ACAHAACAAJGILAOC") . PHP_EOL;
 # echo $totp->GenerateToken("XE7ZREYZTLXYK444", 1632741679) . PHP_EOL;
