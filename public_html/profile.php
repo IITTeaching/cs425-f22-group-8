@@ -59,14 +59,14 @@ $accounts = $user->getAccounts();
 			<th>Remaining Amount</th>
 			<th>APR</th>
 		</tr>
-		<!--<?php foreach($user->getLoans() as $loan) { ?>
+		<?php foreach($user->getLoans() as $loan) { ?>
 			<tr>
 				<td><?php echo $loan->getName(); ?></td>
 				<td>$<?php echo sprintf("%.2f", $loan->getInitialAmount()); ?></td>
 				<td>$<?php echo sprintf("%.2f", $loan->getAmountRemaining()); ?></td>
 				<td><?php echo $loan->getAPR(); ?>%</td>
 			</tr>
-		<?php }; ?>-->
+		<?php }; ?>
 	</table>
 	<nav class="floating-menu">
 		<?php if(!$db->isLoggedIn()): ?>

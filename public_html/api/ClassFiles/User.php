@@ -46,8 +46,10 @@ class User extends CS425Class
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
 		$accounts = array();
-		while($row = pg_fetch_array($result)){
-			$accounts[] = new Account($row["number"]);
+		if(pg_affected_rows($result) != 0){
+			while ($row = pg_fetch_array($result)) {
+				$accounts[] = new Account($row["number"]);
+			}
 		}
 		return $accounts;
 	}
@@ -61,8 +63,10 @@ class User extends CS425Class
 		$result = pg_query($this->connect, $sql);
 		$this->checkQueryResult($result);
 		$loans = array();
-		while($row = pg_fetch_array($result)){
-			$loans[] = new Loan($row["number"]);
+		if(pg_affected_rows($result) != 0){
+			while($row = pg_fetch_array($result)){
+				$loans[] = new Loan($row["number"]);
+			}
 		}
 		return $loans;
 	}
