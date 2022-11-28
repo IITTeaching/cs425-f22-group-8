@@ -19,7 +19,7 @@ require_once "api/constants.php";
     <label for="password">Password: </label>
     <input type="password" id="password" name="password" value="" autocomplete="current-password" required><br>
 
-    <label for="auth_code">Password: </label>
+    <label for="2FA Code">Password: </label>
     <input type="number" id="auth_code" name="auth_code" value=""><br>
 
     <input type="submit" name="submit" value="Login">
