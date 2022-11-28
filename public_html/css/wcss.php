@@ -2,7 +2,7 @@
 
 header('content-type:text/css; charset:UTF-8;');
 $background_color = "#171717ff";
-$basic_color = "#fdfdfdff";
+$basic_color = "#e6e6e4ff";
 $accent_color = "#449981ff";
 $nice_gray = "#1d272fff";
 ?>
@@ -47,15 +47,15 @@ table .profile_info {
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
 	width: 100%;
-	color: <?php echo $nice_gray ?>;
+	color: <?php echo $basic_color ?>;
 }
 
-td, th .profile_info {
+.profile_info td, th {
 	border: 1px solid <?php echo $accent_color ?>;
 	text-align: left;
 	padding: 8px;
 }
 
-tr:nth-child(even) .profile_info {
+.profile_info tr:nth-child(even) {
 	background-color: <?php echo $accent_color ?>;
 }
