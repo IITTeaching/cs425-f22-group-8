@@ -3,6 +3,8 @@
 header('content-type:text/css; charset:UTF-8;');
 $background_color = "#171717ff";
 $basic_color = "#fdfdfdff";
+$accent_color = "#449981ff";
+$nice_gray = "#1d272fff";
 ?>
 
 body {
@@ -10,27 +12,27 @@ body {
 }
 
 h1 {
-	color: <?php echo $basic_color ?>;
+	color: <?php echo $accent_color ?>;
 }
 
 h2 {
-	color: <?php echo $basic_color ?>;
+	color: <?php echo $accent_color ?>;
 }
 
 h3 {
-	color: <?php echo $basic_color ?>;
+	color: <?php echo $accent_color ?>;
 }
 
 h4 {
-	color: <?php echo $basic_color ?>;
+	color: <?php echo $accent_color ?>;
 }
 
 h5 {
-	color: <?php echo $basic_color ?>;
+	color: <?php echo $accent_color ?>;
 }
 
 h6 {
-	color: <?php echo $basic_color ?>;
+	color: <?php echo $accent_color ?>;
 }
 
 p {
@@ -39,4 +41,21 @@ p {
 
 label {
 	color: <?php echo $basic_color ?>;
+}
+
+table .profile_info {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	color: <?php echo $nice_gray ?>;
+}
+
+td, th .profile_info {
+	border: 1px solid <?php echo $accent_color ?>;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) .profile_info {
+	background-color: <?php echo $accent_color ?>;
 }

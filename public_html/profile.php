@@ -26,14 +26,14 @@ $accounts = $user->getAccounts();
 	<meta charset="UTF-8">
 	<title>WCS Banking</title>
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
-	<link href="/css/account_tables.css" type="text/css" rel="stylesheet"/>
+	<!--<link href="/css/account_tables.css" type="text/css" rel="stylesheet"/>-->
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 </head>
 <body>
 <div id="content">
 	<h2>My Accounts</h2>
-	<table>
+	<table class="profile_info">
 		<tr>
 			<th>Account Name</th>
 			<th>Balance</th>
@@ -54,7 +54,7 @@ $accounts = $user->getAccounts();
 		<?php }; ?>
 	</table>
 	<h2>My Loans</h2>
-	<table>
+	<table class="profile_info">
 		<tr>
 			<th>Loan Name</th>
 			<th>Initial Amount</th>

@@ -4,7 +4,7 @@ div.content {
 
 .floating-menu {
     font-family: sans-serif;
-    background: yellowgreen;
+    background: rgba(92,147,117,255);
     padding: 5px;;
     width: 130px;
     z-index: 100;
