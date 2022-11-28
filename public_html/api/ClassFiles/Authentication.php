@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 include_once "CS425Class.php";
 require_once(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
-require_once(dirname(__DIR__) . "constants.php");
+require_once(dirname(__DIR__) . "/constants.php");
 
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
