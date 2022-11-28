@@ -47,7 +47,7 @@ class CookieManager
 	}
 
 	private function createCookieValue($username): string{
-		$expires = time() + $this->expire_time;
+		$expires = time() + $this->expire_time; // TODO: If the user is an employee, set a random key, and when read, if the key is present, it will tell DataBase.php to look in Employee, else, a normal Customer.
 		return json_encode((object) array("username" => $username, "expires"=>$expires, "encryption"=>hash("sha256", sprintf("%s-%s", $username, $this->key))));
 	}
 

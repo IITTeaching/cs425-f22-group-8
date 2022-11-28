@@ -34,6 +34,14 @@ CREATE TABLE Employee(
 );
 
 
+CREATE TABLE EmployeeLogins(
+    id INT REFERENCES Employee(id) ON DELETE CASCADE PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    totp_secret TEXT NOT NULL
+);
+
+
 CREATE TABLE Customers(
     id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     name TEXT NOT NULL,

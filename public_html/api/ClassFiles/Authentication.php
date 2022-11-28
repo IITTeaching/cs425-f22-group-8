@@ -2,16 +2,26 @@
 
 #include_once "CS425Class.php";
 #require_once(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
+declare(strict_types=1);
 
-class Authentication #extends CS425Class
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+
+require_once (dirname(__DIR__, 2) . "/vendor/autoload.php");
+
+class Authentication# extends CS425Class
 {
 	protected string $charset;
+	#private string $db_cipher;
+
 	public function __construct()
 	{
 		#parent::__construct(new VerificationConfig());
 		$this->charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+		#$this->db_cipher = "";
 	}
 
+	# region Creating TOTP secret key
 	private function utf8_char_code_at($str, $index)
 	{
 		$char = mb_substr($str, $index, 1, 'UTF-8');
@@ -24,7 +34,7 @@ class Authentication #extends CS425Class
 	}
 
 	private function mapped($value){
-		$position = $this->utf8_char_code_at($this->charset, floor((mb_ord($value, "UTF-8")*strlen($charset))/256));
+		$position = $this->utf8_char_code_at($this->charset, floor((mb_ord($value, "UTF-8")*strlen($this->charset))/256));
 		return mb_chr($position);
 	}
 
@@ -34,6 +44,20 @@ class Authentication #extends CS425Class
 		return join("", $array);
 	}
 
+	public function generateQRCode($username, $key){
+		$data = sprintf("otpauth://totp/%s?secret=%s&issuer=WCS%%20Banking", $username, $key);
+		$options = new QROptions(
+			[
+				'eccLevel' => QRCode::ECC_L,
+				'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+				'version' => 5,
+			]
+		);
+		return (new QRCode($options))->render($data);  # TODO: Add logo (https://www.twilio.com/blog/create-qr-code-in-php)
+	}
+	# endregion
+
+	# region Generate TOTP
 	# region I will not lie, I took some of this from https://github.com/lfkeitel/php-totp/blob/master/src/Hotp.php and made it work.
 	public function GenerateToken($key, $time = null, $length = 6, $time_interval=30, $algo="sha1")
 	{
@@ -76,7 +100,7 @@ class Authentication #extends CS425Class
 		// store calculate decimal
 		$hmac_result = [];
 		echo $hash . PHP_EOL;
-		// Convert to decimal  # FIXME: The output will has the (stdin)= in front of it, remove this.
+		// Convert to decimal
 		foreach (str_split($hash, 2) as $hex) {
 			$hmac_result[] = hexdec($hex);
 		}
@@ -103,9 +127,26 @@ class Authentication #extends CS425Class
 		}
 		return $new_string;
 	}
+	# endregion
 
+	# region Encryption/Decryption
+	protected function encrypt($data, $cipher=null): string|false{
+		if (!in_array($cipher, openssl_get_cipher_methods()))
+		{
+			return false;
+		}
+		$ivlen = openssl_cipher_iv_length($cipher);
+		$iv = openssl_random_pseudo_bytes($ivlen);
+		return openssl_encrypt($data, $cipher, $key, $options=0, $iv, $tag);
+	}
+
+	protected function decrypt($data, $cipher=null): string|false{ # TODO: If there is time, encrypt all of the secret keys in the database.
+		return false;#return openssl_decrypt($ciphertext, $cipher, $key, $options=0, $iv, $tag);
+	}
+	# endregion
 }
 
 $totp = new Authentication();
 echo $totp->GenerateToken("ACAHAACAAJGILAOC") . PHP_EOL;
+echo $totp->generateQRCode("employee_username1","ACAHAACAAJGILAOC") . PHP_EOL;
 # echo $totp->GenerateToken("XE7ZREYZTLXYK444", 1632741679) . PHP_EOL;

@@ -9,6 +9,7 @@ require_once "CookieManager.php";
 require_once "User.php";
 require_once "Verifications.php";
 require_once "CS425Class.php";
+require_once "Authentication.php";
 require_once (dirname(__DIR__) . "/constants.php");
 
 class DataBase extends CS425Class
@@ -56,7 +57,7 @@ class DataBase extends CS425Class
 	{
 		$defaultErrorMessage = "Incorrect username/password.";
 		if(!$this->cookieManager->isValidCookie()){
-			$username = $this->prepareData($username);
+			$username = $this->prepareData($username);  # TODO: Look into moving prepareData for username and password to beginning of method (before if)
 			$password = $this->prepareData($password);
 			$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
 			$result = pg_query($this->connect, $sql);
@@ -68,7 +69,11 @@ class DataBase extends CS425Class
 			if ($affected_rows == 0) {
 				$pg_error = pg_last_error();
 				if(strlen($pg_error) == 0){
-					$pg_error = $defaultErrorMessage;
+					if(!$this->employeeLogin($username, $password)){
+						$pg_error = $defaultErrorMessage;
+					} else{
+						return "Employee Logged In Successfully";
+					}
 				}
 				throw new PGException($pg_error);
 			}
@@ -91,7 +96,7 @@ class DataBase extends CS425Class
 			$row = pg_fetch_assoc($result);
 			if (pg_affected_rows($result) == 0){
 				throw new PGException(pg_last_error());
-			}
+			}  # TODO: Implement cookies for employees
 		}
 
 		$user_id = $row["id"];
@@ -112,6 +117,29 @@ class DataBase extends CS425Class
 
 		$this->cookieManager->createCookie($username);
 		return "Logged In Successfully";
+	}
+
+	function employeeLogin($username, $password): string|false{
+		$username = $this->prepareData($username);
+		$password = $this->prepareData($password);
+		$result = pg_query($this->connect, sprintf("SELECT username, password, totp_secret FROM EmployeeLogins WHERE username = %s", $username));
+		$affected_rows = pg_affected_rows($result);
+		if($affected_rows != 0){
+			return false;
+		}
+		$row = pg_fetch_assoc($result, 0, 0);
+		if (!($row["username"] == $username && password_verify($password, $row["password"]))) {
+			throw new InvalidArgumentException("Invalid username or password.");
+		}
+		# TODO: Do a page redirect to get TOTP?
+		$auth = new Authentication();
+		$totp = $auth->GenerateToken($row["totp_secret"]); // TODO: Have the system check the OTP before and after, to account for time delays
+		if($totp != "GIVEN FROM EMPLOYEE"){
+			header("Response: Incorrect 2FA");
+			return false;
+		}
+		$this->cookieManager->createCookie($username);
+		return "Employee Logged In";
 	}
 
 	/**
