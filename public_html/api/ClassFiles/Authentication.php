@@ -74,7 +74,7 @@ class Authentication# extends CS425Class
 		}
 
 		// Calculate the count
-		$count = floor($time / $time_interval);
+		$count = (int)floor($time / $time_interval);
 		$convert = $this->convertFromSecret($key);
 
 		// Generate a normal HOTP token

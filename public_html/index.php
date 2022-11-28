@@ -5,9 +5,7 @@ require_once "api/constants.php";
 
 try{
 	$db = new DataBase();
-	echo "1".PHP_EOL;
 	$user = $db->getCurrentUserId();
-	echo "2".PHP_EOL;
 } catch(PGException $exception){
 	http_response_code(500);
 	header("Response: There was an internal database error, try again later. If this problem persists, contact the system administrator.");
