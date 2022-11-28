@@ -27,6 +27,7 @@ $accounts = $user->getAccounts();
 	<title>WCS Banking</title>
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/account_tables.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 </head>
 <body>

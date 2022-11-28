@@ -30,6 +30,7 @@ while($row = pg_fetch_array($result)){
 	<meta charset="UTF-8">
 	<title>WCS Account Signup</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
+	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 

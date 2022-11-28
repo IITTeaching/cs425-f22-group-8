@@ -8,6 +8,7 @@ require_once "api/constants.php";
     <meta charset="UTF-8">
     <title>CS425 Test login</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
+	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 
