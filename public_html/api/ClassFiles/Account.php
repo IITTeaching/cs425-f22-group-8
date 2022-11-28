@@ -1,13 +1,13 @@
 <?php
 
-require_once "User.php"; // # FIXME: Beware, this may cause circular dependency errors
+require_once "User.php";
 require_once "CS425Class.php";
 require_once (dirname(__DIR__) . "/ConfigFiles/ProfileConfig.php");
 require_once (dirname(__DIR__) . "/tools.php");
 
 class Account extends CS425Class
 {
-	private int $account_number;  // # TODO: Make this const
+	private readonly int $account_number;
 
 	public function __construct($account_number){
 		parent::__construct(new ProfileConfig());

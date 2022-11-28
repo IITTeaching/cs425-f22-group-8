@@ -10,6 +10,7 @@ RedirectMatch 404 /\..*$
 # Hide php files that don't directly interact with users
 RedirectMatch 404 ClassFiles/*\.php$
 RedirectMatch 404 ConfigFiles/*\.php$
+RedirectMatch 404 Exceptions/?
 
 RedirectMatch 404 DataBaseConfig\.php$
 RedirectMatch 404 PGException\.php$

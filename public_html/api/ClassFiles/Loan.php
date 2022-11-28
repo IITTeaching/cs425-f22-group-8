@@ -17,7 +17,7 @@ class Loan extends CS425Class
 	public function getLoanNumber(){ return $this->loan_number; }
 
 	public function getName(){
-		return $this->getBasicResult(sprintf("SELECT name FROM LoanApprovals WHERE loan_number = %d", $this->loan_number));
+		return $this->getBasicResult(sprintf("SELECT loan_name FROM LoanApprovals WHERE loan_number = %d", $this->loan_number));
 	}
 
 	public function getInitialAmount(){

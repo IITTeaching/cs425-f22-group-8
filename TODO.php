@@ -1,7 +1,5 @@
 <?php
 # TODO: Add 2FA key column to the Login Table
-# TODO: Create generator for new keys
-# TODO: Find a way for PHP to create a TOTP
 
 # TODO: For loans, requests can go in, and should be saved in a LoanRequest table, and loan shark employees would have to accept them.
 

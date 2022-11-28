@@ -9,9 +9,18 @@ class CS425Class
 	/**
 	 * @throws PGException
 	 */
-	public function __construct(Config $config)
+	public function __construct(Config|false $config)
 	{
-		$this->dbConnect($config);
+		if(!$config){
+
+		}
+		else{
+			$this->dbConnect($config);
+		}
+	}
+
+	public function __destruct(){
+		pg_close($this->connect);
 	}
 
 	/**

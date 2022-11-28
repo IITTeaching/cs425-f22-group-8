@@ -1,27 +1,38 @@
 <?php
 
-#include_once "CS425Class.php";
-#require_once(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
 declare(strict_types=1);
+
+include_once "CS425Class.php";
+require_once(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
+require_once(dirname(__DIR__) . "constants.php");
 
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 
 require_once (dirname(__DIR__, 2) . "/vendor/autoload.php");
 
-class Authentication# extends CS425Class
+class Authentication extends CS425Class
 {
 	protected string $charset;
 	#private string $db_cipher;
 
 	public function __construct()
 	{
-		#parent::__construct(new VerificationConfig());
+		parent::__construct(new VerificationConfig());
 		$this->charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 		#$this->db_cipher = "";
 	}
 
 	# region Creating TOTP secret key
+	public function checkTOTP(string $username, int $authcode, bool $isEmployee) : bool
+	{
+		$username = $this->prepareData($username);
+		$table_name = $isEmployee ? "EmployeeLogins" : "Logins";
+		$key = $this->getBasicResult(sprintf("SELECT totp_secret FROM %s WHERE username = '%s'", $table_name, $username));
+		$totps = $this->GenerateCloseTokens($key);
+		return in_array($authcode, $totps);
+	}
+
 	private function utf8_char_code_at($str, $index)
 	{
 		$char = mb_substr($str, $index, 1, 'UTF-8');
@@ -44,8 +55,9 @@ class Authentication# extends CS425Class
 		return join("", $array);
 	}
 
-	public function generateQRCode($username, $key){
-		$data = sprintf("otpauth://totp/%s?secret=%s&issuer=WCS%%20Banking", $username, $key);
+	public function generateQRCode($username, $key, $length=6, $period=30){
+		$data = sprintf("otpauth://totp/%s?secret=%s&issuer=WCS%%20Banking&digits=%d&period=%d",
+			$username, $key, $length, $period);
 		$options = new QROptions(
 			[
 				'eccLevel' => QRCode::ECC_L,
@@ -53,13 +65,24 @@ class Authentication# extends CS425Class
 				'version' => 5,
 			]
 		);
+		# http://www1.auth.iij.jp/smartkey/en/uri_v1.html
 		return (new QRCode($options))->render($data);  # TODO: Add logo (https://www.twilio.com/blog/create-qr-code-in-php)
 	}
 	# endregion
 
 	# region Generate TOTP
 	# region I will not lie, I took some of this from https://github.com/lfkeitel/php-totp/blob/master/src/Hotp.php and made it work.
-	public function GenerateToken($key, $time = null, $length = 6, $time_interval=30, $algo="sha1")
+	/**
+	 * Generates a Time based One Time Password (TOTP).
+	 *
+	 * @param string $key The secret key.
+	 * @param float|int|null $time The time the code should be generated.
+	 * @param int $length The length of the code. Usually 6 or 8.
+	 * @param int $time_interval The length in between code generation.
+	 * @param string $algo The algorithm being used. Default is sha1.
+	 * @return string
+	 */
+	public function GenerateToken($key, $time = null, $length = 6, $time_interval=30, $algo="sha1") : string
 	{
 		// Pad the key if necessary
 		if ($algo === 'sha256') {
@@ -71,6 +94,9 @@ class Authentication# extends CS425Class
 		// Get the current unix timestamp if one isn't given
 		if (is_null($time)) {
 			$time = time();
+		}
+		elseif($time < 0){
+			$time = time() + $time;
 		}
 
 		// Calculate the count
@@ -125,6 +151,28 @@ class Authentication# extends CS425Class
 		}
 		return $new_string;
 	}
+
+	/**
+	 * Generates several OTPs around a given time.
+	 *
+	 * @param string $key The secret key.
+	 * @param float|int|null $time The time the code should be generated.
+	 * @param int $length The length of the code. Usually 6 or 8.
+	 * @param int $time_interval The length in between code generation.
+	 * @param string $algo The algorithm being used. Default is sha1.
+	 * @param int $before The number of codes before this time to be generated. (Should be positive, inclusive).
+	 * @param int $after The number of codes after this time to be generated. (Should be positive, inclusive).
+	 * @return array
+	 */
+	public function GenerateCloseTokens(string $key, float|int $time = null, int $length = 6, int $time_interval=30,
+										string $algo="sha1", int $before=1, int $after=1): array
+	{
+		$otps = array();
+		for($i=-$before; $i<=$after; $i++){
+			$otps[] = $this->GenerateToken($key, $time + ($time_interval * $i), $length, $time_interval, $algo);
+		}
+		return $otps;
+	}
 	# endregion
 
 	# region Encryption/Decryption
@@ -144,7 +192,7 @@ class Authentication# extends CS425Class
 	# endregion
 }
 
-# $totp = new Authentication();
+#$totp = new Authentication();
 # echo $totp->GenerateToken("ACAHAACAAJGILAOC") . PHP_EOL;
-# echo $totp->generateQRCode("employee_username1","ACAHAACAAJGILAOC") . PHP_EOL;
+#echo $totp->generateQRCode("employee_username1","ACAHAACAAJGILAOC") . PHP_EOL;
 # echo $totp->GenerateToken("XE7ZREYZTLXYK444", 1632741679) . PHP_EOL;

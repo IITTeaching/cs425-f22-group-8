@@ -17,8 +17,10 @@ try{
 	return;
 }
 
+$auth_code = $_POST["auth_code"] ?? "";
+
 try{
-	$result = $db->logIn($_POST['username'], $_POST['password']);
+	$result = $db->logIn($_POST['username'], $_POST['password'], $auth_code);
 } catch(PGException $pgException){
 	http_response_code(500);
 	header("Response: " . $pgException->getMessage());
