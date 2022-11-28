@@ -14,5 +14,6 @@ CREATE ROLE profilebot WITH PASSWORD '1900eab6c028483d7126599ee6f50de0d27907b5c6
 GRANT SELECT, UPDATE ON TABLE Customers TO profilebot;
 GRANT SELECT, UPDATE ON TABLE Account TO profilebot;
 GRANT SELECT ON TABLE AuthorizedUsers TO profilebot;
+GRANT SELECT ON TABLE LoanApprovals TO profilebot;
 GRANT CONNECT ON DATABASE cs425 TO profilebot;
 -- GRANT SELECT, UPDATE ON TABLE Logins TO profilebot;  # TODO: If there is time, add the ability to let users change their email and password

@@ -17,6 +17,7 @@ if(!$db->isLoggedIn()){
 }
 
 $accounts = $user->getAccounts();
+$loans = $user->getLoans();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,14 +25,13 @@ $accounts = $user->getAccounts();
 	<meta charset="UTF-8">
 	<title>WCS Banking</title>
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
-	<!--<link href="/css/account_tables.css" type="text/css" rel="stylesheet"/>-->
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 </head>
 <body>
 <div id="content">
 	<h2>My Accounts</h2>
-	<table class="profile_info">
+	<table id="accounts" class="profile_info">
 		<tr>
 			<th>Account Name</th>
 			<th>Balance</th>
@@ -40,7 +40,7 @@ $accounts = $user->getAccounts();
 			<th>Monthly Fee</th>
 			<th>Can Go Negative</th>
 		</tr>
-		<?php foreach($user->getAccounts() as $account) { ?>
+		<?php if(is_array($accounts)) {foreach($accounts as $account) { ?>
 			<tr>
 				<td><?php echo $account->getName(); ?></td>
 				<td>$<?php echo sprintf("%.2f", $account->getBalance()); ?></td>
@@ -49,24 +49,24 @@ $accounts = $user->getAccounts();
 				<td>$<?php echo sprintf("%.2f", $account->getMonthlyFee()); ?></td>
 				<td><?php if($account->canGoNegative()) { echo "True"; } else{ echo "False";} ?></td>
 			</tr>
-		<?php }; ?>
+		<?php }}; ?>
 	</table>
 	<h2>My Loans</h2>
-	<table class="profile_info">
+	<table id="loans" class="profile_info">
 		<tr>
 			<th>Loan Name</th>
 			<th>Initial Amount</th>
 			<th>Remaining Amount</th>
 			<th>APR</th>
 		</tr>
-		<?php foreach($user->getLoans() as $loan) { ?>
+		<?php if(is_array($loans)){ foreach($loans as $loan) { ?>
 			<tr>
 				<td><?php echo $loan->getName(); ?></td>
-				<td>$<?php echo sprintf("%.2f", $loan->getInitialAmount()); ?></td>
+				<td>$<?php echo sprintf("%.2f", $loan->getInitialAmount()); ?></td> <!-- TODO: Make these right aligned on the period -->
 				<td>$<?php echo sprintf("%.2f", $loan->getAmountRemaining()); ?></td>
 				<td><?php echo $loan->getAPR(); ?>%</td>
 			</tr>
-		<?php }; ?>
+		<?php }}; ?>
 	</table>
 	<nav class="floating-menu">
 		<?php if(!$db->isLoggedIn()): ?>

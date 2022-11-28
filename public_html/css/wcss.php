@@ -47,13 +47,13 @@ table .profile_info {
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
 	width: 100%;
-	color: <?php echo $basic_color ?>;
 }
 
 .profile_info td, th {
 	border: 1px solid <?php echo $accent_color ?>;
 	text-align: left;
 	padding: 8px;
+	color: <?php echo $basic_color ?>;
 }
 
 .profile_info tr:nth-child(even) {
