@@ -71,7 +71,7 @@ while($row = pg_fetch_array($result)){
 			return false;
 		}
 
-		let number_regex = /(\d{3})-?(\d{3})-?(\d{4})/;  // TODO: If possible, auto add the dashes.
+		let number_regex = /.*\d.*/;  // TODO: If possible, auto add the dashes.
 		if(!number_regex.test(password)){
 			//alert("Your password must have at least one number in it.");
 			return false;
