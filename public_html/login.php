@@ -46,7 +46,7 @@ require_once "api/constants.php";
     <input type="number" id="auth_code" name="auth_code" value=""><br>
 
 	<div class="wrap">
-		<input type="submit" id="submit" name="submit" value="Login">
+		<button type="submit" value="LOGIN" name="submit" id="submit" form="form"></button>
 	</div>
 </form>
 
