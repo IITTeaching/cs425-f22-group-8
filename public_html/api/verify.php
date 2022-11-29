@@ -5,7 +5,7 @@ require_once "constants.php";
 
 if(!(isset($_GET["email"]) && isset($_GET["code"]))){
 	http_response_code(400);
-	header("Response: The given link was malformed");
+	header("Response: The given link was malformed.");
 	return;
 }
 

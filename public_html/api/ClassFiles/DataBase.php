@@ -61,46 +61,44 @@ class DataBase extends CS425Class
 		$password = $this->prepareData($password);
 		$authcode = $this->prepareData($authcode);
 		$defaultErrorMessage = "Incorrect username/password.";
-		if(!$this->cookieManager->isValidCookie()){
-			$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
-			$result = pg_query($this->connect, $sql);
-
-			$this->checkQueryResult($result, $defaultErrorMessage);
-
-			$row = pg_fetch_assoc($result);
-			$affected_rows = pg_affected_rows($result);
-			if ($affected_rows == 0) {
-				$pg_error = pg_last_error();
-				if(strlen($pg_error) == 0){
-					if(!$this->employeeLogin($username, $password, $authcode)){
-						$pg_error = $defaultErrorMessage;
-					} else{
-						return "Employee Logged In Successfully";
-					}
-				}
-				throw new PGException($pg_error);
-			}
-
-			if ($affected_rows > 1){ // Look into blocking this IP
-				throw new InvalidArgumentException("Don't even try to inject this.");
-			}
-
-			$dbusername = $row['username'];
-			$dbpassword = $row['password'];
-
-			if (!($dbusername == $username && password_verify($password, $dbpassword))) {
-				throw new InvalidArgumentException($defaultErrorMessage);
-			}
-		} else{
-			$sql = sprintf("SELECT * FROM Logins WHERE username = '%s'", $username);
+		# region Checks if there is a valid cookie
+		if($this->cookieManager->isValidCookie()) {
+			$sql = sprintf("SELECT * FROM %s WHERE username = '%s'",
+				($this->cookieManager->isEmployee()) ? "EmployeeLogins" : "Logins",
+				$username);
 			$result = pg_query($this->connect, $sql);
 			$this->checkQueryResult($result);
 
-			$row = pg_fetch_assoc($result);
-			if (pg_affected_rows($result) == 0){
-				throw new PGException(pg_last_error());
-			}  # TODO: Implement cookies for employees
+			if (pg_affected_rows($result) != 0) {
+				return "Logged In Successfully";
+			}
+			throw new PGException(pg_last_error()); // TODO: Consider using the provided information in case the cookie is invalid.
 		}
+		# endregion
+		# region If there is no cookie, checks the (Customer) login table to try and log the person in
+		$result = pg_query($this->connect, sprintf("SELECT * FROM Logins WHERE username = '%s'", $username));
+
+		$this->checkQueryResult($result, $defaultErrorMessage);
+
+		$affected_rows = pg_affected_rows($result);
+		if ($affected_rows == 0) { // If there weren't any affected rows, then the system checks to see if the user is an employee;
+			$pg_error = pg_last_error();
+			if(strlen($pg_error) == 0){
+				if(!$this->employeeLogin($username, $password, $authcode)){
+					$pg_error = $defaultErrorMessage;
+				} else{
+					return "Employee Logged In Successfully";
+				}
+			}
+			throw new PGException($pg_error);
+		}
+
+		if ($affected_rows > 1){ // Look into blocking this IP
+			throw new InvalidArgumentException("Don't even try to inject this.");
+		}
+		# endregion
+		# region Checks first if the user has an authenticated email.
+		$row = pg_fetch_assoc($result);
 
 		$user_id = $row["id"];
 		$sql = sprintf("SELECT authenticated_email FROM Customers WHERE id = %s", $user_id);
@@ -112,11 +110,28 @@ class DataBase extends CS425Class
 			header("Response: You do not have an account with us, please create one at " . HTTPS_HOST . "/signup.");
 			return false;
 		}
-		$row = convert_to_bool(pg_fetch_result($result, 0, 0));
-		if(!$row){
+
+		if(!convert_to_bool(pg_fetch_result($result, 0, 0))){
 			header("Response: You must verify your email before you log in.");
 			return false;
 		}
+		# endregion
+		# Checks the username and password
+		$dbusername = $row['username'];
+		$dbpassword = $row['password'];
+
+		if (!($dbusername == $username && password_verify($password, $dbpassword))) {
+			throw new InvalidArgumentException($defaultErrorMessage);
+		}
+		# endregion
+		# region If the user has 2FA enabled, checks the codes
+		$totp = $row["totp_secret"];
+		if(!is_null($totp)){
+			if(!in_array($totp, $this->authenticator->GenerateCloseTokens($totp))){
+				throw new InvalidArgumentException("Response: Invalid 2FA code");
+			}
+		}
+		# endregion
 
 		$this->cookieManager->createCookie($username);
 		return "Logged In Successfully";
@@ -131,7 +146,7 @@ class DataBase extends CS425Class
 		if($affected_rows != 0){
 			return false;
 		}
-		$row = pg_fetch_assoc($result, 0, 0);
+		$row = pg_fetch_assoc($result, 0);
 		if (!($row["username"] == $username && password_verify($password, $row["password"]))) {
 			throw new InvalidArgumentException("Invalid username or password.");
 		}

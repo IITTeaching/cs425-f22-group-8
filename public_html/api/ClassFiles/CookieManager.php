@@ -2,13 +2,15 @@
 
 class CookieManager
 {
-	private string $cookieName;
-	private int $expire_time;
+	private string $cookieName, $key;
+	private int $expire_time, $employee_expire_time;
 
 	public function __construct()
 	{
 		$this->cookieName = "authCookie";
 		$this->expire_time = 3600;
+		$this->employee_expire_time = 43200;
+		$this->key = " Somekey";
 	}
 
 	function createCookie($username): void
@@ -31,9 +33,15 @@ class CookieManager
 		return true;
 	}
 
+	public function isEmployee(): bool{
+		return $this->getCookieData()["isEmployee"];
+	}
+
 	private function getCookieData(): array|bool{
 		if(!isset($_COOKIE[$this->cookieName])){ return false; }
-		return json_decode($_COOKIE[$this->cookieName], true);
+		$data = json_decode($_COOKIE[$this->cookieName], true);
+		$data["isEmployee"] = isset($data["usage"]);
+		return $data;
 	}
 
 	function getCookieUsername(): string|bool{
@@ -46,9 +54,15 @@ class CookieManager
 		return $this->expire_time;
 	}
 
-	private function createCookieValue($username): string{
-		$expires = time() + $this->expire_time; // TODO: If the user is an employee, set a random key, and when read, if the key is present, it will tell DataBase.php to look in Employee, else, a normal Customer.
-		return json_encode((object) array("username" => $username, "expires"=>$expires, "encryption"=>hash("sha256", sprintf("%s-%s", $username, $this->key))));
+	private function createCookieValue($username, $isEmployee=true): string{
+		$expires = time() + ($isEmployee) ? $this->employee_expire_time : $this->expire_time;
+		$data = array("username" => $username,
+			"expires"=>$expires,
+			"encryption"=>hash("sha256", sprintf("%s-%s", $username, $this->key)));
+		if($isEmployee){
+			$data["usage"] = "86";
+		}
+		return json_encode((object) $data);
 	}
 
 	public function deleteCookie(): void

@@ -14,8 +14,6 @@ CREATE TABLE Addresses(
     unitNumber TEXT DEFAULT NULL
 );
 
-SELECT * FROM Logins;
-
 CREATE TABLE Branch(
     id SERIAL PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
@@ -68,9 +66,11 @@ CREATE TABLE Account(
 CREATE TABLE Logins(
     id INT REFERENCES Customers(id) ON DELETE CASCADE PRIMARY KEY ,
     username TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    totp_secret TEXT DEFAULT NULL
 );
 
+select * FROM Logins;
 
 CREATE TABLE AuthorizedUsers(
     account_number INT REFERENCES Account(number) ON DELETE CASCADE,
