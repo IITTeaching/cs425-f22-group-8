@@ -54,44 +54,44 @@ while($row = pg_fetch_array($result)){
 		}
 
 		if(password.length < 8){
-			//alert("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
+			console.log("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
 			return false;
 		}
 
 		let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		if(!email_regex.test(email.toLowerCase())){
-			//alert("Your email must be valid.");
+			console.log("Your email must be valid.");
 			return false;
 		}
 
-		let password_number_regex = /(\d{3})-?(\d{3})-?(\d{4})/;
+		let password_number_regex = /\(?(\d{3})\)?-?(\d{3})-?(\d{4})/;
 		if(!password_number_regex.test(phoneNumber)){
-			//alert("Please enter a valid phone number.");
+			console.log("Please enter a valid phone number.");
 			return false;
 		}
 
 		let number_regex = /.*\d.*/;  // TODO: If possible, auto add the dashes.
 		if(!number_regex.test(password)){
-			//alert("Your password must have at least one number in it.");
+			console.log("Your password must have at least one number in it.");
 			return false;
 		}
 
 		let upper_regex = /.*[A-Z].*/;
 		if(!upper_regex.test(password)){
-			//alert("Your password must have at least one upper case letter.");
+			console.log("Your password must have at least one upper case letter.");
 			return false;
 		}
 
 		let lower_regex = /.*[a-z].*/;
 		if(!lower_regex.test(password)){
-			//alert("Your password must have at least one lower case letter.");
+			console.log("Your password must have at least one lower case letter.");
 			return false;
 		}
 
 		let symbol_regex = /.*[!#$@%()^&;:-].*/;
 		if(!symbol_regex.test(password)){
-			//alert("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
+			console.log("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
 			return false;
 		}
 
@@ -123,7 +123,7 @@ while($row = pg_fetch_array($result)){
 	<input type="email" id="email" name="email" value="" onblur="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
 
 	<label for="phone">Telephone Number:</label>
-	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\([0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
+	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 
 	<label for="address_number">Address: </label>
 	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
