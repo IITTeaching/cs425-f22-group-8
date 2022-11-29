@@ -6,7 +6,6 @@ $basic_color = "#e6e6e4ff";
 $accent_color = "#449981ff";
 $nice_gray = "#1d272fff";
 ?>
-
 body {
 	background-color: <?php echo $background_color ?>;
 }

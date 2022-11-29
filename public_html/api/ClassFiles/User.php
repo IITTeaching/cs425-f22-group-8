@@ -1,7 +1,7 @@
 <?php
 
 require_once "CS425Class.php";
-require_once (dirname(__DIR__) . "/ConfigFiles/UserConfig.php");
+require_once (dirname(__DIR__) . "/ConfigFiles/ProfileConfig.php");
 require_once "Account.php";
 require_once "Loan.php";
 
@@ -13,7 +13,7 @@ class User extends CS425Class
 	 * @throws PGException
 	 */
 	public function __construct($id){
-		parent::__construct(new UserConfig());
+		parent::__construct(new ProfileConfig());
 		$this->id = $id;
 	}
 
