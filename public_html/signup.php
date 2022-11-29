@@ -43,7 +43,7 @@ while($row = pg_fetch_array($result)){
 		let email = form["email"].value;
 		let username = form["username"].value;
 		let name = form["fullname"].value;
-		let phoneNumber = form["fullname"].value;
+		let phoneNumber = form["phone"].value;
 
 		if(username.length === 0){
 			return false;
