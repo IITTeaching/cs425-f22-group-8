@@ -53,7 +53,7 @@ while($row = pg_fetch_array($result)){
 		}
 
 		if(password.length < 8){
-			//alert("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the required box
+			//alert("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box
 			return false;
 		}
 
@@ -64,7 +64,7 @@ while($row = pg_fetch_array($result)){
 			return false;
 		}
 
-		let number_regex = /.*\d.*/;
+		let number_regex = /(\d{3})-(\d{3})-(\d{4})/;
 		if(!number_regex.test(password)){
 			//alert("Your password must have at least one number in it.");
 			return false;
@@ -88,6 +88,8 @@ while($row = pg_fetch_array($result)){
 			return false;
 		}
 
+		// TODO: Add checks for locations to make sure they aren't blank.
+
 		return true;
 	}
 
@@ -102,22 +104,22 @@ while($row = pg_fetch_array($result)){
 
 <form name="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
-	<input type="text" id="username" name="username" value="" required autocomplete="username"><br>
+	<input type="text" id="username" name="username" value="" onblur="checkInfo()" required autocomplete="username"><br>
 
 	<label for="password">Password: </label>
-	<input type="password" id="password" name="password" value="" required autocomplete="new-password" minlength="8"><br>
+	<input type="password" id="password" name="password" value="" onblur="checkInfo()" required autocomplete="new-password" minlength="8"><br>
 
 	<label for="fullname">Fullname: </label>
-	<input type="text" id="fullname" name="fullname" value="" required autocomplete="name"><br>
+	<input type="text" id="fullname" name="fullname" value="" onblur="checkInfo()" required autocomplete="name"><br>
 
 	<label for="email">Email: </label>
-	<input type="email" id="email" name="email" value="" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
+	<input type="email" id="email" name="email" value="" onblur="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
 
 	<label for="phone">Telephone Number:</label>
-	<input name="phone" id="phone" value="" type="tel" required autocomplete="tel" pattern="\([0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
+	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\([0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 
 	<label for="address_number">Address: </label>
-	<input type="number" id="address_number" name="address_number" placeholder="3301" required>
+	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
 
 	<select name="direction" id="direction">
 		<option value="None"></option>
@@ -126,20 +128,20 @@ while($row = pg_fetch_array($result)){
 		<option value="S">South</option>
 		<option value="W">West</option>
 	</select>
-	<input type="text" name="streetname" id="streetname" placeholder="Streetname" required>,
-	<input type="text" name="city" id="city" placeholder="City" required>,
-	<input type="text" name="state" id="state" placeholder="State Abbreviation" required maxlength="2">,
-	<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" required min="10000" max="99999" autocomplete="postal-code"><br>
+	<input type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>,
+	<input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>,
+	<input type="text" name="state" id="state" placeholder="State Abbreviation" onblur="checkInfo()" required maxlength="2">,
+	<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
 	<label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
-	<label for="branch">Your favorite (or closest) branch: </label><select name="branch" id="branch" required>
+	<label for="branch">Your favorite (or closest) branch: </label><select name="branch" id="branch" onblur="checkInfo()" required>
 		<?php foreach($dct as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>
 		<?php } ?>
 	</select><br>
 
 	<div class="" id="submit_wrapper">
-		<button type="submit" name="submit" id="submit" form="signup_form">Sign Up!</button>
+		<button type="submit" name="submit" id="submit" form="signup_form" hidden>Sign Up!</button>
 	</div>
 </form>
 
