@@ -24,7 +24,7 @@ require_once "api/constants.php";
 	</script>
 </head>
 <body>
-<form name="form" action="/api/login" method="POST">
+<form name="form" id="form" action="/api/login" method="POST">
     <label for="username">Username: </label>
     <input type="text" id="username" name="username" value="" autocomplete="username" onblur="checkInfo()" required><br>
 

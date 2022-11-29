@@ -109,7 +109,7 @@ while($row = pg_fetch_array($result)){
 	}
 </script>
 
-<form name="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
+<form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
 	<input type="text" id="username" name="username" value="" onblur="checkInfo()" required autocomplete="username"><br>
 
