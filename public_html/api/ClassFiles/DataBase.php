@@ -178,8 +178,6 @@ class DataBase extends CS425Class
 		$result = pg_query($this->connect, sprintf("INSERT INTO Logins VALUES (%s,'%s','%s')", $user_id, $username, $password));
 		$this->checkQueryResult($result);
 
-		$this->cookieManager->createCookie($username);
-
 		$verification = new Verifications();
 		$verification->send_verification_email($email, $fullname);
 		return true;

@@ -9,3 +9,5 @@
 
 # TODO: Check if the verification email link has been used with an hour, if not, generate a new one and send it.
 # TODO: Let JS see the "Response" header and display it as an alert
+
+# FIXME: Add redirect for email verification

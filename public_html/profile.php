@@ -38,7 +38,7 @@ $loans = $user->getLoans();
 			<th>Type</th>
 			<th>Interest</th>
 			<th>Monthly Fee</th>
-			<th>Can Go Negative</th>
+			<th>Can Be Overdrawn</th>
 		</tr>
 		<?php if(is_array($accounts)) {foreach($accounts as $account) { ?>
 			<tr>
