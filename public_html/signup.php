@@ -43,6 +43,7 @@ while($row = pg_fetch_array($result)){
 		let email = form["email"].value;
 		let username = form["username"].value;
 		let name = form["fullname"].value;
+		let phoneNumber = form["fullname"].value;
 
 		if(username.length === 0){
 			return false;
@@ -53,7 +54,7 @@ while($row = pg_fetch_array($result)){
 		}
 
 		if(password.length < 8){
-			//alert("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box
+			//alert("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
 			return false;
 		}
 
@@ -64,7 +65,13 @@ while($row = pg_fetch_array($result)){
 			return false;
 		}
 
-		let number_regex = /(\d{3})-(\d{3})-(\d{4})/;
+		let password_number_regex = /(\d{3})-?(\d{3})-?(\d{4})/;
+		if(!password_number_regex.test(phoneNumber)){
+			//alert("Please enter a valid phone number.");
+			return false;
+		}
+
+		let number_regex = /(\d{3})-?(\d{3})-?(\d{4})/;  // TODO: If possible, auto add the dashes.
 		if(!number_regex.test(password)){
 			//alert("Your password must have at least one number in it.");
 			return false;
