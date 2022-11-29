@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+}
+
 .wrap {
     height: 100%;
     display: flex;
@@ -26,7 +30,7 @@
     padding: 10px;
 }
 
-.ring-button::before {
+button::before {
     content: '';
     border-radius: 1000px;
     min-width: calc(300px + 12px);
@@ -46,11 +50,11 @@
     transform: translateY(-6px);
 }
 
-.ring-button:hover::before, .ring-button:focus::before {
+button:hover::before, button:focus::before {
     opacity: 1;
 }
 
-.ring-button::after {
+button::after {
     content: '';
     width: 30px; height: 30px;
     border-radius: 100%;
@@ -63,7 +67,7 @@
     animation: ring 1.5s infinite;
 }
 
-.ring-button:hover::after, .ring-button:focus::after {
+button:hover::after, button:focus::after {
     animation: none;
     display: none;
 }

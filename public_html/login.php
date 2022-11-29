@@ -18,7 +18,7 @@ require_once "api/constants.php";
 
 		function missingInfo(){
 			let submit = document.getElementById("submit");
-			submit.className = "ring-button";
+			submit.className = "";
 			submit.disabled = true;
 		}
 
