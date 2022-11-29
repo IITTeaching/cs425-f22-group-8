@@ -31,52 +31,72 @@ while($row = pg_fetch_array($result)){
 	<title>WCS Account Signup</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
+	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
+	<script type="text/javascript" src="/scripts/buttons.js"></script>
 </head>
 <body>
 
-<script>
+<script type="text/javascript">
 	function validate(){
 		let form = document.forms["signup_form"];
 		let password = form["password"].value;
 		let email = form["email"].value;
+		let username = form["username"].value;
+		let name = form["fullname"].value;
+
+		if(username.length === 0){
+			return false;
+		}
+
+		if(name.length === 0){
+			return false;
+		}
 
 		if(password.length < 8){
-			alert("Your password must be at least 8 characters long.");
+			//alert("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the required box
 			return false;
 		}
 
 		let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		if(!email_regex.test(email.toLowerCase())){
-			alert("Your email must be valid.");
+			//alert("Your email must be valid.");
 			return false;
 		}
 
 		let number_regex = /.*\d.*/;
 		if(!number_regex.test(password)){
-			alert("Your password must have at least one number in it.");
+			//alert("Your password must have at least one number in it.");
 			return false;
 		}
 
 		let upper_regex = /.*[A-Z].*/;
 		if(!upper_regex.test(password)){
-			alert("Your password must have at least one upper case letter.");
+			//alert("Your password must have at least one upper case letter.");
 			return false;
 		}
 
 		let lower_regex = /.*[a-z].*/;
 		if(!lower_regex.test(password)){
-			alert("Your password must have at least one lower case letter.");
+			//alert("Your password must have at least one lower case letter.");
 			return false;
 		}
 
 		let symbol_regex = /.*[!#$@%()^&;:-].*/;
 		if(!symbol_regex.test(password)){
-			alert("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
+			//alert("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
 			return false;
 		}
 
 		return true;
+	}
+
+	function checkInfo(){
+		if(!validate()){
+			missingInfo();
+		} else{
+			allGood();
+		}
 	}
 </script>
 
@@ -118,7 +138,9 @@ while($row = pg_fetch_array($result)){
 		<?php } ?>
 	</select><br>
 
-	<input type="submit" name="submit" value="Sign up!">
+	<div class="" id="submit_wrapper">
+		<button type="submit" name="submit" id="submit" form="signup_form">Sign Up!</button>
+	</div>
 </form>
 
 </body>

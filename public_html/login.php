@@ -9,19 +9,8 @@ require_once "api/constants.php";
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
+	<script type="text/javascript" src="/scripts/buttons.js"></script>
 	<script type="text/javascript">
-		function allGood(){
-			let submit = document.getElementById("submit");
-			submit.className = "ring-button";
-			submit.disabled = false;
-		}
-
-		function missingInfo(){
-			let submit = document.getElementById("submit");
-			submit.className = "";
-			submit.disabled = true;
-		}
-
 		function checkInfo(){
 			let username = document.getElementById("username");
 			let password = document.getElementById("password");
@@ -45,8 +34,8 @@ require_once "api/constants.php";
     <label for="auth_code">2FA Code: </label>
     <input type="number" id="auth_code" name="auth_code" value=""><br>
 
-	<div class="wrap">
-		<button type="submit" value="LOGIN" name="submit" id="submit" form="form"></button>
+	<div class="" id="submit_wrapper">
+		<button type="submit" name="submit" id="submit" form="form">LOGIN</button>
 	</div>
 </form>
 
