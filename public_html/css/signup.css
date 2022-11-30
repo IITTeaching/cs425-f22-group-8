@@ -1,0 +1,10 @@
+#signup_box{
+    width: 1000px;
+    border: solid #ffffff 4px;
+    padding: 15px;
+    font-size: 19px;
+    background: #323232;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
