@@ -11,7 +11,7 @@ class LoanShark extends Employee
 	 * @return Loan[]
 	 */
 	public function getRequestedLoans(){
-
+		// $result = $this->query(sprintf());
 	}
 
 	public function approveLoan(Loan $loan){

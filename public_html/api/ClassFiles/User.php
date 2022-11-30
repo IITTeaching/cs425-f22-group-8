@@ -42,9 +42,7 @@ class User extends CS425Class
 	 * @throws PGException
 	 */
 	public function getAccounts(){
-		$sql = sprintf("SELECT number FROM Account a WHERE holder = %d OR number = (SELECT account_number FROM AuthorizedUsers WHERE owner_number = %d)", $this->getUserId(), $this->getUserId());
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = $this->query(sprintf("SELECT number FROM Account a WHERE holder = %d OR number = (SELECT account_number FROM AuthorizedUsers WHERE owner_number = %d)", $this->getUserId(), $this->getUserId()));
 		$accounts = array();
 		if(pg_affected_rows($result) != 0){
 			while ($row = pg_fetch_array($result)) {
@@ -59,9 +57,7 @@ class User extends CS425Class
 	 * @throws PGException
 	 */
 	public function getLoans(){
-		$sql = sprintf("SELECT loan_number FROM LoanApprovals WHERE customer_id = %d", $this->getUserId());
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = $this->query(sprintf("SELECT loan_number FROM LoanApprovals WHERE customer_id = %d", $this->getUserId()));
 		$loans = array();
 		if(pg_affected_rows($result) != 0){
 			while($row = pg_fetch_array($result)){
@@ -78,6 +74,6 @@ class User extends CS425Class
 	}
 
 	public function getNumberOfLoans(): int{
-		$this->getBasicResult(sprintf("SELECT COUNT(loan_number) FROM LoanApprovals WHERE customer_id = %d", $this->id));
+		return $this->getBasicResult(sprintf("SELECT COUNT(loan_number) FROM LoanApprovals WHERE customer_id = %d", $this->id));
 	}
 }

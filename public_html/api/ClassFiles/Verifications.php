@@ -16,14 +16,12 @@ class Verifications extends CS425Class
 
 	public function createVerificationCode($email, $name){
 		$time = time();
-		$sql = sprintf("INSERT INTO AwaitingVerification VALUES('%s','%s',%s)", $email, $name, $time);
-		$result = pg_query($this->connect, $sql);
+		$this->query(sprintf("INSERT INTO AwaitingVerification VALUES('%s','%s',%s)", $email, $name, $time));
 		return password_hash(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), PASSWORD_DEFAULT);
 	}
 
 	public function check_verification($email, $code): bool{
-		$sql = sprintf("SELECT name, time_of_creation FROM AwaitingVerification WHERE email = '%s'", $email);
-		$result = pg_query($this->connect, $sql);
+		$result = $this->query(sprintf("SELECT name, time_of_creation FROM AwaitingVerification WHERE email = '%s'", $email));
 		$name = pg_fetch_result($result, 0, 0);
 		$time = pg_fetch_result($result, 0, 1);
 
@@ -36,14 +34,12 @@ class Verifications extends CS425Class
 			return false;
 		}
 
-		$sql = sprintf("DELETE FROM awaitingverification WHERE email = '%s'", $email);
-		if(!pg_query($this->connect, $sql)){
+		if(!$this->query(sprintf("DELETE FROM awaitingverification WHERE email = '%s'", $email))){
 			header("Response: Your verification code was correct, but something happened when unlocking your account");
 			return false;
 		}
 
-		$sql = sprintf("UPDATE Customers SET authenticated_email = TRUE WHERE email = '%s'", $email);
-		if(!pg_query($this->connect, $sql)){
+		if(!$this->query(sprintf("UPDATE Customers SET authenticated_email = TRUE WHERE email = '%s'", $email))){
 			header("Response: " . pg_last_error());
 			return false;
 		}

@@ -27,27 +27,19 @@ class DataBase extends CS425Class
 		$this->authenticator = new Authentication();
 	}
 
-	function checkCookie(): bool{
-		return $this->cookieManager->isValidCookie();
-	}
-
 	/**
 	 * @throws PGException
 	 */
 	function usernameInUse($username): bool{
-		$sql = sprintf("SELECT COUNT(username) FROM Logins WHERE username = '%s'", $this->prepareData($username));
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = parent::query(sprintf("SELECT COUNT(username) FROM Logins WHERE username = '%s'", $this->prepareData($username)));
 		return pg_fetch_result($result, 0, 0) == 1;
 	}
 
 	/**
 	 * @throws PGException
 	 */
-	function emailInUse($email): bool{
-		$sql = sprintf("SELECT COUNT(email) FROM Customers WHERE email = '%s'", $this->prepareData($email));
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+	function emailInUse(string $email): bool{
+		$result = parent::query(sprintf("SELECT COUNT(email) FROM Customers WHERE email = '%s'", $this->prepareData($email)));
 		return pg_fetch_result($result, 0, 0) != 0;
 	}
 
@@ -63,11 +55,8 @@ class DataBase extends CS425Class
 		$defaultErrorMessage = "Incorrect username/password.";
 		# region Checks if there is a valid cookie
 		if($this->cookieManager->isValidCookie()) {
-			$sql = sprintf("SELECT * FROM %s WHERE username = '%s'",
-				($this->cookieManager->isEmployee()) ? "EmployeeLogins" : "Logins",
-				$username);
-			$result = pg_query($this->connect, $sql);
-			$this->checkQueryResult($result);
+			$result = parent::query(sprintf("SELECT * FROM %s WHERE username = '%s'",
+				($this->cookieManager->isEmployee()) ? "EmployeeLogins" : "Logins", $username));
 
 			if (pg_affected_rows($result) != 0) {
 				return "Logged In Successfully";
@@ -77,9 +66,7 @@ class DataBase extends CS425Class
 		}
 		# endregion
 		# region If there is no cookie, checks the (Customer) login table to try and log the person in
-		$result = pg_query($this->connect, sprintf("SELECT * FROM Logins WHERE username = '%s'", $username));
-
-		$this->checkQueryResult($result, $defaultErrorMessage);
+		$result = parent::query(sprintf("SELECT * FROM Logins WHERE username = '%s'", $username), $defaultErrorMessage);
 
 		$affected_rows = pg_affected_rows($result);
 		if ($affected_rows == 0) { // If there weren't any affected rows, then the system checks to see if the user is an employee;
@@ -102,10 +89,8 @@ class DataBase extends CS425Class
 		$row = pg_fetch_assoc($result);
 
 		$user_id = $row["id"];
-		$sql = sprintf("SELECT authenticated_email FROM Customers WHERE id = %s", $user_id);
-		$result = pg_query($this->connect, $sql);
+		$result = parent::query(sprintf("SELECT authenticated_email FROM Customers WHERE id = %s", $user_id));
 
-		$this->checkQueryResult($result);
 		if (pg_affected_rows($result) == 0) {
 			// The login is for an employee
 			header("Response: You do not have an account with us, please create one at " . HTTPS_HOST . "/signup.");
@@ -144,7 +129,7 @@ class DataBase extends CS425Class
 		$username = $this->prepareData($username);
 		$password = $this->prepareData($password);
 		$authcode = (int)$this->prepareData($authcode);
-		$result = pg_query($this->connect, sprintf("SELECT username, password, totp_secret FROM EmployeeLogins WHERE username = %s", $username));
+		$result = parent::query(sprintf("SELECT username, password, totp_secret FROM EmployeeLogins WHERE username = %s", $username));
 		$affected_rows = pg_affected_rows($result);
 		if($affected_rows != 0){
 			return false;
@@ -178,9 +163,7 @@ class DataBase extends CS425Class
 		#endregion
 
 		# region Getting the branch id
-		$sql = sprintf("SELECT id FROM Branch WHERE name = '%s'", $branch);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = parent::query(sprintf("SELECT id FROM Branch WHERE name = '%s'", $branch));
 		if(pg_num_rows($result) == 0){
 			throw new InvalidArgumentException(sprintf("The branch with the name \"%s\" could not be found", $branch));
 		}
@@ -188,13 +171,10 @@ class DataBase extends CS425Class
 
 		# endregion
 
-		$sql = sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s','%s',%s,%s) RETURNING id", $fullname, $email, $phone, $branch_id, $address_id);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = parent::query(sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s','%s',%s,%s) RETURNING id", $fullname, $email, $phone, $branch_id, $address_id));
 		$user_id = pg_fetch_result($result, 0, 0);
 
-		$result = pg_query($this->connect, sprintf("INSERT INTO Logins VALUES (%s,'%s','%s')", $user_id, $username, $password));
-		$this->checkQueryResult($result);
+		parent::query(sprintf("INSERT INTO Logins VALUES (%s,'%s','%s')", $user_id, $username, $password));
 
 		$verification = new Verifications();
 		$verification->send_verification_email($email, $fullname);
@@ -218,8 +198,7 @@ class DataBase extends CS425Class
 			return $this->parseAddress($row);
 		}
 
-		$result = pg_query($this->connect, sprintf("SELECT * FROM addresses WHERE id = %s", $id));
-		$this->checkQueryResult($result);
+		$result = parent::query(sprintf("SELECT * FROM addresses WHERE id = %s", $id));
 		if(pg_affected_rows($result) == 0){
 			return $this->parseAddress($this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode));
 		}
@@ -255,18 +234,16 @@ class DataBase extends CS425Class
 				continue;
 			}
 			//Checks if the value needs to be changed
-			$check = pg_query($this->connect, sprintf("SELECT %s FROM Addresses WHERE id = %s", $attribute, $id));
-			$this->checkQueryResult($check);
+			$check = parent::query(sprintf("SELECT %s FROM Addresses WHERE id = %s", $attribute, $id));
 			$row = pg_fetch_assoc($check);
 			if($row[$attribute] == $value){
 				continue;
 			}
 
-			$this->checkQueryResult(pg_query($this->connect, sprintf("UPDATE Addresses SET %s = %s WHERE id = %s", $attribute, $value, $id)));
+			parent::query(sprintf("UPDATE Addresses SET %s = %s WHERE id = %s", $attribute, $value, $id));
 		}
 
-		$result = pg_query($this->connect, sprintf("SELECT * FROM Addresses WHERE id = %s", $id));
-		$this->checkQueryResult($result);
+		$result = parent::query(sprintf("SELECT * FROM Addresses WHERE id = %s", $id));
 		return pg_fetch_assoc($result);
 	}
 
@@ -286,8 +263,7 @@ class DataBase extends CS425Class
 		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction::TEXT) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = '%s' AND UPPER(unitnumber) = '%s'",
 			$address_number, strtoupper($direction), strtoupper($streetName), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
 
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = parent::query($sql);
 		$address_count = pg_num_rows($result);
 		if($address_count == 0){ // Address isn't in the database, add it
 			if(strlen($apt) == 0){
@@ -297,8 +273,7 @@ class DataBase extends CS425Class
 				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode, unitnumber) VALUES(%s,'%s','%s','%s','%s',%s,'%s') RETURNING id",
 					$address_number, $direction, $streetName, $city, $state, $zipcode, $apt);
 			}
-			$result = pg_query($this->connect, $sql);
-			$this->checkQueryResult($result);
+			$result = parent::query($sql);
 			if(pg_num_rows($result) == 0){
 				throw new InvalidArgumentException("Something happened creating the address tuple");
 			}
@@ -326,9 +301,7 @@ class DataBase extends CS425Class
 	public function getCurrentUserId(): User|false {
 		$username = $this->cookieManager->getCookieUsername();
 		if(!$username){ return false; }
-		$sql = sprintf("SELECT id FROM logins WHERE username = '%s' LIMIT 1", $username);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = parent::query(sprintf("SELECT id FROM logins WHERE username = '%s' LIMIT 1", $username));
 		return new User(pg_fetch_result($result, 0));
 	}
 }
