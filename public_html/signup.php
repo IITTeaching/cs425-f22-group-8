@@ -36,7 +36,7 @@ while($row = pg_fetch_array($result)){
     <script type="text/javascript" src="/scripts/buttons.js"></script>
 </head>
 <sb>
-<body>
+<body id="theDiv">
 
 <script type="text/javascript">
 	function validate(){

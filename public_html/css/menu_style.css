@@ -20,6 +20,11 @@ div.content {
     text-align: center;
 }
 
+#theDiv{
+    width: 300px;
+    border: solid #ffffff 2px;
+}
+
 sb {
     font-family: sans-serif;
     text-align: center;
