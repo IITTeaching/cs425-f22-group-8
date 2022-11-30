@@ -39,7 +39,6 @@ CREATE TABLE EmployeeLogins(
     totp_secret TEXT NOT NULL
 );
 
-
 CREATE TABLE Customers(
     id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     name TEXT NOT NULL,

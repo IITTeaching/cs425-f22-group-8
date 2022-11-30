@@ -8,15 +8,17 @@ class CookieManager
 	public function __construct()
 	{
 		$this->cookieName = "authCookie";
-		$this->expire_time = 3600;
+		$this->expire_time = 3600; //seconds
 		$this->employee_expire_time = 43200;
 		$this->key = " Somekey";
 	}
 
-	function createCookie($username): void
+	function createCookie($username,  $isEmployee=true): void
 	{
-		$expire_time = 3600;  //seconds
-		setcookie($this->cookieName, $this->createCookieValue($username), time() + $expire_time, "/", "cs425.lenwashingtoniii.com");
+		setcookie($this->cookieName, $this->createCookieValue($username),
+			time() + (($isEmployee) ? $this->employee_expire_time : $this->expire_time),
+			"/",
+			"cs425.lenwashingtoniii.com");
 	}
 
 	function isValidCookie(): bool{
@@ -55,10 +57,10 @@ class CookieManager
 	}
 
 	private function createCookieValue($username, $isEmployee=true): string{
-		$expires = time() + ($isEmployee) ? $this->employee_expire_time : $this->expire_time;
+		$expires = time() + (($isEmployee) ? $this->employee_expire_time : $this->expire_time);
 		$data = array("username" => $username,
-			"expires"=>$expires,
-			"encryption"=>hash("sha256", sprintf("%s-%s", $username, $this->key)));
+			"expires" => $expires,
+			"encryption" => hash("sha256", sprintf("%s-%s", $username, $this->key)));
 		if($isEmployee){
 			$data["usage"] = "86";
 		}

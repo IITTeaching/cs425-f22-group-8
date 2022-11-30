@@ -1,9 +1,5 @@
 <?php
-# TODO: Add 2FA key column to the Login Table
-
 # TODO: For loans, requests can go in, and should be saved in a LoanRequest table, and loan shark employees would have to accept them.
-
-# FIXME: Fix the phone number regex for the signup page
 
 # FIXME: Find out why this error "ArrayFATAL: terminating connection due to administrator command SSL connection has been closed unexpectedly server closed the connection unexpectedly This probably means the server terminated abnormally before or while processing the request." keeps popping up after another role has been assigned.
 

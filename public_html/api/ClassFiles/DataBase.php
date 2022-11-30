@@ -72,7 +72,8 @@ class DataBase extends CS425Class
 			if (pg_affected_rows($result) != 0) {
 				return "Logged In Successfully";
 			}
-			throw new PGException(pg_last_error()); // TODO: Consider using the provided information in case the cookie is invalid.
+			$this->cookieManager->deleteCookie();
+			//throw new PGException(pg_last_error());
 		}
 		# endregion
 		# region If there is no cookie, checks the (Customer) login table to try and log the person in
@@ -127,7 +128,9 @@ class DataBase extends CS425Class
 		# region If the user has 2FA enabled, checks the codes
 		$totp = $row["totp_secret"];
 		if(!is_null($totp)){
-			if(!in_array($totp, $this->authenticator->GenerateCloseTokens($totp))){
+			$valid_code = $this->authenticator->checkTOTP($username, (int)$totp, false);
+			header("Response3: Valid Code: " . ($valid_code) ? "Yes" : "No");
+			if(!$valid_code){
 				throw new InvalidArgumentException("Response: Invalid 2FA code");
 			}
 		}
