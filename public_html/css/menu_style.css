@@ -21,12 +21,12 @@ div.content {
 }
 
 #theDiv{
-    width: 1000px;
+    width: 900px;
     border: solid #ffffff 2px;
     background: rgba(48, 48, 48,255)
 }
 
 sb {
     font-family: sans-serif;
-    text-align: center;
+    margin: auto;
 }
