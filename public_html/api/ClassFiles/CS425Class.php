@@ -1,10 +1,12 @@
 <?php
 
+use PgSql\Result;
+
 require_once (dirname(__DIR__) . "/ConfigFiles/Config.php");
 
 class CS425Class
 {
-	protected PgSql\Connection $connect;
+	protected PgSql\Connection|false $connect;
 
 	/**
 	 * @throws PGException
@@ -12,7 +14,7 @@ class CS425Class
 	public function __construct(Config|false $config)
 	{
 		if(!$config){
-
+			$this->connect = false;
 		}
 		else{
 			$this->dbConnect($config);
@@ -53,14 +55,20 @@ class CS425Class
 		}
 	}
 
+	protected function query($query, $errorMessage=""): bool|Result
+	{
+		if(!$this->connect){ return false; }
+		$result = pg_query($this->connect, $query);
+		$this->checkQueryResult($result, $errorMessage);
+		return $result;
+	}
+
 	/**
 	 * Gets a single result from an SQL query
 	 * @param $query
 	 * @return false|string
 	 */
 	protected function getBasicResult($query){
-		$result = pg_query($this->connect, $query);
-		$this->checkQueryResult($result);
-		return pg_fetch_result($result, 0, 0);
+		return pg_fetch_result($this->query($query), 0, 0);
 	}
 }

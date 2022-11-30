@@ -111,7 +111,6 @@ class Authentication extends CS425Class
 		exec($cmd, $output, $retval);
 
 		# $hash = hash_hmac($algo, $hex, $convert);
-		#echo "Hash: " . $hash . PHP_EOL;
 
 		$code = $this->genHTOPValue(substr($output["0"], 13), $length);
 
@@ -123,7 +122,6 @@ class Authentication extends CS425Class
 	{
 		// store calculate decimal
 		$hmac_result = [];
-		echo $hash . PHP_EOL;
 		// Convert to decimal
 		foreach (str_split($hash, 2) as $hex) {
 			$hmac_result[] = hexdec($hex);

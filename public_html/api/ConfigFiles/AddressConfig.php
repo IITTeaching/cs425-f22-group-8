@@ -2,11 +2,11 @@
 
 require_once "Config.php";
 
-class DataBaseConfig extends Config
+class AddressConfig extends Config
 {
 	protected function getUserName(): string
 	{
-		return 'bankbot';
+		return 'addressbot';
 	}
 
 	protected function getPassword(): string

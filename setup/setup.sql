@@ -36,7 +36,7 @@ CREATE TABLE EmployeeLogins(
     id INT REFERENCES Employee(id) ON DELETE CASCADE PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    totp_secret TEXT NOT NULL
+    totp_secret CHAR(16) NOT NULL
 );
 
 CREATE TABLE Customers(
@@ -69,7 +69,6 @@ CREATE TABLE Logins(
     totp_secret TEXT DEFAULT NULL
 );
 
-select * FROM Logins;
 
 CREATE TABLE AuthorizedUsers(
     account_number INT REFERENCES Account(number) ON DELETE CASCADE,
