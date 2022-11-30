@@ -32,7 +32,8 @@ while($row = pg_fetch_array($result)){
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
-	<script type="text/javascript" src="/scripts/buttons.js"></script>
+    <link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/scripts/buttons.js"></script>
 </head>
 <sb>
 <body>
