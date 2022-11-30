@@ -20,6 +20,7 @@ div.content {
     text-align: center;
 }
 
-h3 {
+sb {
+    font-family: sans-serif;
     color: #0696d7;
 }
