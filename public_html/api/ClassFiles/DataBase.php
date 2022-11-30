@@ -128,7 +128,7 @@ class DataBase extends CS425Class
 		# region If the user has 2FA enabled, checks the codes
 		$totp = $row["totp_secret"];
 		if(!is_null($totp)){
-			$valid_code = $this->authenticator->checkTOTP($username, (int)$totp, false);
+			$valid_code = $this->authenticator->checkTOTP($username, $authcode, false);
 			header("Response3: Valid Code: " . ($valid_code) ? "Yes" : "No");
 			if(!$valid_code){
 				throw new InvalidArgumentException("Response: Invalid 2FA code");

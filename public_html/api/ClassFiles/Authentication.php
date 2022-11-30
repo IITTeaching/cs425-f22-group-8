@@ -24,7 +24,7 @@ class Authentication extends CS425Class
 	}
 
 	# region Creating TOTP secret key
-	public function checkTOTP(string $username, int $authcode, bool $isEmployee) : bool
+	public function checkTOTP(string $username, string $authcode, bool $isEmployee) : bool
 	{
 		$username = $this->prepareData($username);
 		$table_name = $isEmployee ? "EmployeeLogins" : "Logins";
@@ -168,6 +168,9 @@ class Authentication extends CS425Class
 										string $algo="sha1", int $before=1, int $after=1): array
 	{
 		$otps = array();
+		if(is_null($time)){
+			$time = time();
+		}
 		for($i=-$before; $i<=$after; $i++){
 			$otps[] = $this->GenerateToken($key, $time + ($time_interval * $i), $length, $time_interval, $algo);
 		}
