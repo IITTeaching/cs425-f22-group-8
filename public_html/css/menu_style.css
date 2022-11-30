@@ -23,8 +23,7 @@ div.content {
 #theDiv{
     width: 900px;
     border: solid #ffffff 2px;
-    background: rgba(255, 255, 255,255);
-    text-align: center;
+    margin: 0 0.5em;
 }
 
 sb {
