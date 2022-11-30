@@ -34,82 +34,82 @@ while($row = pg_fetch_array($result)){
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
     <link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="/scripts/buttons.js"></script>
+	<script type="text/javascript">
+		function validate(){
+			let form = document.forms["signup_form"];
+			let password = form["password"].value;
+			let email = form["email"].value;
+			let username = form["username"].value;
+			let name = form["fullname"].value;
+			let phoneNumber = form["phone"].value;
+
+			if(username.length === 0){
+				return false;
+			}
+
+			if(name.length === 0){
+				return false;
+			}
+
+			if(password.length < 8){
+				console.log("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
+				return false;
+			}
+
+			let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+			if(!email_regex.test(email.toLowerCase())){
+				console.log("Your email must be valid.");
+				return false;
+			}
+
+			let password_number_regex = /\(?(\d{3})\)?-?(\d{3})-?(\d{4})/;
+			if(!password_number_regex.test(phoneNumber)){
+				console.log("Please enter a valid phone number.");
+				return false;
+			}
+
+			let number_regex = /.*\d.*/;  // TODO: If possible, auto add the dashes.
+			if(!number_regex.test(password)){
+				console.log("Your password must have at least one number in it.");
+				return false;
+			}
+
+			let upper_regex = /.*[A-Z].*/;
+			if(!upper_regex.test(password)){
+				console.log("Your password must have at least one upper case letter.");
+				return false;
+			}
+
+			let lower_regex = /.*[a-z].*/;
+			if(!lower_regex.test(password)){
+				console.log("Your password must have at least one lower case letter.");
+				return false;
+			}
+
+			let symbol_regex = /.*[!#$@%()^&;:-].*/;
+			if(!symbol_regex.test(password)){
+				console.log("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
+				return false;
+			}
+
+			// TODO: Add checks for locations to make sure they aren't blank.
+
+			return true;
+		}
+
+		function checkInfo(){
+			if(!validate()){
+				missingInfo();
+			} else{
+				allGood();
+			}
+		}
+	</script>
 </head>
-<sb>
 <body id="theDiv">
 
-<script type="text/javascript">
-	function validate(){
-		let form = document.forms["signup_form"];
-		let password = form["password"].value;
-		let email = form["email"].value;
-		let username = form["username"].value;
-		let name = form["fullname"].value;
-		let phoneNumber = form["phone"].value;
-
-		if(username.length === 0){
-			return false;
-		}
-
-		if(name.length === 0){
-			return false;
-		}
-
-		if(password.length < 8){
-			console.log("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
-			return false;
-		}
-
-		let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-		if(!email_regex.test(email.toLowerCase())){
-			console.log("Your email must be valid.");
-			return false;
-		}
-
-		let password_number_regex = /\(?(\d{3})\)?-?(\d{3})-?(\d{4})/;
-		if(!password_number_regex.test(phoneNumber)){
-			console.log("Please enter a valid phone number.");
-			return false;
-		}
-
-		let number_regex = /.*\d.*/;  // TODO: If possible, auto add the dashes.
-		if(!number_regex.test(password)){
-			console.log("Your password must have at least one number in it.");
-			return false;
-		}
-
-		let upper_regex = /.*[A-Z].*/;
-		if(!upper_regex.test(password)){
-			console.log("Your password must have at least one upper case letter.");
-			return false;
-		}
-
-		let lower_regex = /.*[a-z].*/;
-		if(!lower_regex.test(password)){
-			console.log("Your password must have at least one lower case letter.");
-			return false;
-		}
-
-		let symbol_regex = /.*[!#$@%()^&;:-].*/;
-		if(!symbol_regex.test(password)){
-			console.log("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
-			return false;
-		}
-
-		// TODO: Add checks for locations to make sure they aren't blank.
-
-		return true;
-	}
-
-	function checkInfo(){
-		if(!validate()){
-			missingInfo();
-		} else{
-			allGood();
-		}
-	}
-</script>
+<div class="sb">
 
 <form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
@@ -159,7 +159,7 @@ while($row = pg_fetch_array($result)){
     <a href="https://cs425.lenwashingtoniii.com/">
         <button>Back</button>
     </a>
+</div>
 
 </body>
-</sb>
 </html>

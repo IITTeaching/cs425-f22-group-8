@@ -2,15 +2,15 @@
 
 require_once "Config.php";
 
-class AddressConfig extends Config
+class TellerConfig extends Config
 {
 	protected function getUserName(): string
 	{
-		return 'addressbot';
+		return 'tellerbot';
 	}
 
 	protected function getPassword(): string
 	{
-		return "d80c9bf910f144738ef983724bc04bd6bd3f17c5c83ed57bedee1b1b9278e811";
+		return "11c8f9062973b50f228286368332495df3938e8902c87a2a4d738d7755c32039";
 	}
 }

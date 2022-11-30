@@ -19,7 +19,18 @@ class Manager extends Employee
 			$name, $role->name, $address->getAddressId(), $ssn, $branch->getAddressId(), $salary);
 		$result = $this->query($sql);
 		$this->checkQueryResult($result);
-		$employee = new Employee(pg_fetch_result($result, 0)); // TODO: Add a switch case to create the proper employee
+		$id = pg_fetch_result($result, 0);
+		switch ($role){
+			case EmployeeTypes::LoanShark:
+				$employee = new LoanShark($id);
+				break;
+			case EmployeeTypes::Teller:
+				$employee = new Teller($id);
+				break;
+			case EmployeeTypes::Manager:
+				$employee = new Manager($id);
+				break;
+		}
 
 		$_2fa = (new Authentication())->createSecretKey();
 		$employee->setAuthCode($_2fa);

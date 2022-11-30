@@ -21,3 +21,12 @@ GRANT SELECT ON TABLE AuthorizedUsers TO profilebot;
 GRANT SELECT ON TABLE LoanApprovals TO profilebot;
 GRANT CONNECT ON DATABASE cs425 TO profilebot;
 -- GRANT SELECT, UPDATE ON TABLE Logins TO profilebot;  # TODO: If there is time, add the ability to let users change their email and password
+
+
+CREATE ROLE addressbot WITH PASSWORD 'd80c9bf910f144738ef983724bc04bd6bd3f17c5c83ed57bedee1b1b9278e811' LOGIN;
+GRANT SELECT, UPDATE, DELETE ON TABLE Addresses TO addressbot;
+GRANT SELECT, UPDATE, DELETE ON TABLE Branch TO addressbot;
+GRANT CONNECT ON DATABASE cs425 TO addressbot;
+
+CREATE ROLE tellerbot WITH PASSWORD '11c8f9062973b50f228286368332495df3938e8902c87a2a4d738d7755c32039' LOGIN;
+GRANT CONNECT ON DATABASE cs425 TO tellerbot;

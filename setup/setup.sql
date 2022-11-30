@@ -1,5 +1,5 @@
 CREATE TYPE DirectionEnum AS ENUM('N', 'E', 'S', 'W');
-CREATE TYPE BankRole AS ENUM('Teller', 'Loan Shark', 'Manager', 'Janitor');
+CREATE TYPE BankRole AS ENUM('Teller', 'Loan Shark', 'Manager');
 CREATE TYPE AccountType AS ENUM('Checkings', 'Savings');
 CREATE TYPE TransactionType AS ENUM('Deposit', 'Withdrawal', 'Transfer');
 
@@ -92,6 +92,7 @@ CREATE TABLE AwaitingVerification(
 );
 
 CREATE TABLE LoanRequests(
+    loan_request_number SERIAL PRIMARY KEY NOT NULL,
     customer_id INT NOT NULL REFERENCES Customers(id),
     amount FLOAT NOT NULL CHECK (amount > 0), -- Present Value (P)
     payback_period INT NOT NULL CHECK (payback_period > 0),  --
