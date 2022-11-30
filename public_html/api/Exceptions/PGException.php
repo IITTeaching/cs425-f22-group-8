@@ -1,7 +1,5 @@
 <?php
 
-namespace cs425\api\Exceptions;
-
 class PGException extends Exception
 {
 	public function __construct($message="", $val = 0, Exception $old = null) {
