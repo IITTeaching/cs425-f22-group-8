@@ -35,8 +35,8 @@ while($row = pg_fetch_array($result)){
     <link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="/scripts/buttons.js"></script>
 </head>
-<body id="theDiv">
-<sb>
+<body>
+<div id="box">
 <script type="text/javascript">
 	function validate(){
 		let form = document.forms["signup_form"];
@@ -158,6 +158,6 @@ while($row = pg_fetch_array($result)){
     <a href="https://cs425.lenwashingtoniii.com/">
         <button>Back</button>
     </a>
-</sb>
+</div>
 </body>
 </html>

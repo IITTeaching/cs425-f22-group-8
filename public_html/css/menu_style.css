@@ -20,12 +20,13 @@ div.content {
     text-align: center;
 }
 
-#theDiv{
-    width: 900px;
-    border: solid #ffffff 2px;
-    margin: 0 0.5em;
-}
-
-sb {
-    font-family: sans-serif;
+#box{
+    width: 1000px;
+    border: solid #ffffff 3px;
+    padding: 15px;
+    font-size: 19px;
+    background: #323232;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
 }
