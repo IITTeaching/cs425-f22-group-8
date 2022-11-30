@@ -147,6 +147,10 @@ while($row = pg_fetch_array($result)){
 		<?php } ?>
 	</select><br>
 
+    <a href="https://cs425.lenwashingtoniii.com/">
+        <button>Back</button>
+    </a>
+
 	<div class="" id="submit_wrapper">
 		<button type="submit" name="submit" id="submit" form="signup_form" hidden>Sign Up!</button>
 	</div>
