@@ -23,10 +23,10 @@ div.content {
 #theDiv{
     width: 900px;
     border: solid #ffffff 2px;
-    background: rgba(255, 255, 255,255)
+    background: rgba(255, 255, 255,255);
+    text-align: center;
 }
 
 sb {
     font-family: sans-serif;
-    text-align: center;
 }
