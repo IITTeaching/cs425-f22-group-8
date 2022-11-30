@@ -34,6 +34,7 @@ while($row = pg_fetch_array($result)){
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
 	<script type="text/javascript" src="/scripts/buttons.js"></script>
 </head>
+<sb>
 <body>
 
 <script type="text/javascript">
@@ -109,7 +110,6 @@ while($row = pg_fetch_array($result)){
 	}
 </script>
 
-<sb>
 <form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
 	<input type="text" id="username" name="username" value="" onblur="checkInfo()" required autocomplete="username"><br>
@@ -153,11 +153,12 @@ while($row = pg_fetch_array($result)){
 	</div>
 
 </form>
-</sb>
+
 
     <a href="https://cs425.lenwashingtoniii.com/">
         <button>Back</button>
     </a>
 
 </body>
+</sb>
 </html>
