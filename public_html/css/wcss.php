@@ -58,3 +58,13 @@ table .profile_info {
 .profile_info tr:nth-child(even) {
 	background-color: <?php echo $accent_color ?>;
 }
+
+#theDiv{
+	width: 900px;
+	border: solid <?php echo $accent_color?> 2px;
+	margin: 0 0.5em;
+}
+
+sb {
+	font-family: sans-serif;
+}

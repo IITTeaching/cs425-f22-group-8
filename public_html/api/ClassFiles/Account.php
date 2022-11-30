@@ -18,20 +18,15 @@ class Account extends CS425Class
 	 * @param User $user The user trying to set the balance.
 	 * @param float $balance The new balance.
 	 */
-	public function setBalance(User $user, float $balance): void
+	public function setBalance(User $user, float $balance): float | false
 	{
-		$own_result = pg_query($this->connect, sprintf("SELECT COUNT(*) FROM Account WHERE number = %d AND holder = %d", $this->account_number, $user->getUserId()));
-		$this->checkQueryResult($own_result);
+		$own_result = $this->query(sprintf("SELECT COUNT(*) FROM Account WHERE number = %d AND holder = %d", $this->account_number, $user->getUserId()));
+		$auth_result = $this->query(sprintf("SELECT COUNT(*) FROM AuthorizedUsers WHERE account_number = %d AND owner_number = %d", $this->account_number, $user->getUserId()));
 
-		$auth_result = pg_query($this->connect, sprintf("SELECT COUNT(*) FROM AuthorizedUsers WHERE account_number = %d AND owner_number = %d", $this->account_number, $user->getUserId()));
-		$this->checkQueryResult($auth_result);
+		if(pg_fetch_result($auth_result, 0, 0) == 0 and pg_fetch_result($own_result, 0, 0)){ return false; }
 
-		if(pg_fetch_result($auth_result, 0, 0) == 0 and pg_fetch_result($own_result, 0, 0)){ return; }
-
-		$sql = sprintf("UPDATE Account SET balance = %f WHERE number = %d RETURNING balance", $balance, $this->account_number);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
-		$this->balance = pg_fetch_result($result, 0, 0);
+		$result = $this->query(sprintf("UPDATE Account SET balance = %f WHERE number = %d RETURNING balance", $balance, $this->account_number));
+		return pg_fetch_result($result, 0, 0);
 	}
 
 	public function getBalance(): float{
@@ -44,23 +39,17 @@ class Account extends CS425Class
 	public function getAccountNumber(): int { return $this->account_number; }
 
 	public function setOwner(User $owner): bool {
-		$sql = sprintf("UPDATE Account SET holder = %d WHERE number = %d RETURNING holder", $owner->getUserId(), $this->account_number);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = $this->query(sprintf("UPDATE Account SET holder = %d WHERE number = %d RETURNING holder", $owner->getUserId(), $this->account_number));
 		return pg_fetch_result($result, 0, 0) == $owner->getUserId();
 	}
 
 	public function getOwner(): User {
-		$sql = sprintf("SELECT holder FROM Account WHERE number = %d", $this->account_number);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = $this->query(sprintf("SELECT holder FROM Account WHERE number = %d", $this->account_number));
 		return new User(pg_fetch_result($result, 0, 0));
 	}
 
 	public function setName(string $name){
-		$sql = sprintf("UPDATE Account SET account_name = '%s' WHERE number = %d", $this->prepareData($name), $this->account_number);
-		$result = pg_query($this->connect, $sql);
-		$this->checkQueryResult($result);
+		$result = $this->query(sprintf("UPDATE Account SET account_name = '%s' WHERE number = %d", $this->prepareData($name), $this->account_number));
 	}
 
 	/**
@@ -96,7 +85,7 @@ class Account extends CS425Class
 		$new_balance = $balance - $amount;
 		$transfer_balance = $account->getBalance() + $amount;
 
-		pg_query($this->connect, sprintf("UPDATE Account SET balance = %f WHERE number = %d", $new_balance, $this->account_number));
-		pg_query($this->connect, sprintf("UPDATE Account SET balance = %f WHERE number = %d", $transfer_balance, $account->getAccountNumber()));
+		$this->query(sprintf("UPDATE Account SET balance = %f WHERE number = %d", $new_balance, $this->account_number));
+		$this->query(sprintf("UPDATE Account SET balance = %f WHERE number = %d", $transfer_balance, $account->getAccountNumber()));
 	}
 }
