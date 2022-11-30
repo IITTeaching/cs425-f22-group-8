@@ -109,49 +109,47 @@ while($row = pg_fetch_array($result)){
 	}
 </script>
 
-<h2>
-    <form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
-        <label for="username">Username: </label>
-        <input type="text" id="username" name="username" value="" onblur="checkInfo()" required autocomplete="username"><br>
+<form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
+	<label for="username">Username: </label>
+	<input type="text" id="username" name="username" value="" onblur="checkInfo()" required autocomplete="username"><br>
 
-        <label for="password">Password: </label>
-        <input type="password" id="password" name="password" value="" onblur="checkInfo()" required autocomplete="new-password" minlength="8"><br>
+	<label for="password">Password: </label>
+	<input type="password" id="password" name="password" value="" onblur="checkInfo()" required autocomplete="new-password" minlength="8"><br>
 
-        <label for="fullname">Fullname: </label>
-        <input type="text" id="fullname" name="fullname" value="" onblur="checkInfo()" required autocomplete="name"><br>
+	<label for="fullname">Fullname: </label>
+	<input type="text" id="fullname" name="fullname" value="" onblur="checkInfo()" required autocomplete="name"><br>
 
-        <label for="email">Email: </label>
-        <input type="email" id="email" name="email" value="" onblur="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
+	<label for="email">Email: </label>
+	<input type="email" id="email" name="email" value="" onblur="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
 
-        <label for="phone">Telephone Number:</label>
-        <input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
+	<label for="phone">Telephone Number:</label>
+	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 
-        <label for="address_number">Address: </label>
-        <input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
+	<label for="address_number">Address: </label>
+	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
 
-        <select name="direction" id="direction">
-            <option value="None"></option>
-            <option value="N">North</option>
-            <option value="E">East</option>
-            <option value="S">South</option>
-            <option value="W">West</option>
-        </select>
-        <input type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>,
-        <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>,
-        <input type="text" name="state" id="state" placeholder="State Abbreviation" onblur="checkInfo()" required maxlength="2">,
-        <input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
-        <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
+	<select name="direction" id="direction">
+		<option value="None"></option>
+		<option value="N">North</option>
+		<option value="E">East</option>
+		<option value="S">South</option>
+		<option value="W">West</option>
+	</select>
+	<input type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>,
+	<input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>,
+	<input type="text" name="state" id="state" placeholder="State Abbreviation" onblur="checkInfo()" required maxlength="2">,
+	<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
+	<label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
-        <label for="branch">Your favorite (or closest) branch: </label><select name="branch" id="branch" onblur="checkInfo()" required>
-            <?php foreach($dct as $key => $value) { ?>
-                <option value="<?php echo $key?>"><?php echo $value ?></option>
-            <?php } ?>
-        </select><br>
+	<label for="branch">Your favorite (or closest) branch: </label><select name="branch" id="branch" onblur="checkInfo()" required>
+		<?php foreach($dct as $key => $value) { ?>
+			<option value="<?php echo $key?>"><?php echo $value ?></option>
+		<?php } ?>
+	</select><br>
 
-        <div class="" id="submit_wrapper">
-            <button type="submit" name="submit" id="submit" form="signup_form" hidden>Sign Up!</button>
-        </div>
-</h2>
+	<div class="" id="submit_wrapper">
+		<button type="submit" name="submit" id="submit" form="signup_form" hidden>Sign Up!</button>
+	</div>
 
 </form>
 

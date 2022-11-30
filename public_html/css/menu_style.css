@@ -10,6 +10,7 @@ div.content {
     z-index: 100;
     position: fixed;
     right: 0;/* You can change float left/right */
+    text-align: center;
 }
 
 .floating-menu a, .floating-menu h3 {
