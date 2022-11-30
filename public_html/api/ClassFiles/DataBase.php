@@ -314,12 +314,10 @@ class DataBase extends CS425Class
 		$this->cookieManager->deleteCookie();
 	}
 
-	public function query($command): bool|Result
+	public function query($command, $errorMessage=""): bool|Result
 	{
-		if(!str_starts_with($command, "SELECT")){
-			return false;
-		}
-		return pg_query($this->connect, $command);
+		if(!str_starts_with($command, "SELECT")){ return false; }
+		return parent::query($command, $errorMessage);
 	}
 
 	/**
