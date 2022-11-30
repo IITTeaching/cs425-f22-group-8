@@ -7,7 +7,7 @@ require_once (dirname(__DIR__) . "/tools.php");
 
 class Loan extends CS425Class
 {
-	private int $loan_number;  // # TODO: Make this const
+	private readonly int $loan_number;
 
 	public function __construct($loan_number){
 		parent::__construct(new LoanConfig());

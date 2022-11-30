@@ -14,8 +14,6 @@ CREATE TABLE Addresses(
     unitNumber TEXT DEFAULT NULL
 );
 
-SELECT * FROM Logins;
-
 CREATE TABLE Branch(
     id SERIAL PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
@@ -38,9 +36,8 @@ CREATE TABLE EmployeeLogins(
     id INT REFERENCES Employee(id) ON DELETE CASCADE PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    totp_secret TEXT NOT NULL
+    totp_secret CHAR(16) NOT NULL
 );
-
 
 CREATE TABLE Customers(
     id SERIAL PRIMARY KEY NOT NULL UNIQUE,
@@ -68,7 +65,8 @@ CREATE TABLE Account(
 CREATE TABLE Logins(
     id INT REFERENCES Customers(id) ON DELETE CASCADE PRIMARY KEY ,
     username TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    totp_secret TEXT DEFAULT NULL
 );
 
 

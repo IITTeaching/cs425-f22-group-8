@@ -2,15 +2,15 @@
 
 require_once "Config.php";
 
-class DataBaseConfig extends Config
+class ManagerConfig extends Config
 {
 	protected function getUserName(): string
 	{
-		return 'bankbot';
+		return 'managerbot';
 	}
 
 	protected function getPassword(): string
 	{
-		return "b299ecdcc0c02a319625205a804991255fdff2470dddbc7fa05c0c3934dbffae";
+		return "987bfb848c2403e638bf794771a1c3ffcda8cb1a312b07f38a376a6be35e9feb";
 	}
 }

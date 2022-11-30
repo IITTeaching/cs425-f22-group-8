@@ -24,7 +24,7 @@ class Authentication extends CS425Class
 	}
 
 	# region Creating TOTP secret key
-	public function checkTOTP(string $username, int $authcode, bool $isEmployee) : bool
+	public function checkTOTP(string $username, string $authcode, bool $isEmployee) : bool
 	{
 		$username = $this->prepareData($username);
 		$table_name = $isEmployee ? "EmployeeLogins" : "Logins";
@@ -56,7 +56,7 @@ class Authentication extends CS425Class
 	}
 
 	public function generateQRCode($username, $key, $length=6, $period=30){
-		$data = sprintf("otpauth://totp/%s?secret=%s&issuer=WCS%%20Banking&digits=%d&period=%d",
+		$data = sprintf("otpauth://totp/WCS%%20Banking:%s?secret=%s&issuer=WCS%%20Banking&digits=%d&period=%d",
 			$username, $key, $length, $period);
 		$options = new QROptions(
 			[
@@ -111,7 +111,6 @@ class Authentication extends CS425Class
 		exec($cmd, $output, $retval);
 
 		# $hash = hash_hmac($algo, $hex, $convert);
-		#echo "Hash: " . $hash . PHP_EOL;
 
 		$code = $this->genHTOPValue(substr($output["0"], 13), $length);
 
@@ -123,7 +122,6 @@ class Authentication extends CS425Class
 	{
 		// store calculate decimal
 		$hmac_result = [];
-		echo $hash . PHP_EOL;
 		// Convert to decimal
 		foreach (str_split($hash, 2) as $hex) {
 			$hmac_result[] = hexdec($hex);
@@ -168,6 +166,9 @@ class Authentication extends CS425Class
 										string $algo="sha1", int $before=1, int $after=1): array
 	{
 		$otps = array();
+		if(is_null($time)){
+			$time = time();
+		}
 		for($i=-$before; $i<=$after; $i++){
 			$otps[] = $this->GenerateToken($key, $time + ($time_interval * $i), $length, $time_interval, $algo);
 		}
