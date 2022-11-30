@@ -19,13 +19,3 @@ div.content {
     color: white;
     text-align: center;
 }
-
-#theDiv{
-    width: 900px;
-    border: solid #ffffff 2px;
-    margin: 0 0.5em;
-}
-
-div.sb {
-    font-family: sans-serif;
-}
