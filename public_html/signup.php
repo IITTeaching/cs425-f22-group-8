@@ -213,7 +213,7 @@ while($row = pg_fetch_array($result)){
 	</div>
 
 </form>
-    <a href="https://cs425.lenwashingtoniii.com/" class="button1">Back</a>
+    <a href="https://cs425.lenwashingtoniii.com/" class="back">Back</a>
 </div>
 </body>
 </html>
