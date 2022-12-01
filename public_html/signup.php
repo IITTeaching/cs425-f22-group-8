@@ -131,18 +131,18 @@ while($row = pg_fetch_array($result)){
 	<label for="address_number">Address: </label>
 	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
 
-	<select name="direction" id="direction">
+	<select class="input1" name="direction" id="direction">
 		<option value="None"></option>
 		<option value="N">North</option>
 		<option value="E">East</option>
 		<option value="S">South</option>
 		<option value="W">West</option>
 	</select>
-    <input type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>
+    <input class="input2" type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>
     <br>
     <block id = "input";>
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>
-        <select class = "test1" name = "state" id="state">
+        <select class = "input1" name = "state" id="state">
             <option value="None">Select State</option>
             <option value="AL">AL - Alabama</option>
             <option value="AK">AK - Alaska</option>
