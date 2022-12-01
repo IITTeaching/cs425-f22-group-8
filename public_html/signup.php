@@ -128,7 +128,7 @@ while($row = pg_fetch_array($result)){
 	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 
 	<label for="address_number">Address: </label>
-	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
+	<input type="number" id="address_number" inputmode="decimal" name="address_number" placeholder="3301" onblur="checkInfo()" required>
 
 	<select name="direction" id="direction">
 		<option value="None"></option>
@@ -141,8 +141,7 @@ while($row = pg_fetch_array($result)){
     <br>
     <block>
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>,
-        <select name = "state" id="state">
-            <option value="None">State</option>
+        <select name="state" id="state" required>
             <option value="AL">AL - Alabama</option>
             <option value="AK">AK - Alaska</option>
             <option value="AZ">AZ - Arizona</option>
@@ -196,7 +195,7 @@ while($row = pg_fetch_array($result)){
             <option value="WY">WY - Wyoming</option>
         </select>
 
-        <input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
+        <input type="number" inputmode="decimal" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
 
     </block>
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
@@ -214,7 +213,7 @@ while($row = pg_fetch_array($result)){
 </form>
 
 
-    <a href="https://cs425.lenwashingtoniii.com/">
+    <a href="<?php echo HTTPS_HOST ?>">
         <button>Back</button>
     </a>
 </div>
