@@ -19,7 +19,8 @@ try{
 	<title>WCS Banking</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
-	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
+    <link href="/css/index.css" type="text/css" rel="stlyesheet"/>
+    <link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 </head>
 <body>
     <div id="styledimg"></div>
