@@ -34,6 +34,7 @@ while($row = pg_fetch_array($result)){
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/signup.css" type="text/css" rel="stylesheet"/>
     <link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/back_button.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="/scripts/buttons.js"></script>
 </head>
 <body>
@@ -142,7 +143,7 @@ while($row = pg_fetch_array($result)){
     <block>
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>,
         <select name = "state" id="state">
-            <option value="None">State</option>
+            <option value="None">Select State</option>
             <option value="AL">AL - Alabama</option>
             <option value="AK">AK - Alaska</option>
             <option value="AZ">AZ - Arizona</option>
@@ -212,11 +213,7 @@ while($row = pg_fetch_array($result)){
 	</div>
 
 </form>
-
-
-    <a href="https://cs425.lenwashingtoniii.com/">
-        <button>Back</button>
-    </a>
+    <a href="https://cs425.lenwashingtoniii.com/" class="button1">Back</a>
 </div>
 </body>
 </html>
