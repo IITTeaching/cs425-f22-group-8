@@ -27,6 +27,7 @@ html, body {
     cursor: pointer;
     outline: none;
     position: relative;
+    top: 140px;
     padding: 10px;
 }
 

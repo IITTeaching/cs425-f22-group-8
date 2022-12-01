@@ -1,6 +1,6 @@
 a.back{
     display:inline-block;
-    padding:0.35em 1.2em;
+    padding:0.2em 0.5em;
     border:0.1em solid #FFFFFF;
     margin:0 0.3em 0.3em 0;
     border-radius:0.12em;
@@ -11,6 +11,8 @@ a.back{
     color:#FFFFFF;
     text-align:center;
     transition: all 0.2s;
+    position: absolute;
+    bottom: 20px;
 }
 a.back:hover{
     color:#000000;
