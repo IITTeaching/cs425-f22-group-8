@@ -137,10 +137,12 @@ while($row = pg_fetch_array($result)){
 		<option value="S">South</option>
 		<option value="W">West</option>
 	</select>
-    <input type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>,
+    <input type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>
+    <br>
     <block>
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>,
         <select name = "state" id="state">
+            <option value="None">State</option>
             <option value="AL">AL - Alabama</option>
             <option value="AK">AK - Alaska</option>
             <option value="AZ">AZ - Arizona</option>
@@ -149,7 +151,7 @@ while($row = pg_fetch_array($result)){
             <option value="CO">CO - Colorado</option>
             <option value="CT">CT - Connecticut</option>
             <option value="DE">DE - Delaware</option>
-            <option value="DC">District Of Columbia (DC)</option>
+            <option value="DC">DC - District Of Columbia</option>
             <option value="FL">FL - Florida</option>
             <option value="GA">GA - Georgia</option>
             <option value="HI">HI - Hawaii</option>
