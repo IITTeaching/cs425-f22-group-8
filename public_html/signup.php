@@ -142,7 +142,7 @@ while($row = pg_fetch_array($result)){
     <br>
     <block id = "input";>
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>
-        <select name = "state" id="state">
+        <select class = "test1" name = "state" id="state">
             <option value="None">Select State</option>
             <option value="AL">AL - Alabama</option>
             <option value="AK">AK - Alaska</option>
@@ -197,7 +197,7 @@ while($row = pg_fetch_array($result)){
             <option value="WY">WY - Wyoming</option>
         </select>
 
-        <input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
+        <input class = "input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
 
     </block>
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
