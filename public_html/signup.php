@@ -133,7 +133,7 @@ $state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' |
 	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
 
 	<select class="input1" name="direction" id="direction">
-		<option value="None"></option>
+		<option value="None">Direction</option>
 		<option value="N">North</option>
 		<option value="E">East</option>
 		<option value="S">South</option>
