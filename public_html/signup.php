@@ -141,7 +141,7 @@ while($row = pg_fetch_array($result)){
     <input type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>
     <br>
     <block id = "input";>
-        <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>,
+        <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>
         <select name = "state" id="state">
             <option value="None">Select State</option>
             <option value="AL">AL - Alabama</option>
