@@ -20,7 +20,7 @@ class Employee extends CS425Class
 		return match ($type) {
 			"Teller" => EmployeeTypes::Teller,
 			"Loan Shark" => EmployeeTypes::LoanShark,
-			"Manager" => EmployeeTypes::Janitor,
+			"Manager" => EmployeeTypes::Manager,
 			default => throw new InvalidArgumentException("Employee has an unknown role."),
 		};
 	}
