@@ -37,81 +37,169 @@ $state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' |
     <link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
     <link href="/css/back_button.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="/scripts/buttons.js"></script>
+
+	<script type="text/javascript">
+		function onOpen(){
+			document.getElementById("username").addEventListener("keyup", checkUsername);
+			document.getElementById("fullname").addEventListener("keyup", checkName);
+			document.getElementById("email").addEventListener("keyup", checkEmail);
+			document.getElementById("phone").addEventListener("keyup", checkPhoneNumber);
+			document.getElementById("password").addEventListener("keyup", checkPassword);
+			document.getElementById("zipcode").addEventListener("keyup", checkZipcode);
+			document.getElementById("address_number").addEventListener("keyup", checkAddressNumber);
+			document.getElementById("streetname").addEventListener("keyup", checkStreetNumber);
+		}
+
+		function checkUsername(){
+			let username = document.forms["signup_form"]["username"];
+			if(username.value.length === 0){
+				username.setCustomValidity("The username cannot be empty.");
+				username.reportValidity();
+				return false;
+			}
+			username.setCustomValidity("");
+			return true;
+		}
+
+		function checkName(){
+			let name = document.forms["signup_form"]["fullname"];
+			if(name.value.length === 0){
+				name.setCustomValidity("Your name is required.");
+				name.reportValidity();
+				return false;
+			}
+			name.setCustomValidity("");
+			return true;
+		}
+
+		function checkEmail(){
+			let email = document.forms["signup_form"]["email"];
+			let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+			if(!email_regex.test(email.value.toLowerCase()) || email.validity.typeMismatch){
+				email.setCustomValidity("Your email must be valid.");
+email.reportValidity();
+				return false;
+			}
+			email.setCustomValidity("");
+			return true;
+		}
+
+		function checkPhoneNumber(){
+			let phone = document.forms["signup_form"]["phone"];
+
+			let phone_number_regex = /\(?(\d{3})\)?-?(\d{3})-?(\d{4})/;
+			if(!phone_number_regex.test(phone.value)){
+				phone.setCustomValidity("Please enter a valid phone number.");
+				phone.reportValidity();
+				return false;
+			}
+			phone.setCustomValidity("");
+			return true;
+		}
+
+		function checkPassword(){
+			let password = document.forms["signup_form"]["password"];
+			let value = password.value;
+
+			if(value.length < 8){
+				password.setCustomValidity("Your password must be at least 8 characters long.");
+				password.reportValidity(); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
+				return false;
+			}
+
+			let password_number_regex = /.*\d.*/;
+			if(!password_number_regex.test(value)){
+				password.setCustomValidity("Your password must contain a number.");
+				password.reportValidity();
+				return false;
+			}
+
+			let upper_regex = /.*[A-Z].*/;
+			if(!upper_regex.test(value)){
+				password.setCustomValidity("Your password must have at least one upper case letter.");
+				password.reportValidity();
+				return false;
+			}
+
+			let lower_regex = /.*[a-z].*/;
+			if(!lower_regex.test(value)){
+				password.setCustomValidity("Your password must have at least one lower case letter.");
+				password.reportValidity();
+				return false;
+			}
+
+			let symbol_regex = /.*[!#$@%()^&;:-].*/;
+			if(!symbol_regex.test(value)){
+				password.setCustomValidity("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
+				return false;
+			}
+
+			password.setCustomValidity("");
+			return true;
+		}
+
+		function checkZipcode(){
+			let zipcode = document.forms["signup_form"]["zipcode"];
+
+			if(zipcode.value < 10000 || zipcode.value > 99999){
+				zipcode.setCustomValidity("Please enter a valid zipcode.");
+				zipcode.reportValidity();
+				return false;
+			}
+			zipcode.setCustomValidity("");
+			return true;
+		}
+
+		function checkAddressNumber(){
+			let address = document.forms["signup_form"]["address_number"];
+
+			if(!address.checkValidity()){
+				address.setCustomValidity("Please enter a address number.");
+				address.reportValidity();
+				return false;
+			}
+			address.setCustomValidity("");
+			return true;
+		}
+
+		function checkStreetNumber(){
+			let streetname = document.forms["signup_form"]["streetname"];
+
+			if(streetname.value.length === 0){
+				streetname.setCustomValidity("The street number cannot be empty.");
+				streetname.reportValidity();
+				return false;
+			}
+			streetname.setCustomValidity("");
+			return true;
+		}
+
+		function validate(){ // TODO: Add checks for locations to make sure they aren't blank.
+			if(!checkUsername()) { return false; }
+			if(!checkName()) { return false; }
+			if(!checkEmail()) { return false; }
+			if(!checkPhoneNumber()) { return false; }
+			if(!checkPassword()) { return false; }
+			if(!checkZipcode()) { return false; }
+			if(!checkAddressNumber()) { return false; }
+			if(!checkStreetNumber()) { return false; }
+
+			return true;
+		}
+
+		function checkInfo(){
+			if(!validate()){
+				missingInfo();
+			} else{
+				allGood();
+			}
+		}
+	</script>
+
 </head>
-<body>
+<body onload="onOpen()">
 <div id="signup_box">
-<script type="text/javascript">
-	function validate(){
-		let form = document.forms["signup_form"];
-		let password = form["password"].value;
-		let email = form["email"].value;
-		let username = form["username"].value;
-		let name = form["fullname"].value;
-		let phoneNumber = form["phone"].value;
-
-		if(username.length === 0){
-			return false;
-		}
-
-		if(name.length === 0){
-			return false;
-		}
-
-		if(password.length < 8){
-			console.log("Your password must be at least 8 characters long."); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
-			return false;
-		}
-
-		let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-		if(!email_regex.test(email.toLowerCase())){
-			console.log("Your email must be valid.");
-			return false;
-		}
-
-		let password_number_regex = /\(?(\d{3})\)?-?(\d{3})-?(\d{4})/;
-		if(!password_number_regex.test(phoneNumber)){
-			console.log("Please enter a valid phone number.");
-			return false;
-		}
-
-		let number_regex = /.*\d.*/;  // TODO: If possible, auto add the dashes.
-		if(!number_regex.test(password)){
-			console.log("Your password must have at least one number in it.");
-			return false;
-		}
-
-		let upper_regex = /.*[A-Z].*/;
-		if(!upper_regex.test(password)){
-			console.log("Your password must have at least one upper case letter.");
-			return false;
-		}
-
-		let lower_regex = /.*[a-z].*/;
-		if(!lower_regex.test(password)){
-			console.log("Your password must have at least one lower case letter.");
-			return false;
-		}
-
-		let symbol_regex = /.*[!#$@%()^&;:-].*/;
-		if(!symbol_regex.test(password)){
-			console.log("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
-			return false;
-		}
-
-		// TODO: Add checks for locations to make sure they aren't blank.
-
-		return true;
-	}
-
-	function checkInfo(){
-		if(!validate()){
-			missingInfo();
-		} else{
-			allGood();
-		}
-	}
-</script>
 
 <form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
@@ -130,18 +218,19 @@ $state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' |
 	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 
 	<label for="address_number">Address: </label>
-	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" required>
+	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" min="0" required>
 
-	<select class="input1" name="direction" id="direction">
-		<option value="None">Direction</option>
-		<option value="N">North</option>
-		<option value="E">East</option>
-		<option value="S">South</option>
-		<option value="W">West</option>
-	</select>
-    <input class="input2" type="text" name="streetname" id="streetname" placeholder="Streetname" onblur="checkInfo()" required>
+	<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction" required>
+	<datalist id="directions">
+		<option></option>
+		<option>N</option>
+		<option>E</option>
+		<option>S</option>
+		<option>W</option>
+	</datalist>
+    <input class="input2" type="text" name="streetname" id="streetname" placeholder="Street Name" onblur="checkInfo()" required>
     <br>
-    <block id = "input";>
+    <block id = "input">
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>
         <select class = "input1" name = "state" id="state">
             <option value="None">Select State</option>
@@ -149,23 +238,25 @@ $state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' |
 	<?php echo $row[0] . PHP_EOL; ?>
 		<?php }?></select>
 
-        <input class = "input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
+        <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
 
     </block>
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
-	<label for="branch">Your favorite (or closest) branch: </label><select name="branch" id="branch" onblur="checkInfo()" required>
+	<label for="branch">Your favorite (or closest) branch: </label>
+	<input name="branch" id="branch" onblur="checkInfo()" list="branches" placeholder="Branch" required>
+	<datalist id="branches">
 		<?php foreach($dct as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>
 		<?php } ?>
-	</select><br>
+	</datalist><br>
 
 	<div class="" id="submit_wrapper">
 		<button type="submit" name="submit" id="submit" form="signup_form" hidden>Sign Up!</button>
 	</div>
 
 </form>
-    <a href="https://cs425.lenwashingtoniii.com/" class="back">Back</a>
+    <a href="<?php echo HTTPS_HOST?>" class="back">Back</a>
 </div>
 </body>
 </html>
