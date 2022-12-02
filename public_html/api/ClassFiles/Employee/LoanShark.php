@@ -1,5 +1,7 @@
 <?php
 
+require_once (dirname(__DIR__, 2) . "/ConfigFiles/LoanConfig.php");
+
 class LoanShark extends Employee
 {
 	public function __construct(int $employee_id)
