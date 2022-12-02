@@ -261,7 +261,7 @@ email.reportValidity();
 	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 
 	<label for="address_number">Address: </label>
-	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" min="0" required>
+	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" min="0" inputmode="decimal" required>
 
 	<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction" required>
 	<datalist id="directions">
@@ -283,7 +283,7 @@ email.reportValidity();
 			<?php }?>
 		</datalist>
 
-        <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
+        <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal"><br>
 
     </block>
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
