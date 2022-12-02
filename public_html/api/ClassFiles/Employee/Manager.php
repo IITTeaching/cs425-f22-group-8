@@ -11,10 +11,13 @@ class Manager extends Employee
 		parent::__construct($employee_id, new ManagerConfig());
 	}
 
-	protected function addEmployee($name, EmployeeTypes $role, Address $address, int $ssn, Address $branch, float $salary,
-									string $username, string $password): Employee{
+	public function addEmployee(string $name, EmployeeTypes $role, Address $address, int $ssn, Address $branch, float $salary,
+									string $password): Employee{
 		$name = $this->prepareData($name);
 		$ssn = hash_hmac("sha256", $ssn, "A super duper secret key");
+		$username = explode(" ", str_replace(".", "", $name));
+		$username = $username[0][0] . $username[count($username)-1]; // TODO: Add middle names or numbers in case there is another person with a similar name
+
 		$sql = sprintf("INSERT INTO Employee(name, role, address, ssn, branch, salary) VALUES('%s','%s',%d,'%s',%d,%f) RETURNING id",
 			$name, $role->name, $address->getAddressId(), $ssn, $branch->getAddressId(), $salary);
 		$result = $this->query($sql);
@@ -40,4 +43,6 @@ class Manager extends Employee
 
 		return $employee;
 	}
+
+	protected function employeeType(): EmployeeTypes { return EmployeeTypes::Manager; }
 }

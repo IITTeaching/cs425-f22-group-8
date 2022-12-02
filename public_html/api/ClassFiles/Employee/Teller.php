@@ -6,4 +6,6 @@ class Teller extends Employee
 	{
 		parent::__construct($employee_id, new TellerConfig());
 	}
+
+	protected function employeeType():EmployeeTypes { return EmployeeTypes::Teller; }
 }

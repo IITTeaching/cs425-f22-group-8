@@ -21,17 +21,10 @@ class LoanShark extends Employee
 		return $loan_requests;
 	}
 
-	private function ensureLoanManager() {
-		if($this->getEmployeeType() == EmployeeTypes::LoanShark){
-			return;
-		}
-		echo "Even though you are logged in as a Loan Manager, the database does not recognize you as one.";
-		$this::__destruct();
-	}
+	protected function employeeType():EmployeeTypes { return EmployeeTypes::LoanShark; }
 
 	public function approveLoan(LoanRequest $loan): Loan{
-		$this->ensureLoanManager();
-		$row = $this->query("DELETE FROM loanrequests WHERE loan_request_number = 2 RETURNING *;");
+		$row = $this->query("DELETE FROM LoanRequests WHERE loan_request_number = 2 RETURNING *;");
 		$row = pg_fetch_assoc($row);
 
 		$result = $this->query(sprintf("INSERT INTO LoanApprovals(approver_id, customer_id, initial_amount, amount_remaining, payback_period, compounding_per_year, apr) VALUES(%d,%d,%f,%f,%d,%d,%f) RETURNING loan_number",
@@ -41,7 +34,6 @@ class LoanShark extends Employee
 	}
 	// TODO: Create a home page for employees and add the redirect in the DataBase.emplLogin, make sure this isn't overriden in api/login.
 	public function denyLoan(LoanRequest $loan){ # TODO: Maybe add a reason why the request was denied
-		$this->ensureLoanManager();
 		return $this->query("DELETE FROM LoanRequests WHERE loan_request_number = %d", $loan->getNumber());
 	}
 }

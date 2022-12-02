@@ -1,12 +1,12 @@
 .wcsbanner {
-    width: 491px;
-    height: 230px;
-    background-image: url("/images/wcsbanner.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+	width: 491px;
+	height: 230px;
+	background-image: url("/images/wcsbanner.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 div.wcsbanner.before {
-    content:url("/images/wcsbanner.png");
+	content:url("/images/wcsbanner.png");
 }
