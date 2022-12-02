@@ -1,8 +1,8 @@
 <?php
 
-include_once "../CS425Class.php";
-include_once "EmployeeTypes.php";
-include_once "../../ConfigFiles/Config.php";
+require_once (dirname(__DIR__) . "/CS425Class.php");
+require_once (dirname(__DIR__,2) . "/ConfigFiles/Config.php");
+require_once "EmployeeTypes.php";
 
 abstract class Employee extends CS425Class
 {

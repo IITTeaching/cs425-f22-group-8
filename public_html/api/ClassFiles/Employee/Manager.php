@@ -1,8 +1,8 @@
 <?php
 
-include_once "Employee.php";
-require_once (dirname(__DIR__) . "/ConfigFiles/ManagerConfig.php");
-require_once (dirname(__DIR__) . "/ClassFiles/Address.php");
+require_once "Employee.php";
+require_once (dirname(__DIR__, 2) . "/ConfigFiles/ManagerConfig.php");
+require_once (dirname(__DIR__, 2) . "/ClassFiles/Address.php");
 
 class Manager extends Employee
 {
@@ -19,7 +19,7 @@ class Manager extends Employee
 		$username = $username[0][0] . $username[count($username)-1]; // TODO: Add middle names or numbers in case there is another person with a similar name
 
 		$sql = sprintf("INSERT INTO Employee(name, role, address, ssn, branch, salary) VALUES('%s','%s',%d,'%s',%d,%f) RETURNING id",
-			$name, $role->name, $address->getAddressId(), $ssn, $branch->getAddressId(), $salary);
+			$name, $role->value, $address->getAddressId(), $ssn, $branch->getAddressId(), $salary);
 		$result = $this->query($sql);
 		$this->checkQueryResult($result);
 		$id = pg_fetch_result($result, 0);

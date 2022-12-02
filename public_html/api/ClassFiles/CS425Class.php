@@ -3,6 +3,7 @@
 use PgSql\Result;
 
 require_once (dirname(__DIR__) . "/ConfigFiles/Config.php");
+require_once (dirname(__DIR__) . "/Exceptions/PGException.php");
 
 class CS425Class
 {
