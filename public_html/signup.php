@@ -23,8 +23,8 @@ $dct = array();
 while($row = pg_fetch_array($result)){
 	$dct[$row["name"]] = $row["address"];
 }
-
-$state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' || abbreviation || ' - ' || name || '</option>' FROM States;");
+// TODO: Check if there is a way to make the form less aggresive, it forces its way from one element to the next, skipping non-required ones, and not allowing you to go back until everything required has something in it.
+$state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' || name || '</option>' FROM States;");
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,8 +46,12 @@ $state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' |
 			document.getElementById("phone").addEventListener("keyup", checkPhoneNumber);
 			document.getElementById("password").addEventListener("keyup", checkPassword);
 			document.getElementById("zipcode").addEventListener("keyup", checkZipcode);
+			//document.getElementById("direction").addEventListener("keyup", checkDirection);
 			document.getElementById("address_number").addEventListener("keyup", checkAddressNumber);
 			document.getElementById("streetname").addEventListener("keyup", checkStreetNumber);
+			document.getElementById("state").addEventListener("keyup", checkState);
+			document.getElementById("city").addEventListener("keyup", checkState);
+			document.getElementById("branch").addEventListener("keyup", checkBranch);
 		}
 
 		function checkUsername(){
@@ -104,7 +108,7 @@ email.reportValidity();
 
 			if(value.length < 8){
 				password.setCustomValidity("Your password must be at least 8 characters long.");
-				password.reportValidity(); // TODO: Replace these with a function that will put the focus on the onblur="checkInfo()" required box, and each element should have its own function
+				password.reportValidity();
 				return false;
 			}
 
@@ -154,8 +158,8 @@ email.reportValidity();
 		function checkAddressNumber(){
 			let address = document.forms["signup_form"]["address_number"];
 
-			if(!address.checkValidity()){
-				address.setCustomValidity("Please enter a address number.");
+			if(address.value <= 0){
+				address.setCustomValidity("Please enter an address number.");
 				address.reportValidity();
 				return false;
 			}
@@ -175,15 +179,54 @@ email.reportValidity();
 			return true;
 		}
 
-		function validate(){ // TODO: Add checks for locations to make sure they aren't blank.
+		function checkCity(){
+			let city = document.forms["signup_form"]["city"];
+
+			if(city.value.length === 0){
+				city.setCustomValidity("You must provide your city.");
+				city.reportValidity();
+				return false;
+			}
+			city.setCustomValidity("");
+			return true;
+		}
+
+		function checkState(){
+			let state = document.forms["signup_form"]["state"];
+
+			if(state.value.length != 2){
+				state.setCustomValidity("You must choose the proper state.");
+				state.reportValidity();
+				return false;
+			}
+			state.setCustomValidity("");
+			return true;
+		}
+
+		function checkBranch(){
+			let branch = document.forms["signup_form"]["branch"];
+
+			if(branch.value.length === 0){ // TODO: Check if there is a way to see if branch is in the branches datalist.
+				branch.setCustomValidity("You must choose the location of one of our branches.");
+				branch.reportValidity();
+				return false;
+			}
+			branch.setCustomValidity("");
+			return true;
+		}
+
+		function validate(){
 			if(!checkUsername()) { return false; }
+			if(!checkPassword()) { return false; }
 			if(!checkName()) { return false; }
 			if(!checkEmail()) { return false; }
 			if(!checkPhoneNumber()) { return false; }
-			if(!checkPassword()) { return false; }
-			if(!checkZipcode()) { return false; }
 			if(!checkAddressNumber()) { return false; }
 			if(!checkStreetNumber()) { return false; }
+			if(!checkCity()) { return false; }
+			if(!checkState()) { return false; }
+			if(!checkZipcode()) { return false; }
+			if(!checkBranch()) { return false; }
 
 			return true;
 		}
@@ -232,11 +275,13 @@ email.reportValidity();
     <br>
     <block id = "input">
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>
-        <select class = "input1" name = "state" id="state">
-            <option value="None">Select State</option>
-		<?php while($row = pg_fetch_row($state_result)) {?>
-	<?php echo $row[0] . PHP_EOL; ?>
-		<?php }?></select>
+
+		<input class = "input1" name = "state" id="state" onblur="checkInfo()" list="states" placeholder="State" required>
+		<datalist id="states">
+			<?php while($row = pg_fetch_row($state_result)) {?>
+				<?php echo $row[0] . PHP_EOL; ?>
+			<?php }?>
+		</datalist>
 
         <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code"><br>
 
