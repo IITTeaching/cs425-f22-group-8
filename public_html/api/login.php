@@ -41,10 +41,10 @@ if (gettype($result) == 'boolean') {
 }
 
 else{
-	http_response_code(200);
+	http_response_code(302);
 	header("Response: " . $result);
 	if(!is_header_set("Location")){
-		header("Location: " . HTTPS_HOST); // FIXME: The client can see the location response header, and the page exists, but it stays at /api/login
+		header("Location: " . HTTPS_HOST);
 	}
 }
 

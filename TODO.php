@@ -7,3 +7,5 @@
 # TODO: Let JS see the "Response" header and display it as an alert
 
 # FIXME: Add redirect for email verification
+
+# TODO: In the /employee_login page, determine what kind of employee they are and redirect them to the responsible page.
