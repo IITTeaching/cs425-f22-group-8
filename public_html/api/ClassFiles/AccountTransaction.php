@@ -2,6 +2,7 @@
 
 require_once "CS425Class.php";
 require_once (dirname(__DIR__) . "/ConfigFiles/TransactionsConfig.php");
+require_once (dirname(__DIR__) . "/Exceptions/PGException.php");
 
 
 class AccountTransaction extends CS425Class
@@ -38,13 +39,22 @@ class AccountTransaction extends CS425Class
 		return true;
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public function withdrawal(User|Teller|Manager $authorizer, Account $account, float $amount, string $description=""): float|false{
 		if(!$this->checkAuthorization($authorizer, $account)){
 			return false;
 		}
 
-		$result = $this->query(sprintf("SELECT withdrawal(%d,%f,'%s')", $account->getAccountNumber(), $amount, $description));
-		return pg_fetch_result($result, 0);
+		$result = $this->query(sprintf("SELECT withdrawal(%d,%f,'%s')", $account->getAccountNumber(), abs($amount), $description));
+		$notice = pg_last_notice($this->connect);
+		if(strlen($notice) != 0){
+			pg_last_notice($this->connect, PGSQL_NOTICE_CLEAR);
+			throw new PGException($notice);
+		}
+
+		return (float)pg_fetch_result($result, 0);
 	}
 
 	public function deposit(User|Teller|Manager $authorizer, Account $account, float $amount): float|false{
