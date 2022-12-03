@@ -44,4 +44,14 @@ abstract class Employee extends CS425Class
 	}
 
 	public function getAuthCode(): string|false{ return $this->authcode; }
+
+	protected static function fromUsername(string $username) {
+		$db = new CS425Class(new ManagerConfig());
+		$username = $db->prepareData($username);
+		$result = $db->query(sprintf("SELECT id FROM EmployeeLogins WHERE username = '%s'", $username));
+		if(pg_affected_rows($result) == 0){
+			return false;
+		}
+		return pg_fetch_result($result, 0);
+	}
 }

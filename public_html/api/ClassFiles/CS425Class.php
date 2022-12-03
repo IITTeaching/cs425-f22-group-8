@@ -56,7 +56,7 @@ class CS425Class
 		}
 	}
 
-	protected function query($query, $errorMessage=""): bool|Result
+	public function query($query, $errorMessage=""): bool|Result
 	{
 		if(!$this->connect){ return false; }
 		$result = pg_query($this->connect, $query);

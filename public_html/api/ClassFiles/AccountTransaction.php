@@ -57,6 +57,8 @@ class AccountTransaction extends CS425Class
 	 * @throws PGException
 	 */
 	public function withdrawal(User|Teller|Manager $authorizer, Account $account, float $amount, string $description=""): float|false{
+		$amount = (float)$this->prepareData($amount);
+		$description = $this->prepareData($description);
 		if($amount == 0){
 			return 0;
 		}

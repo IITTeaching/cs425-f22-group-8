@@ -38,4 +38,10 @@ class LoanShark extends Employee
 	public function denyLoan(LoanRequest $loan){ # TODO: Maybe add a reason why the request was denied
 		return $this->query("DELETE FROM LoanRequests WHERE loan_request_number = %d", $loan->getNumber());
 	}
+
+	public static function fromUsername(string $username): false|LoanShark{
+		$id = parent::fromUsername($username);
+		if(!$id) { return false; }
+		return new LoanShark($id);
+	}
 }

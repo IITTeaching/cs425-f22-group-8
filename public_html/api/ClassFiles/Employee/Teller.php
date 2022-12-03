@@ -13,8 +13,6 @@ class Teller extends Employee
 
 	protected function employeeType():EmployeeTypes { return EmployeeTypes::Teller; }
 
-
-
 	/**
 	 * Returns the balance of the account, or false if the account doesn't exist.
 	 *
@@ -29,5 +27,9 @@ class Teller extends Employee
 		return pg_fetch_result($result, 0);
 	}
 
-
+	public static function fromUsername(string $username): false|Teller{
+		$id = parent::fromUsername($username);
+		if(!$id) { return false; }
+		return new Teller($id);
+	}
 }

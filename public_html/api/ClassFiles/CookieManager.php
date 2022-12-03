@@ -46,7 +46,7 @@ class CookieManager
 		return $data;
 	}
 
-	function getCookieUsername(): string|bool{
+	function getCookieUsername(): string|false {
 		$data = $this->getCookieData();
 		if(!$data) { return false; }
 		return $data["username"];

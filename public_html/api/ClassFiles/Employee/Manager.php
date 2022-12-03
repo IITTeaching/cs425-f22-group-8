@@ -49,4 +49,10 @@ class Manager extends Employee
 	}
 
 	protected function employeeType(): EmployeeTypes { return EmployeeTypes::Manager; }
+
+	public static function fromUsername(string $username): false|Manager{
+		$id = parent::fromUsername($username);
+		if(!$id) { return false; }
+		return new Manager($id);
+	}
 }

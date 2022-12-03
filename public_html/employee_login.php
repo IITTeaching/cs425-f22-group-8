@@ -1,8 +1,8 @@
 <?php
-require_once(dirname(__DIR__) . "/ClassFiles/DataBase.php");
-require_once(dirname(__DIR__) . "/ClassFiles/CookieManager.php");
-require_once(dirname(__DIR__) . "/Exceptions/PGException.php");
-require_once(dirname(__DIR__) . "constants.php");
+require_once("api/ClassFiles/DataBase.php");
+require_once("api/ClassFiles/CookieManager.php");
+require_once("api/Exceptions/PGException.php");
+require_once("api/constants.php");
 
 try{
 	$db = new DataBase();
@@ -15,6 +15,7 @@ try{
 }
 
 if(!$cookies->isEmployee()){
+	header("Response: You are not an employee.");
 	header("Location: " . HTTPS_HOST . "/profile");
 	return;
 }
@@ -36,6 +37,6 @@ switch(pg_fetch_result($result, 0)){
 		break;
 	default:
 		http_response_code(500);
-		header("Response: Employee named '%s' has an unknown role, and cannot be redirected.");
+		header(sprintf("Response: Employee named '%s' has an unknown role, and cannot be redirected.", $username));
 		return;
 }
