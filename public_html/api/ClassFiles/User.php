@@ -2,6 +2,7 @@
 
 require_once "CS425Class.php";
 require_once (dirname(__DIR__) . "/ConfigFiles/ProfileConfig.php");
+require_once (dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
 require_once "Account.php";
 require_once "Loan.php";
 
@@ -78,7 +79,7 @@ class User extends CS425Class
 	}
 
 	public static function fromUsername(string $username): User|false{
-		$db = new CS425Class(new ProfileConfig());
+		$db = new CS425Class(new VerificationConfig());
 		$username = $db->prepareData($username);
 		$result = $db->query(sprintf("SELECT id FROM Logins WHERE username = '%s'", $username));
 		if(pg_affected_rows($result) == 0){

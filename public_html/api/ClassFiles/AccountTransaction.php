@@ -14,7 +14,7 @@ class AccountTransaction extends CS425Class
 
 	private function checkAccountExists(Account $account): bool{
 		$result = $this->query(sprintf("SELECT COUNT(number) FROM Account WHERE number = %d", $account->getAccountNumber()));
-		return pg_fetch_result($result, 0) == 0;
+		return pg_fetch_result($result, 0) != 0;
 	}
 
 	private function checkAuthorization(User|Teller|Manager $authorizer, Account $account): bool{
