@@ -42,12 +42,8 @@ class AccountTransaction extends CS425Class
 	/**
 	 * @throws PGException
 	 */
-	public function withdrawal(User|Teller|Manager $authorizer, Account $account, float $amount, string $description=""): float|false{
-		if(!$this->checkAuthorization($authorizer, $account)){
-			return false;
-		}
-
-		$result = $this->query(sprintf("SELECT withdrawal(%d,%f,'%s')", $account->getAccountNumber(), abs($amount), $description));
+	private function runTransactionFunction(string $query){
+		$result = $this->query($query);
 		$notice = pg_last_notice($this->connect);
 		if(strlen($notice) != 0){
 			pg_last_notice($this->connect, PGSQL_NOTICE_CLEAR);
@@ -57,27 +53,44 @@ class AccountTransaction extends CS425Class
 		return (float)pg_fetch_result($result, 0);
 	}
 
-	public function deposit(User|Teller|Manager $authorizer, Account $account, float $amount): float|false{
+	/**
+	 * @throws PGException
+	 */
+	public function withdrawal(User|Teller|Manager $authorizer, Account $account, float $amount, string $description=""): float|false{
+		if($amount == 0){
+			return 0;
+		}
+
 		if(!$this->checkAuthorization($authorizer, $account)){
 			return false;
 		}
 
-		return $this->_depositWithoutCheck($account, $amount);
+		$query = sprintf("SELECT withdrawal(%d,%f,'%s')", $account->getAccountNumber(), abs($amount), $description);
+		return $this->runTransactionFunction($query);
 	}
 
-	private function _depositWithoutCheck(Account $account, float $amount): float|false{
-		$result = pg_fetch_assoc($this->query(sprintf("SELECT balance FROM Account WHERE number = %d", $account->getAccountNumber())));
+	/**
+	 * @throws PGException
+	 */
+	public function deposit(User|Teller|Manager $authorizer, Account $account, float $amount, string $description=""): float|false{
+		if($amount == 0){
+			return 0;
+		}
 
-		$result = pg_fetch_assoc($this->query(sprintf("UPDATE Account SET balance = %f WHERE number = %d RETURNING balance", $result["balance"] + $amount, $account->getAccountNumber())));
-		$this->query(sprintf("INSERT INTO Transactions(account_number, type, amount, description) VALUES(%d,'Deposit',%f,'')", $account->getAccountNumber(), $amount));
-		return $result["balance"];
+		if(!$this->checkAuthorization($authorizer, $account)){
+			return false;
+		}
+
+		$query = sprintf("SELECT deposit(%d,%f,'%s')", $account->getAccountNumber(), abs($amount), $description);
+		return $this->runTransactionFunction($query);
 	}
 
 	public function transfer(User|Teller|Manager $authorizer, float $amount, Account $from, Account $to): float|false {
-		$withdrawal = $this->withdrawal($authorizer, $from, $amount);
-		if(!$withdrawal){
+		$withdrawal = $this->withdrawal($authorizer, $from, $amount, "From"); // TODO: Fill these in
+		if(!$withdrawal || $withdrawal == 0){
 			return false;
 		}
-		return $this->_depositWithoutCheck($to, $withdrawal);
+		$query = sprintf("SELECT deposit(%d,%f,'%s')", $to->getAccountNumber(), abs($withdrawal), "TO");
+		return $this->runTransactionFunction($query);
 	}
 }

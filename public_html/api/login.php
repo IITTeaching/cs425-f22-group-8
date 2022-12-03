@@ -14,7 +14,9 @@ try{
 } catch(PGException $exception){
 	http_response_code(500);
 	header("Response: Internal Database Response, please try again later: " . $exception->getMessage());
-	header("Location: " . HTTPS_HOST);  // TODO: Figure out how to check if a location header has already been set, so this doesn't override the location from emplLogin.
+	if(!is_header_set("Location")){
+		header("Location: " . HTTPS_HOST);
+	}
 	return;
 }
 
