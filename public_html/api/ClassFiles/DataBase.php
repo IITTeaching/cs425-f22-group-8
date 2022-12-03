@@ -55,10 +55,14 @@ class DataBase extends CS425Class
 		$defaultErrorMessage = "Incorrect username/password.";
 		# region Checks if there is a valid cookie
 		if($this->cookieManager->isValidCookie()) {
+			$isEmployee = $this->cookieManager->isEmployee();
 			$result = parent::query(sprintf("SELECT * FROM %s WHERE username = '%s'",
-				($this->cookieManager->isEmployee()) ? "EmployeeLogins" : "Logins", $username));
+				$isEmployee? "EmployeeLogins" : "Logins", $username));
 
 			if (pg_affected_rows($result) != 0) {
+				if($isEmployee){
+					header("Location: " . HTTPS_HOST);
+				}
 				return "Logged In Successfully";
 			}
 			$this->cookieManager->deleteCookie();

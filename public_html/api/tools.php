@@ -23,7 +23,7 @@ function convert_to_bool($pg_result): bool{
 
 function is_header_set(string $header): bool{
 	foreach(headers_list() as $hdr){
-		if(stripos($hdr, $header)){
+		if(str_contains($hdr, $header)){
 			return true;
 		}
 	}

@@ -44,7 +44,7 @@ else{
 	http_response_code(200);
 	header("Response: " . $result);
 	if(!is_header_set("Location")){
-		header("Location: " . HTTPS_HOST);
+		header("Location: " . HTTPS_HOST); // FIXME: The client can see the location response header, and the page exists, but it stays at /api/login
 	}
 }
 
