@@ -1,6 +1,7 @@
 <?php
 
 require_once (dirname(__DIR__) . "/api/ClassFiles/AccountTransaction.php");
+require_once (dirname(__DIR__) . "/api/ClassFiles/CookieManager.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/User.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/Manager.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/Teller.php");
