@@ -1,6 +1,7 @@
 <?php
 require_once("ClassFiles/DataBase.php");
 require_once "constants.php";
+require_once "tools.php";
 
 if (!(isset($_POST['username']) && isset($_POST['password']))) {
 	http_response_code(400);
@@ -13,7 +14,7 @@ try{
 } catch(PGException $exception){
 	http_response_code(500);
 	header("Response: Internal Database Response, please try again later: " . $exception->getMessage());
-	header("Location: " . HTTPS_HOST);
+	header("Location: " . HTTPS_HOST);  // TODO: Figure out how to check if a location header has already been set, so this doesn't override the location from emplLogin.
 	return;
 }
 
@@ -42,6 +43,8 @@ if (gettype($result) == 'boolean') {
 else{
 	http_response_code(200);
 	header("Response: " . $result);
-	header("Location: " . HTTPS_HOST);
+	if(!is_header_set("Location")){
+		header("Location: " . HTTPS_HOST);
+	}
 }
 

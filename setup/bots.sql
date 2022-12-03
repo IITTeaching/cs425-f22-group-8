@@ -1,5 +1,10 @@
 GRANT SELECT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO cs425;
 
+CREATE ROLE bankbot WITH PASSWORD 'b299ecdcc0c02a319625205a804991255fdff2470dddbc7fa05c0c3934dbffae' LOGIN;
+GRANT SELECT ON TABLE EmployeeLogins TO bankbot;
+GRANT CONNECT ON DATABASE cs425 TO bankbot;
+
+
 CREATE ROLE verifybot WITH PASSWORD 'a12dd3a7fd3203a452eb34d91a9be20569d5e337a3384347068895c07f3e0c5a' LOGIN;
 GRANT SELECT, INSERT, DELETE ON TABLE AwaitingVerification TO verifybot;
 GRANT SELECT, UPDATE ON TABLE Customers TO verifybot;  -- Can't run update without SELECT, why, I don't know https://stackoverflow.com/questions/68023530/why-update-permission-does-not-work-without-select-permission-in-postgresql

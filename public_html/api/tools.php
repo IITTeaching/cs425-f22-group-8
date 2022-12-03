@@ -20,3 +20,12 @@ function convert_to_bool($pg_result): bool{
 	}
 	throw new PGException(sprintf("The given result does not map to a boolean: %s", $pg_result));
 }
+
+function is_header_set(string $header): bool{
+	foreach(headers_list() as $hdr){
+		if(stripos($hdr, $header)){
+			return true;
+		}
+	}
+	return false;
+}
