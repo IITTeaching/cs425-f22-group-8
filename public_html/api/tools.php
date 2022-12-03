@@ -12,7 +12,7 @@ function _print($statement): void
 /**
  * @throws PGException
  */
-function convert_to_bool($pg_result): bool{
+function convert_to_bool(string $pg_result): bool{
 	if($pg_result == "t"){
 		return true;
 	} else if ($pg_result == "f"){

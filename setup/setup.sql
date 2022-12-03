@@ -78,11 +78,10 @@ CREATE TABLE AuthorizedUsers(
 
 CREATE TABLE Transactions(
     account_number INT REFERENCES account(number) NOT NULL,
-    date DATE NOT NULL,
+    date DATE NOT NULL DEFAULT now(),
     type TransactionType NOT NULL,
     amount DOUBLE PRECISION NOT NULL,
-    description TEXT, -- TODO: Figure out how to do this
-    PRIMARY KEY (account_number, date, type)
+    description TEXT
 );
 
 CREATE TABLE AwaitingVerification(

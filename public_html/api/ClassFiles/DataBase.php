@@ -61,7 +61,7 @@ class DataBase extends CS425Class
 
 			if (pg_affected_rows($result) != 0) {
 				if($isEmployee){
-					header("Location: " . HTTPS_HOST);
+					header("Location: " . HTTPS_HOST . "/employee_login");
 				}
 				return "Logged In Successfully";
 			}
