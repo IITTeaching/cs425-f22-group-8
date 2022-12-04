@@ -116,9 +116,9 @@ class DataBase extends CS425Class
 		# endregion
 		# region If the user has 2FA enabled, checks the codes
 		$totp = $row["totp_secret"];
-		if(!is_null($totp)){
+		if(!is_null($totp) && false){ // TODO: Remove false when customers need 2FA to login.
 			$valid_code = $this->authenticator->checkTOTP($username, $authcode, false);
-			header("Response3: Valid Code: " . ($valid_code) ? "Yes" : "No");
+			header("Response: Valid Code: " . ($valid_code) ? "Yes" : "No");
 			if(!$valid_code){
 				throw new InvalidArgumentException("Response: Invalid 2FA code");
 			}
@@ -142,7 +142,7 @@ class DataBase extends CS425Class
 		if (!(($row["username"] == $username) && password_verify($password, $row["password"]))) {
 			throw new InvalidArgumentException("Invalid username or password.");
 		}
-		if(!$this->authenticator->checkTOTP($username, $authcode, true)){
+		if(!$this->authenticator->checkTOTP($username, $authcode, true) && false){  // TODO: Remove and false when employees need 2FA again.
 			header("Response: Incorrect 2 Factor Authentication.");
 			return false;
 		}
