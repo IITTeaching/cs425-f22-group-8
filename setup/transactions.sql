@@ -29,6 +29,18 @@ BEGIN
 END
 $deposit$ LANGUAGE plpgsql;
 
+
+CREATE OR REPLACE FUNCTION transfer(initial_account_number INT, final_account_number INT, amount DOUBLE PRECISION, descript TEXT)
+    RETURNS VOID AS $$
+DECLARE
+    withdrawn DOUBLE PRECISION;
+BEGIN
+    SELECT deposit(final_account_number, (SELECT withdrawn FROM withdrawal(initial_account_number, amount, descript)), descript);
+    -- TODO: Have transfer tell withdrawal/deposit that the transactiontype is Transfer
+END
+$$ LANGUAGE plpgsql;
+
+
 SELECT withdrawal(1, 750, 'Electric Bill (Past Transaction 3)') AS amount;
 SELECT deposit(1, 1000, 'Child Support (Past Transaction 2)') AS amount;
 -- SELECT * FROM account WHERE number = 1;

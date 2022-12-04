@@ -15,7 +15,7 @@ class User extends CS425Class
 	 */
 	public function __construct($id){
 		parent::__construct(new ProfileConfig());
-		$this->id = $id;  // TODO: This should check to make sure a suer with this id exists.
+		$this->id = $id;  // TODO: This should check to make sure a user with this id exists.
 	}
 
 	/**

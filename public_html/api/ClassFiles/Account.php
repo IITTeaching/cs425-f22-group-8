@@ -29,9 +29,7 @@ class Account extends CS425Class
 		return pg_fetch_result($result, 0, 0);
 	}
 
-	public function getBalance(): float{
-		return $this->getBasicResult(sprintf("SELECT balance FROM Account WHERE number = %d", $this->account_number));
-	}
+	public function getBalance(): float{ return $this->getBasicResult(sprintf("SELECT balance FROM Account WHERE number = %d", $this->account_number)); }
 
 	/**
 	 * @return int
@@ -48,9 +46,7 @@ class Account extends CS425Class
 		return new User(pg_fetch_result($result, 0, 0));
 	}
 
-	public function setName(string $name){
-		$result = $this->query(sprintf("UPDATE Account SET account_name = '%s' WHERE number = %d", $this->prepareData($name), $this->account_number));
-	}
+	public function setName(string $name){ $this->query(sprintf("UPDATE Account SET account_name = '%s' WHERE number = %d", $this->prepareData($name), $this->account_number)); }
 
 	/**
 	 * @return string|false
@@ -66,26 +62,9 @@ class Account extends CS425Class
 
 	public function canGoNegative(): bool { return $this->getBasicResult(sprintf("SELECT can_go_negative FROM Account WHERE number = %d", $this->account_number)); }
 
-	/**
-	 * @param Account $account The account the money should be transferred to.
-	 * @param float $amount The amount of money to be transferred.
-	 * @return void
-	 * @throws InvalidArgumentException
-	 */
-	public function transferMoney(Account $account, float $amount): void
-	{
-		// Checks that the account has enough funds
-		$balance = $this->getBalance();
-		if($balance - $amount < 0){
-			if(!$this->canGoNegative()){
-				throw new InvalidArgumentException("This account does not have the funds to transfer to.");
-			}
-		}
+	public function deleteAccount() { return $this->getBasicResult(sprintf("DELETE FROM Account WHERE number = %d", $this->getAccountNumber())); }
 
-		$new_balance = $balance - $amount;
-		$transfer_balance = $account->getBalance() + $amount;
-
-		$this->query(sprintf("UPDATE Account SET balance = %f WHERE number = %d", $new_balance, $this->account_number));
-		$this->query(sprintf("UPDATE Account SET balance = %f WHERE number = %d", $transfer_balance, $account->getAccountNumber()));
+	public static function createAccount(User $creator, string $type, float $initial_balance, string $name="") {
+		# TODO: Write create account
 	}
 }

@@ -72,12 +72,13 @@ CREATE TABLE Logins(
 
 CREATE TABLE AuthorizedUsers(
     account_number INT REFERENCES Account(number) ON DELETE CASCADE,
-    owner_number INT REFERENCES Customers(id)
+    owner_number INT REFERENCES Customers(id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE Transactions(
-    account_number INT REFERENCES account(number) NOT NULL,
+    tid SERIAL PRIMARY KEY NOT NULL,
+    account_number INT NOT NULL, -- REFERENCES account(number) -- It can't reference an account because the account might get deleted, and I'm assuming we would still want the records.
     date DATE NOT NULL DEFAULT now(),
     type TransactionType NOT NULL,
     amount DOUBLE PRECISION NOT NULL,
