@@ -2,6 +2,12 @@ div.content {
     margin-bottom: 200%;
 }
 
+.WCS-header{
+    text-align: center;
+    width: 100%;
+    background-color: rgb(112,172,177,255);
+}
+
 .floating-menu {
     font-family: sans-serif;
     background: rgba(92,147,117,255);
