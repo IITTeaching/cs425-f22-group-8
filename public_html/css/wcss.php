@@ -12,6 +12,11 @@ body {
 
 h1 {
 	color: <?php echo $accent_color ?>;
+    font-family: 'Pepsi Cyr-Lat', sans-serif;
+    text-align: center;
+    letter-spacing: 4px;
+    word-spacing: 3px;
+    font-size: 45px;
 }
 
 h2 {
