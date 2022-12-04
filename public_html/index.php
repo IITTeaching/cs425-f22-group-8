@@ -21,6 +21,7 @@ try{
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
     <link href="/css/index.css" type="text/css" rel="stlyesheet"/>
     <link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.cdnfonts.com/css/pepsi-cyr-lat" rel="stylesheet">
 </head>
 <body>
 	<div id="content">

@@ -21,6 +21,7 @@ h1 {
 
 h2 {
 	color: <?php echo $accent_color ?>;
+    text-align: center;
 }
 
 h3 {
