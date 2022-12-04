@@ -5,3 +5,6 @@
 
 # TODO: Check if the verification email link has been used with an hour, if not, generate a new one and send it.
 # TODO: Let JS see the "Response" header and display it as an alert
+
+# TODO: For /profile, create a JS function that can, given the account number, create a hover window (or an area under that account) that shows more info about the account, along with buttons to do Account Transactions.
+// Examples: https://jsfiddle.net/ardeezstyle/JaYmn/1/ and https://www.w3schools.com/howto/howto_css_display_element_hover.asp

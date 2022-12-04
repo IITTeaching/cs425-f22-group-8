@@ -10,7 +10,7 @@ BEGIN
         withdrawn = 0;
     ELSE
         UPDATE Account SET balance = (balance - amount) WHERE number = account_number;
-        INSERT INTO Transactions(account_number, type, amount, description) VALUES(account_number, 'Withdrawal', -amount, descript);
+        INSERT INTO Transactions(account_number, type, amount, description) VALUES(account_number, 'Withdrawal', (SELECT -amount), descript);
         withdrawn = amount;
     END IF;
 
@@ -29,6 +29,6 @@ BEGIN
 END
 $deposit$ LANGUAGE plpgsql;
 
--- SELECT withdrawal(1, 30, 'Test') AS amount;
--- SELECT deposit(1, 200, 'Test') AS amount;
+SELECT withdrawal(1, 750, 'Electric Bill (Past Transaction 3)') AS amount;
+SELECT deposit(1, 1000, 'Child Support (Past Transaction 2)') AS amount;
 -- SELECT * FROM account WHERE number = 1;
