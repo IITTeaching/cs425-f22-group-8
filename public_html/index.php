@@ -23,8 +23,8 @@ try{
     <link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="wcsbanner"></div>
 	<div id="content">
+        <img src="wcsbanner.png" alt="wcs banking logo">
         <h1 class="title">Welcome to WCS Banking</h1>
         <h2>A banking system of the people, by the people, for the people, EAGLE!</h2>
 		<nav class="floating-menu">
