@@ -36,7 +36,7 @@ try{
             login wallet they can use to enter their collateral for lending, and this collateral can be used to borrow
             from the depositors who have deposited it. Leveraging this system, the depositors then lend their
             collateral to the borrowers, who may be individuals, businesses, or governments. As collateral is repaid,
-            the depositors get paid, and new collateral enters the system.
+            the depositors get paid, and new collateral enters the system!
         </h2>
 		<nav class="floating-menu">
 			<?php if(!$db->isLoggedIn()): ?>
