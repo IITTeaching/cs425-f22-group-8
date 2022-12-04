@@ -271,7 +271,7 @@ email.reportValidity();
 		<option>S</option>
 		<option>W</option>
 	</datalist>
-    <input class="input2" type="text" name="streetname" id="streetname" placeholder="Street Name" onblur="checkInfo()" required>
+    <input class="input1" type="text" name="streetname" id="streetname" placeholder="Street Name" onblur="checkInfo()" required>
     <br>
     <block id = "input">
         <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>
