@@ -263,7 +263,7 @@ email.reportValidity();
 	<label for="address_number">Address: </label>
 	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" min="0" inputmode="decimal" required>
 
-	<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction" required>
+	<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
 	<datalist id="directions">
 		<option></option>
 		<option>N</option>
@@ -289,7 +289,7 @@ email.reportValidity();
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
 	<label for="branch">Your favorite (or closest) branch: </label>
-	<input name="branch" id="branch" onblur="checkInfo()" list="branches" placeholder="Branch" required>
+	<input name="branch" id="branch" onblur="checkInfo()" onkeyup="validate()" list="branches" placeholder="Branch" required>
 	<datalist id="branches">
 		<?php foreach($dct as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>

@@ -1,7 +1,6 @@
 DROP FUNCTION IF EXISTS statement;
 DROP FUNCTION IF EXISTS pending_transactions;
 
-
 CREATE OR REPLACE FUNCTION statement(account INT, month INT, year INT)
     RETURNS TABLE(day timestamp,
                   transaction_amount DOUBLE PRECISION,
@@ -31,6 +30,7 @@ BEGIN
     RETURN QUERY SELECT * FROM statement(account, EXTRACT(MONTH FROM now())::INT, EXTRACT(YEAR FROM now())::INT);
 END
 $$ LANGUAGE plpgsql;
+
 
 -- SELECT * FROM pending_transactions(1);
 -- SELECT * FROM statement(1, 11, 2022);
