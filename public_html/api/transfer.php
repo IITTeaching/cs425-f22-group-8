@@ -7,7 +7,7 @@ require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/Manager.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/Teller.php");
 require_once (dirname(__DIR__) . "/api/Exceptions/PGException.php");
 
-if(!( isset($_POST["account_number"]) && isset($_POST["amount"]) )){
+if(!( isset($_POST["initial_account"]) && isset($_POST["final_account"]) && isset($_POST["amount"]) )){
 	http_response_code(400);
 	echo "All fields required";
 	return;
@@ -36,10 +36,10 @@ if(!isset($_POST["authorizer_type"])){
 
 $trans = new AccountTransaction();
 try {
-	$deposit = $trans->deposit($authorizer, new Account($_POST["account_number"]), $_POST["amount"]);
+	$deposit = $trans->transfer($authorizer, $_POST["amount"], new Account($_POST["initial_account"]), new Account($_POST["final_account"]) );
 	if($deposit == (float)$_POST["amount"]){
 		http_response_code(200);
-		header("Response: Amount deposit successfully.");
+		header("Response: Transfer successful deposit successfully.");
 		return;
 	}
 } catch (PGException $pgError) {

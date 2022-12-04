@@ -14,3 +14,6 @@ The first zero specifies the row, starting at 0, and the second zero specifies w
 $_SERVER['DOCUMENT_ROOT']
  ```
 in PHP returns ```/cs425/public_html```
+<hr>
+
+If you want to have the api redirect a client using the ```Location``` header, the server must have the response status code as 302, even with ```Location``` set, it won't redirect with a 200 code.

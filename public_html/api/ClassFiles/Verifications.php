@@ -21,6 +21,8 @@ class Verifications extends CS425Class
 	}
 
 	public function check_verification($email, $code): bool{
+		$email = $this->prepareData($email);
+		$code = $this->prepareData($code);
 		$result = $this->query(sprintf("SELECT name, time_of_creation FROM AwaitingVerification WHERE email = '%s'", $email));
 		$name = pg_fetch_result($result, 0, 0);
 		$time = pg_fetch_result($result, 0, 1);
@@ -34,7 +36,7 @@ class Verifications extends CS425Class
 			return false;
 		}
 
-		if(!$this->query(sprintf("DELETE FROM awaitingverification WHERE email = '%s'", $email))){
+		if(!$this->query(sprintf("DELETE FROM AwaitingVerification WHERE email = '%s'", $email))){
 			header("Response: Your verification code was correct, but something happened when unlocking your account");
 			return false;
 		}

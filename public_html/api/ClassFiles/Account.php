@@ -11,7 +11,7 @@ class Account extends CS425Class
 
 	public function __construct($account_number){
 		parent::__construct(new ProfileConfig());
-		$this->account_number = $account_number;
+		$this->account_number = (int)$this->prepareData($account_number);
 	}
 
 	/**

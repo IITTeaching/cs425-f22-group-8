@@ -2,6 +2,7 @@
 
 require_once "CS425Class.php";
 require_once (dirname(__DIR__) . "/ConfigFiles/ProfileConfig.php");
+require_once (dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
 require_once "Account.php";
 require_once "Loan.php";
 
@@ -14,7 +15,7 @@ class User extends CS425Class
 	 */
 	public function __construct($id){
 		parent::__construct(new ProfileConfig());
-		$this->id = $id;
+		$this->id = $id;  // TODO: This should check to make sure a suer with this id exists.
 	}
 
 	/**
@@ -75,5 +76,15 @@ class User extends CS425Class
 
 	public function getNumberOfLoans(): int{
 		return $this->getBasicResult(sprintf("SELECT COUNT(loan_number) FROM LoanApprovals WHERE customer_id = %d", $this->id));
+	}
+
+	public static function fromUsername(string $username): User|false{
+		$db = new CS425Class(new VerificationConfig());
+		$username = $db->prepareData($username);
+		$result = $db->query(sprintf("SELECT id FROM Logins WHERE username = '%s'", $username));
+		if(pg_affected_rows($result) == 0){
+			return false;
+		}
+		return new User(pg_fetch_result($result, 0));
 	}
 }

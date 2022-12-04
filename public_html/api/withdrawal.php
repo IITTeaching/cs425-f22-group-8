@@ -18,7 +18,7 @@ $username = $cookie->getCookieUsername();
 if(!$username){
 	http_response_code(500);
 	header("Response: You are registered as logged in, but there is no user attached to this session.");
-	$cookie->deleteCookie();
+	 $cookie->deleteCookie();
 	return;
 }
 
@@ -36,10 +36,10 @@ if(!isset($_POST["authorizer_type"])){
 
 $trans = new AccountTransaction();
 try {
-	$deposit = $trans->deposit($authorizer, new Account($_POST["account_number"]), $_POST["amount"]);
-	if($deposit == (float)$_POST["amount"]){
+	$withdrawn = $trans->withdrawal($authorizer, new Account($_POST["account_number"]), $_POST["amount"]);
+	if($withdrawn == (float)$_POST["amount"]){
 		http_response_code(200);
-		header("Response: Amount deposit successfully.");
+		header("Response: Amount withdrawn successfully.");
 		return;
 	}
 } catch (PGException $pgError) {

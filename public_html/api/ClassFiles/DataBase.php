@@ -55,10 +55,14 @@ class DataBase extends CS425Class
 		$defaultErrorMessage = "Incorrect username/password.";
 		# region Checks if there is a valid cookie
 		if($this->cookieManager->isValidCookie()) {
+			$isEmployee = $this->cookieManager->isEmployee();
 			$result = parent::query(sprintf("SELECT * FROM %s WHERE username = '%s'",
-				($this->cookieManager->isEmployee()) ? "EmployeeLogins" : "Logins", $username));
+				$isEmployee? "EmployeeLogins" : "Logins", $username));
 
 			if (pg_affected_rows($result) != 0) {
+				if($isEmployee){
+					header("Location: " . HTTPS_HOST . "/employee_login");
+				}
 				return "Logged In Successfully";
 			}
 			$this->cookieManager->deleteCookie();
@@ -129,13 +133,13 @@ class DataBase extends CS425Class
 		$username = $this->prepareData($username);
 		$password = $this->prepareData($password);
 		$authcode = (int)$this->prepareData($authcode);
-		$result = parent::query(sprintf("SELECT username, password, totp_secret FROM EmployeeLogins WHERE username = %s", $username));
+		$result = parent::query(sprintf("SELECT username, password, totp_secret FROM EmployeeLogins WHERE username = '%s'", $username));
 		$affected_rows = pg_affected_rows($result);
-		if($affected_rows != 0){
+		if($affected_rows == 0){
 			return false;
 		}
 		$row = pg_fetch_assoc($result, 0);
-		if (!($row["username"] == $username && password_verify($password, $row["password"]))) {
+		if (!(($row["username"] == $username) && password_verify($password, $row["password"]))) {
 			throw new InvalidArgumentException("Invalid username or password.");
 		}
 		if(!$this->authenticator->checkTOTP($username, $authcode, true)){
@@ -143,6 +147,7 @@ class DataBase extends CS425Class
 			return false;
 		}
 		$this->cookieManager->createCookie($username);
+		header("Location: " . HTTPS_HOST . "/employee_login");
 		return "Employee Logged In";
 	}
 

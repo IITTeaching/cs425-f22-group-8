@@ -45,13 +45,13 @@ class Authentication extends CS425Class
 	}
 
 	private function mapped($value){
-		$position = $this->utf8_char_code_at($this->charset, floor((mb_ord($value, "UTF-8")*strlen($this->charset))/256));
+		$position = $this->utf8_char_code_at($this->charset, (int)floor((mb_ord($value, "UTF-8")*strlen($this->charset))/256));
 		return mb_chr($position);
 	}
 
 	public function createSecretKey($length=16){
 		$token = openssl_random_pseudo_bytes($length);
-		$array = array_map("mapped", str_split($token));
+		$array = array_map(array($this, "mapped"), str_split($token));
 		return join("", $array);
 	}
 

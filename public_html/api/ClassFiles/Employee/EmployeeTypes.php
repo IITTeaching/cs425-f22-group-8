@@ -1,8 +1,7 @@
 <?php
 
-enum EmployeeTypes
-{
-	case Teller;
-	case LoanShark;
-	case Manager;
+enum EmployeeTypes : string {
+	case Teller = "Teller";
+	case LoanShark = "Loan Shark";
+	case Manager = "Manager";
 }

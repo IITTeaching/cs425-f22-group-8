@@ -1,0 +1,8 @@
+.wcsbanner {
+    width: 491px;
+    height: 230px;
+    background-image: url(../images/wcsbanner.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
