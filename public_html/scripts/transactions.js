@@ -55,7 +55,7 @@ function checkTransactionType(){
 
 function transactionListener() {
 	alert(this.responseText);
-	//window.location.reload();
+	window.location.reload(); // TODO: Come up with a better way of updating the page.
 }
 
 function transact(){

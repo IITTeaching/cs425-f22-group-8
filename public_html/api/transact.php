@@ -64,22 +64,31 @@ try {
 			$deposit = $trans->deposit($authorizer, new Account($_POST["account_number"]), $_POST["amount"]);
 			if($deposit == (float)$_POST["amount"]){
 				http_response_code(200);
-				header("Response: Amount deposit successfully.");
+				respond("Amount deposit successfully.");
+				return;
 			}
+			http_response_code(300);
+			respond("An unknown error happened with the deposit.");
 			return;
 		case "Transfer":
 			$deposit = $trans->transfer($authorizer, $_POST["amount"], new Account($_POST["initial_account"]), new Account($_POST["final_account"]) );
 			if($deposit == (float)$_POST["amount"]){
 				http_response_code(200);
-				header("Response: Transfer successful.");
+				respond("Transfer successful.");
+				return;
 			}
+			http_response_code(300);
+			respond("An unknown error happened with the transfer.");
 			return;
 		case "Withdrawal":
 			$withdrawn = $trans->withdrawal($authorizer, new Account($_POST["account_number"]), $_POST["amount"]);
 			if($withdrawn == (float)$_POST["amount"]){
 				http_response_code(200);
-				header("Response: Amount withdrawn successfully.");
+				respond("Amount withdrawn successfully.");
+				return;
 			}
+			http_response_code(300);
+			respond("An unknown error happened with the withdrawal.");
 			return;
 	}
 } catch (PGException $pgError) {
