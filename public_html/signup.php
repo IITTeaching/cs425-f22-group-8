@@ -289,7 +289,7 @@ email.reportValidity();
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
 	<label for="branch">Your favorite (or closest) branch: </label>
-	<input name="branch" id="branch" onblur="checkInfo()" onkeyup="validate()" list="branches" placeholder="Branch" required>
+	<input name="branch" id="branch" onblur="checkInfo()" onkeyup="validate()" onclick="validate()" list="branches" placeholder="Branch" required>
 	<datalist id="branches">
 		<?php foreach($dct as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>

@@ -29,7 +29,7 @@ require_once "api/constants.php";
     <input type="text" id="username" name="username" value="" autocomplete="username" onblur="checkInfo()" required><br>
 
     <label for="password">Password: </label>
-    <input type="password" id="password" name="password" value="" autocomplete="current-password" onblur="checkInfo()" required><br>
+    <input type="password" id="password" name="password" value="" autocomplete="current-password" onblur="checkInfo()" onkeyup="checkInfo()" required><br>
 
     <label for="auth_code">2FA Code: </label>
     <input type="number" id="auth_code" name="auth_code" value=""><br>
