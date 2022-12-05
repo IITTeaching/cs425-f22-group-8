@@ -265,7 +265,7 @@ email.reportValidity();
 
 	<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
 	<datalist id="directions">
-		<option></option>
+		<option>N</option>
 		<option>E</option>
 		<option>S</option>
 		<option>W</option>
