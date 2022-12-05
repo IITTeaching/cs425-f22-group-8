@@ -61,7 +61,7 @@ $loans = $user->getLoans();
 		}
 	</script>
 </head>
-<body>
+<body class="sidebar">
 <nav id="page-side">
 	<div id="leftcontent">
 		<div id="account-number" class="side-account-info">
