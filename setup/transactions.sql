@@ -36,7 +36,6 @@ DECLARE
     withdrawn DOUBLE PRECISION;
 BEGIN
     SELECT deposit(final_account_number, (SELECT withdrawn FROM withdrawal(initial_account_number, amount, descript)), descript);
-    -- TODO: Have transfer tell withdrawal/deposit that the transactiontype is Transfer
 END
 $$ LANGUAGE plpgsql;
 

@@ -99,14 +99,13 @@ class AccountTransaction extends CS425Class
 		return $this->runTransactionFunction($query);
 	}
 
-	// TODO: Check that both accounts exist before starting the transfer
 	public function transfer(User|Teller|Manager $authorizer, float $amount, Account $from, Account $to, string $description=""): float|false {
 		if(!$this->checkAccountExists($from) || !$this->checkAccountExists($to)){
 			return false;
 		}
 
 		if($description == ""){
-			$description = sprintf("Transfer from %d to %d", $from->getAccountNumber(), $to->getAccountNumber());
+			$description = sprintf("Transfer from Account %d to Account %d", $from->getAccountNumber(), $to->getAccountNumber());
 		} else{
 			$description = $this->prepareData($description);
 		}

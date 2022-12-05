@@ -32,5 +32,5 @@ END
 $$ LANGUAGE plpgsql;
 
 
--- SELECT * FROM pending_transactions(1);
+SELECT * FROM pending_transactions(1);
 -- SELECT * FROM statement(1, 11, 2022);

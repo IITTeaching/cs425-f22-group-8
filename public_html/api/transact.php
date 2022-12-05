@@ -57,11 +57,13 @@ if(!isset($_POST["authorizer_type"])){
 	return;
 }
 
+$description = $_POST["description"] ?? "";
+
 $trans = new AccountTransaction();
 try {
 	switch ($_POST["transaction_type"]){
 		case "Deposit":
-			$deposit = $trans->deposit($authorizer, new Account($_POST["account_number"]), $_POST["amount"]);
+			$deposit = $trans->deposit($authorizer, new Account($_POST["account_number"]), $_POST["amount"], $description);
 			if($deposit == (float)$_POST["amount"]){
 				http_response_code(200);
 				respond("Amount deposit successfully.");
@@ -71,7 +73,7 @@ try {
 			respond("An unknown error happened with the deposit.");
 			return;
 		case "Transfer":
-			$deposit = $trans->transfer($authorizer, $_POST["amount"], new Account($_POST["initial_account"]), new Account($_POST["final_account"]) );
+			$deposit = $trans->transfer($authorizer, $_POST["amount"], new Account($_POST["initial_account"]), new Account($_POST["final_account"]), $description);
 			if($deposit == (float)$_POST["amount"]){
 				http_response_code(200);
 				respond("Transfer successful.");
@@ -81,7 +83,7 @@ try {
 			respond("An unknown error happened with the transfer.");
 			return;
 		case "Withdrawal":
-			$withdrawn = $trans->withdrawal($authorizer, new Account($_POST["account_number"]), $_POST["amount"]);
+			$withdrawn = $trans->withdrawal($authorizer, new Account($_POST["account_number"]), $_POST["amount"], $description);
 			if($withdrawn == (float)$_POST["amount"]){
 				http_response_code(200);
 				respond("Amount withdrawn successfully.");

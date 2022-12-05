@@ -5,5 +5,3 @@
 
 # TODO: Check if the verification email link has been used with an hour, if not, generate a new one and send it.
 # TODO: Let JS see the "Response" header and display it as an alert
-
-# TODO: Let the transaction side of the pop out form on /profile access the API to do transactions, should refresh the data (both on the side and the table) on completion.

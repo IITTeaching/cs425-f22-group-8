@@ -15,7 +15,13 @@ class User extends CS425Class
 	 */
 	public function __construct($id){
 		parent::__construct(new ProfileConfig());
-		$this->id = $id;  // TODO: This should check to make sure a user with this id exists.
+
+		$result = $this->query(sprintf("SELECT COUNT(*) FROM Customers WHERE id = %d", $id));
+		if(pg_fetch_result($result, 0) == 0){
+			throw new InvalidArgumentException("No user exists ID'd %d.", $id);
+		}
+
+		$this->id = $id;
 	}
 
 	/**
