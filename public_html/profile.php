@@ -94,7 +94,7 @@ $loans = $user->getLoans();
 		<input name="transfer_to_account_number" id="transfer_to_account_number" placeholder="Recipient Account Number" hidden>
 	</div>
 </nav>
-<div id="content" class="page-main">
+<div id="page-main">
 	<button id="side-button" onclick="sidebar()">
 		&#9776;
 	</button>
