@@ -58,7 +58,12 @@ class AccountTransaction extends CS425Class
 	 */
 	public function withdrawal(User|Teller|Manager $authorizer, Account $account, float $amount, string $description=""): float|false{
 		$amount = (float)$this->prepareData($amount);
-		$description = $this->prepareData($description);
+		if($description == ""){
+			$description = sprintf("Withdrawal authorized by %s %s", $authorizer::class,
+				$authorizer instanceof User ? $authorizer->getUserId() : $authorizer->getEmployeeId());
+		} else{
+			$description = $this->prepareData($description);
+		}
 		if($amount == 0){
 			return 0;
 		}
@@ -83,17 +88,35 @@ class AccountTransaction extends CS425Class
 			return false;
 		}
 
+		if($description == ""){
+			$description = sprintf("Deposit authorized by %s %s", $authorizer::class,
+				$authorizer instanceof User ? $authorizer->getUserId() : $authorizer->getEmployeeId());
+		} else{
+			$description = $this->prepareData($description);
+		}
+
 		$query = sprintf("SELECT deposit(%d,%f,'%s')", $account->getAccountNumber(), abs($amount), $description);
 		return $this->runTransactionFunction($query);
 	}
 
 	// TODO: Check that both accounts exist before starting the transfer
-	public function transfer(User|Teller|Manager $authorizer, float $amount, Account $from, Account $to): float|false {
-		$withdrawal = $this->withdrawal($authorizer, $from, $amount, "From"); // TODO: Fill these in
+	public function transfer(User|Teller|Manager $authorizer, float $amount, Account $from, Account $to, string $description=""): float|false {
+		if(!$this->checkAccountExists($from) || !$this->checkAccountExists($to)){
+			return false;
+		}
+
+		if($description == ""){
+			$description = sprintf("Transfer from %d to %d", $from->getAccountNumber(), $to->getAccountNumber());
+		} else{
+			$description = $this->prepareData($description);
+		}
+
+		$withdrawal = $this->withdrawal($authorizer, $from, $amount, $description);
 		if(!$withdrawal || $withdrawal == 0){
 			return false;
 		}
-		$query = sprintf("SELECT deposit(%d,%f,'%s')", $to->getAccountNumber(), abs($withdrawal), "TO");
-		return $this->runTransactionFunction($query);
+		$query = sprintf("SELECT deposit(%d,%f,'%s')", $to->getAccountNumber(), abs($withdrawal), $description);
+		return
+			$this->runTransactionFunction($query);
 	}
 }

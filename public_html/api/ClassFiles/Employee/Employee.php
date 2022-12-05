@@ -37,7 +37,7 @@ abstract class Employee extends CS425Class
 
 	protected abstract function employeeType(): EmployeeTypes;
 
-	protected function getEmployeeID(): int { return $this->employee_id; }
+	public function getEmployeeID(): int { return $this->employee_id; }
 
 	public function setAuthCode(string $authcode){
 		$this->authcode = $authcode;
