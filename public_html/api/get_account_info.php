@@ -19,6 +19,7 @@ foreach($user->getAccounts() as $account){
 	if($account_number == $account->getAccountNumber()){
 		http_response_code(200);
 		$data = array();
+		$data["Account Number"] = $account->getAccountNumber();
 		$data["Name"] = $account->getName();
 		$data["Balance"] = $account->getBalance();
 		$data["Type"] = $account->getType();

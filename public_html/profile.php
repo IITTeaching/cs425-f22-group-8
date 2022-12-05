@@ -30,25 +30,21 @@ $loans = $user->getLoans();
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<script type="text/javascript">
 		function openSidebar () {
-			let side = document.getElementById("page-side"),
-			btn = document.getElementById("side-button");
-
+			let side = document.getElementById("page-side");
 			side.classList.add("show");
-			btn.innerHTML = "X";
 		}
 
 		function closeSidebar () {
-			let side = document.getElementById("page-side"),
-			btn = document.getElementById("side-button");
-
+			let side = document.getElementById("page-side");
 			side.classList.remove("show");
-			btn.innerHTML = "&#9776;";
 		}
 
-		function accountRowOnClick(event){
-			let account_number = event["path"][1]["id"];
-			account_number = /account(\d+)/.exec(account_number);
-			if(account_number === document.getElementById("number").value){
+		function accountRowOnClick(row){
+			let account_number = row["id"];
+			account_number = /account(\d+)/.exec(account_number)[1];
+			console.log(account_number, typeof(account_number));
+			console.log(document.getElementById("number").innerText, typeof(document.getElementById("number").innerText));
+			if(account_number !== document.getElementById("number").innerText){
 				showAccount(account_number);
 			} else{
 				closeSidebar();
@@ -57,7 +53,6 @@ $loans = $user->getLoans();
 
 		function showAccount(account_number){
 			let params = `account_number=${account_number}`;
-
 			const req = new XMLHttpRequest();
 			req.addEventListener("load", reqListener);
 			req.open("POST", "https://cs425.lenwashingtoniii.com/api/get_account_info");
@@ -75,12 +70,18 @@ $loans = $user->getLoans();
 				"Monthly Fee": "monthly_fees",
 				"Name": "name",
 				"Overdrawn": "overdrawn"
+				"Account Number": "number"
 				//"Type": "",
 			};
+			json["Overdrawn"] = json["Overdrawn"] ? "Yes" : "No";
+			json["Balance"] = `\$${json["Balance"]}`;
+			json["Monthly Fee"] = `\$${json["Monthly Fee"]}`;
+			json["Interest"] = `${json["Interest"]}%`;
+
 			let keys = Object.keys(dct);
 			for(let i = 0; i < keys.length; i++){
 				let key = keys[i];
-				document.getElementById(dct[key]).value = json[key];
+				document.getElementById(dct[key]).innerText = json[key];
 			}
 		}
 
@@ -142,7 +143,7 @@ $loans = $user->getLoans();
 			<th>Can Be Overdrawn</th>
 		</tr>
 		<?php if(is_array($accounts)) {foreach($accounts as $account) { ?>
-			<tr onclick="accountRowOnClick()">
+			<tr id="account<?php echo $account->getAccountNumber();?>" onclick="accountRowOnClick(this)">
 				<td><?php echo $account->getName(); ?></td>
 				<td>$<?php echo sprintf("%.2f", $account->getBalance()); ?></td>
 				<td><?php echo $account->getType(); ?></td>
