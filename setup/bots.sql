@@ -50,6 +50,7 @@ GRANT CONNECT ON DATABASE cs425 TO tellerbot;
 
 CREATE ROLE transactionsbot WITH PASSWORD '81dc075c3d55230215300137991a25f90be4c243a55580fe2af7538774147bd6' LOGIN;
 GRANT SELECT, INSERT ON Transactions TO transactionsbot;
+GRANT USAGE, SELECT ON SEQUENCE transactions_tid_seq TO transactionsbot;
 GRANT SELECT, UPDATE ON Account TO transactionsbot;
 GRANT SELECT ON AuthorizedUsers TO transactionsbot;
 GRANT CONNECT ON DATABASE cs425 TO transactionsbot;

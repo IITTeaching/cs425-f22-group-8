@@ -39,8 +39,8 @@ if($_POST["transaction_type"] == "Transfer"){
 $cookie = new CookieManager();
 $username = $cookie->getCookieUsername();
 if(!$username){
-	http_response_code(500);
 	header("Response: You are registered as logged in, but there is no user attached to this session.");
+	http_response_code(500);
 	$cookie->deleteCookie();
 	return;
 }
