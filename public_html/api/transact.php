@@ -29,7 +29,8 @@ if($_POST["transaction_type"] == "Transfer"){
 } else{
 	if(!( isset($_POST["account_number"]) && isset($_POST["amount"]) )){
 		http_response_code(400);
-		echo "All fields required";
+		echo isset($_POST["account_number"]) . PHP_EOL;
+		echo "All fields required (Amount and account_number)";
 		return;
 	}
 }

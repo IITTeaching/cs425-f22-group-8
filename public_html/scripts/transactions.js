@@ -63,7 +63,7 @@ function transact(){
     let amount = document.getElementById("amount").value;
     let this_account = document.getElementById("number").value;
     let description = document.getElementById("description").value;
-    let params = `transaction_type=${transaction_type}&amount=${amount}&description=${description}`;
+    let params = `transaction_type=${transaction_type}&amount=${encodeURIComponent(amount)}&description=${encodeURIComponent(description)}&`;
     if(transaction_type === "Transfer"){
         let final_account = document.getElementById("transfer_to_account_number").value;
         params += `initial_account=${this_account}&final_account=${final_account}`;
