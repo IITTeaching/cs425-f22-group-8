@@ -40,18 +40,18 @@ $state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' |
 
 	<script type="text/javascript">
 		function onOpen(){
-			document.getElementById("username").addEventListener("keyup", checkUsername);
-			document.getElementById("fullname").addEventListener("keyup", checkName);
-			document.getElementById("email").addEventListener("keyup", checkEmail);
-			document.getElementById("phone").addEventListener("keyup", checkPhoneNumber);
-			document.getElementById("password").addEventListener("keyup", checkPassword);
-			document.getElementById("zipcode").addEventListener("keyup", checkZipcode);
-			//document.getElementById("direction").addEventListener("keyup", checkDirection);
-			document.getElementById("address_number").addEventListener("keyup", checkAddressNumber);
-			document.getElementById("streetname").addEventListener("keyup", checkStreetNumber);
-			document.getElementById("state").addEventListener("keyup", checkState);
-			document.getElementById("city").addEventListener("keyup", checkState);
-			document.getElementById("branch").addEventListener("keyup", checkBranch);
+			document.getElementById("username").addEventListener("input", checkUsername);
+			document.getElementById("fullname").addEventListener("input", checkName);
+			document.getElementById("email").addEventListener("input", checkEmail);
+			document.getElementById("phone").addEventListener("input", checkPhoneNumber);
+			document.getElementById("password").addEventListener("input", checkPassword);
+			document.getElementById("zipcode").addEventListener("input", checkZipcode);
+			//document.getElementById("direction").input("keyup", checkDirection);
+			document.getElementById("address_number").addEventListener("input", checkAddressNumber);
+			document.getElementById("streetname").addEventListener("input", checkStreetNumber);
+			document.getElementById("state").addEventListener("input", checkState);
+			document.getElementById("city").addEventListener("input", checkState);
+			document.getElementById("branch").addEventListener("input", checkBranch);
 		}
 
 		function checkUsername(){
@@ -246,50 +246,49 @@ email.reportValidity();
 
 <form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 	<label for="username">Username: </label>
-	<input type="text" id="username" name="username" value="" onblur="checkInfo()" required autocomplete="username"><br>
+	<input type="text" id="username" name="username" value="" oninput="checkInfo()" required autocomplete="username"><br>
 
 	<label for="password">Password: </label>
-	<input type="password" id="password" name="password" value="" onblur="checkInfo()" required autocomplete="new-password" minlength="8"><br>
+	<input type="password" id="password" name="password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8"><br>
 
 	<label for="fullname">Fullname: </label>
-	<input type="text" id="fullname" name="fullname" value="" onblur="checkInfo()" required autocomplete="name"><br>
+	<input type="text" id="fullname" name="fullname" value="" oninput="checkInfo()" required autocomplete="name"><br>
 
 	<label for="email">Email: </label>
-	<input type="email" id="email" name="email" value="" onblur="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
+	<input type="email" id="email" name="email" value="" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
 
 	<label for="phone">Telephone Number:</label>
-	<input name="phone" id="phone" value="" type="tel" onblur="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
+	<input name="phone" id="phone" value="" type="tel" oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 
 	<label for="address_number">Address: </label>
-	<input type="number" id="address_number" name="address_number" placeholder="3301" onblur="checkInfo()" min="0" inputmode="decimal" required>
+	<input type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
 
 	<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
 	<datalist id="directions">
 		<option></option>
-		<option>N</option>
 		<option>E</option>
 		<option>S</option>
 		<option>W</option>
 	</datalist>
-    <input class="input1" type="text" name="streetname" id="streetname" placeholder="Street Name" onblur="checkInfo()" required>
+    <input class="input1" type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
     <br>
     <block id = "input">
-        <input type="text" name="city" id="city" placeholder="City" onblur="checkInfo()" required>
+        <input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required>
 
-		<input class = "input1" name = "state" id="state" onblur="checkInfo()" list="states" placeholder="State" required>
+		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
 		<datalist id="states">
 			<?php while($row = pg_fetch_row($state_result)) {?>
 				<?php echo $row[0] . PHP_EOL; ?>
 			<?php }?>
 		</datalist>
 
-        <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" onblur="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal"><br>
+        <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal"><br>
 
     </block>
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
 	<label for="branch">Your favorite (or closest) branch: </label>
-	<input name="branch" id="branch" onblur="checkInfo()" onkeyup="validate()" onclick="validate()" list="branches" placeholder="Branch" required>
+	<input name="branch" id="branch" oninput="checkInfo()" oninput="checkInfo()" list="branches" placeholder="Branch" required>
 	<datalist id="branches">
 		<?php foreach($dct as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>

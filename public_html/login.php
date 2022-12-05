@@ -26,10 +26,10 @@ require_once "api/constants.php";
 <body>
 <form name="form" id="form" action="/api/login" method="POST">
     <label for="username">Username: </label>
-    <input type="text" id="username" name="username" value="" autocomplete="username" onblur="checkInfo()" required><br>
+    <input type="text" id="username" name="username" value="" autocomplete="username" oninput="checkInfo()" required><br>
 
     <label for="password">Password: </label>
-    <input type="password" id="password" name="password" value="" autocomplete="current-password" onblur="checkInfo()" onkeyup="checkInfo()" required><br>
+    <input type="password" id="password" name="password" value="" autocomplete="current-password" oninput="checkInfo()" onkeyup="checkInfo()" required><br>
 
     <label for="auth_code">2FA Code: </label>
     <input type="number" id="auth_code" name="auth_code" value=""><br>
