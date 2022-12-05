@@ -218,7 +218,7 @@ hr {
 		<input type="text" name="apt" id="apt" value="">
 
 		<label for="branch"><b>Branch</b></label>
-		<input name="branch" id="branch" oninput="checkInfo()" oninput="checkInfo()" list="branches" placeholder="Branch" required>
+		<input name="branch" id="branch" list="branches" placeholder="Branch" required>
 		<datalist id="branches">
 			<?php foreach($dct as $key => $value) { ?>
 				<option value="<?php echo $key?>"><?php echo $value ?></option>
@@ -243,6 +243,5 @@ window.onclick = function(event) {
   }
 }
 </script>
-
 </body>
 </html>
