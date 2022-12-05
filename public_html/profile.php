@@ -29,23 +29,59 @@ $loans = $user->getLoans();
 	<link href="/css/sidebar.css" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<script type="text/javascript">
-		function sidebar () {
-			// (A) GET SIDEBAR + BUTTON
+		function openSidebar () {
 			let side = document.getElementById("page-side"),
-					btn = document.getElementById("side-button");
+			btn = document.getElementById("side-button");
 
-			// (B) TOGGLE SHOW/HIDE
-			if (side.classList.contains("show")) {
-				side.classList.remove("show");
-				btn.innerHTML = "&#9776;";
-			} else {
-				side.classList.add("show");
-				btn.innerHTML = "X";
+			side.classList.add("show");
+			btn.innerHTML = "X";
+		}
+
+		function closeSidebar () {
+			let side = document.getElementById("page-side"),
+			btn = document.getElementById("side-button");
+
+			side.classList.remove("show");
+			btn.innerHTML = "&#9776;";
+		}
+
+		function accountRowOnClick(event){
+			let account_number = event["path"][1]["id"];
+			account_number = /account(\d+)/.exec(account_number);
+			if(account_number === document.getElementById("number").value){
+				showAccount(account_number);
+			} else{
+				closeSidebar();
 			}
 		}
 
 		function showAccount(account_number){
+			let params = `account_number=${account_number}`;
 
+			const req = new XMLHttpRequest();
+			req.addEventListener("load", reqListener);
+			req.open("POST", "https://cs425.lenwashingtoniii.com/api/get_account_info");
+			req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			req.send(params);
+			openSidebar();
+		}
+
+		function reqListener() {
+			let json = JSON.parse(this.responseText);
+			console.log(json);
+			let dct = {
+				"Balance": "balance",
+				"Interest": "interest",
+				"Monthly Fee": "monthly_fees",
+				"Name": "name",
+				"Overdrawn": "overdrawn"
+				//"Type": "",
+			};
+			let keys = Object.keys(dct);
+			for(let i = 0; i < keys.length; i++){
+				let key = keys[i];
+				document.getElementById(dct[key]).value = json[key];
+			}
 		}
 
 		function checkTransactionType(){
@@ -95,12 +131,6 @@ $loans = $user->getLoans();
 	</div>
 </nav>
 <div id="page-main">
-	<button id="side-button" onclick="sidebar()">
-		&#9776;
-	</button>
-
-	<!-- (B2) CONTENTS -->
-	<p>Contents</p>
 	<h2>My Accounts</h2>
 	<table id="accounts" class="profile_info">
 		<tr>
@@ -112,7 +142,7 @@ $loans = $user->getLoans();
 			<th>Can Be Overdrawn</th>
 		</tr>
 		<?php if(is_array($accounts)) {foreach($accounts as $account) { ?>
-			<tr>
+			<tr onclick="accountRowOnClick()">
 				<td><?php echo $account->getName(); ?></td>
 				<td>$<?php echo sprintf("%.2f", $account->getBalance()); ?></td>
 				<td><?php echo $account->getType(); ?></td>

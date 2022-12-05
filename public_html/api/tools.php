@@ -29,3 +29,8 @@ function is_header_set(string $header): bool{
 	}
 	return false;
 }
+
+function respond(string $message){
+	echo $message . PHP_EOL;
+	header("Response: " . $message);
+}
