@@ -42,8 +42,6 @@ $loans = $user->getLoans();
 		function accountRowOnClick(row){
 			let account_number = row["id"];
 			account_number = /account(\d+)/.exec(account_number)[1];
-			console.log(account_number, typeof(account_number));
-			console.log(document.getElementById("number").innerText, typeof(document.getElementById("number").innerText));
 			if(account_number !== document.getElementById("number").innerText){
 				showAccount(account_number);
 			} else{
@@ -63,13 +61,12 @@ $loans = $user->getLoans();
 
 		function reqListener() {
 			let json = JSON.parse(this.responseText);
-			console.log(json);
 			let dct = {
 				"Balance": "balance",
 				"Interest": "interest",
 				"Monthly Fee": "monthly_fees",
 				"Name": "name",
-				"Overdrawn": "overdrawn"
+				"Overdrawn": "overdrawn",
 				"Account Number": "number"
 				//"Type": "",
 			};
