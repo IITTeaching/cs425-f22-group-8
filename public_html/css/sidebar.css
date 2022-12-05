@@ -1,0 +1,71 @@
+#leftcontent{
+	float: left;
+	width: 40%;
+	text-align: left;
+	color: #cdcdcd;
+}
+
+#rightcontent{
+	float: right;
+	width: 40%;
+	text-align: right;
+	color: #cdcdcd;
+}
+
+/*https://code-boxx.com/hidden-side-menu/*/
+
+/* (A) MAIN MECHANICS */
+/* (A1) FLEX LAYOUT BODY */
+body.sidebar {
+	display: flex;
+	min-height: 100vh;
+	padding: 0; margin: 0;
+}
+
+/* (A2) TOGGLE SIDEBAR SHOW/HIDE */
+#page-side {
+	width: 0;
+	visibility: hidden;
+	overflow: hidden;
+	transition: width 0.4s;
+}
+#page-side.show {
+	padding: 20px 10px;
+	width: 50%;
+	visibility: visible;
+}
+
+/* (A3) FLEX GROW MAIN CONTENTS */
+#page-main {
+	flex-grow: 1;
+	padding: 15px;
+}
+
+/* (B) COSMETICS */
+/* (B1) FONT + SIZING */
+* {
+	font-family: arial, sans-serif;
+	box-sizing: border-box;
+}
+
+/* (B2) MENU ITEMS */
+#page-side { background: #242424; }
+#page-side a {
+	display: block;
+	width: 100%;
+	margin-bottom: 15px;
+	color: #ababab;
+	text-decoration: none;
+	cursor: pointer;
+}
+#page-side a:hover { color: #fff; }
+
+/* (B3) SIDEBAR TOGGLE BUTTON */
+#side-button {
+	font-weight: 700;
+	border: 0;
+	padding: 10px;
+	color: #fff;
+	background: #f00;
+	cursor: pointer;
+}

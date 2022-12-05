@@ -87,6 +87,7 @@ class AccountTransaction extends CS425Class
 		return $this->runTransactionFunction($query);
 	}
 
+	// TODO: Check that both accounts exist before starting the transfer
 	public function transfer(User|Teller|Manager $authorizer, float $amount, Account $from, Account $to): float|false {
 		$withdrawal = $this->withdrawal($authorizer, $from, $amount, "From"); // TODO: Fill these in
 		if(!$withdrawal || $withdrawal == 0){
