@@ -114,7 +114,7 @@ $loans = $user->getLoans();
 			<div class="label">Monthly Fees: </div><div id="monthly_fees">The account's monthly fees</div>
 		</div>
 		<div id="account-overdrawn" class="side-account-info">
-			<div class="label">Overdrawn: </div><div id="overdrawn">If the account can be overdrawn.</div>
+			<div class="label">Can be Overdrawn: </div><div id="overdrawn">If the account can be overdrawn.</div>
 		</div>
 	</div>
 	<div id="rightcontent">
