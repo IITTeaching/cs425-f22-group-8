@@ -1,3 +1,8 @@
+<?php
+require_once "api/ClassFiles/DataBase.php";
+require_once "api/constants.php";
+$state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' || name || '</option>' FROM States;");
+?>
 <!DOCTYPE html>
 <html>
 <style>
@@ -132,7 +137,7 @@ hr {
       <label for="role"><b>Role</b></label>
       <input type="text" placeholder="Enter Role (Teller, Loan Shark, Manager)" name="role" required>
 
-      <label for="address_num"><b>Address Num</b></label>
+      <label for="address_num"><b>Address</b></label>
       <input type="text" placeholder="3301" name="address_num" required>
 
 	  <input type="text" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
