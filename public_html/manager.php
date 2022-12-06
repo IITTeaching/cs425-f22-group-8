@@ -1,8 +1,3 @@
-<?php
-require_once "api/ClassFiles/DataBase.php";
-require_once "api/constants.php";
-$state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' || name || '</option>' FROM States;");
-?>
 <!DOCTYPE html>
 <html>
 <style>
@@ -140,36 +135,39 @@ hr {
       <label for="address_num"><b>Address</b></label>
       <input type="text" placeholder="3301" name="address_num" required>
 
-	  <input type="text" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
-		<datalist id="directions">
-			<option>N</option>
-			<option>E</option>
-			<option>S</option>
-			<option>W</option>
-		</datalist>
+      <label for = "direction"><b>Direction</b></label>
+	    <input type="text" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
+		  <datalist id="directions">
+			  <option>N</option>
+		  	<option>E</option>
+		  	<option>S</option>
+		  	<option>W</option>
+		  </datalist>
 
-		<input type="text" name="streetname" id="streetname" placeholder="Street Name" required>
-        	<input type="text" name="city" id="city" placeholder="City" required>
+      <label for = "streetname"><b>Street</b></label>
+		  <input type="text" name="streetname" id="streetname" placeholder="Street Name" required>
 
-			<input name = "state" id="state" list="states" placeholder="State" required>
-			<datalist id="states">
-				<?php while($row = pg_fetch_row($state_result)) {?>
-					<?php echo $row[0] . PHP_EOL; ?>
-				<?php }?>
-			</datalist>
+      <label for = "city"><b>City</b></label>
+      <input type="text" name="city" placeholder="City" required>
 
-			<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal">
+      <label for = "state"><b>State</b></label>
+      <input type="text" name="state" placeholder="City" required>
 
-		<label for="apt"><b>Apt/Unit></b></label>
-		<input type="text" name="apt" id="apt" value="">
+      <label for = "zipcode"><b>Zipcode</b></label>
+			<input type="number" name="zipcode" placeholder="Zipcode" required min="10000" max="99999" inputmode="decimal">
 
-		<label for="branch"><b>Branch</b></label>
-		<input name="branch" id="branch" list="branches" placeholder="Branch" required>
-		<datalist id="branches">
-			<?php foreach($dct as $key => $value) { ?>
-				<option value="<?php echo $key?>"><?php echo $value ?></option>
-			<?php } ?>
-		</datalist>
+		  <label for="apt"><b>Apt/Unit></b></label>
+		  <input type="text" name="apt" placeholder ="Apt/Unit #" value="">
+
+      <label for = "branch"><b>Branch</b></label>
+	    <input type="text" name="branch" list="directions" placeholder="Branch">
+		  <datalist id="directions">
+			  <option>WCS Western</option>
+		  	<option>WCS Green Line</option>
+		  	<option>WCS Cottage Grove</option>
+		  	<option>WCS Woodlawn</option>
+		  </datalist>
+
       <div class="clearfix">
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
         <button type="submit" class="signupbtn">Add Employee</button>
