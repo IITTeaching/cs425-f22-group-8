@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box; 
+  background-color: rgb(128, 128, 128);
+}
 
 /* Full-width input fields */
 input[type=text], input[type=password] {
@@ -63,13 +66,13 @@ button:hover {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: #474e5d;
+  background-color: #434E4A;
   padding-top: 50px;
 }
 
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
+  background-color: #F0F0F0;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
@@ -77,7 +80,7 @@ button:hover {
 
 /* Style the horizontal ruler */
 hr {
-  border: 1px solid #f1f1f1;
+  border: 1px solid #EAEAEA;
   margin-bottom: 25px;
 }
  
@@ -88,7 +91,7 @@ hr {
   top: 15px;
   font-size: 40px;
   font-weight: bold;
-  color: #f1f1f1;
+  color: #EAEAEA;
 }
 
 .close:hover,
@@ -188,4 +191,4 @@ window.onclick = function(event) {
 }
 </script>
 </body>
-</html>
+</html> 
