@@ -14,6 +14,7 @@ input[type=text], input[type=password] {
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
+  box-sizing: border-box;
   background: #f1f1f1;
 }
 
@@ -75,7 +76,7 @@ button:hover {
   background-color: #F0F0F0;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
-  width: 85%; /* Could be more or less, depending on screen size */
+  width: 80%; /* Could be more or less, depending on screen size */
 }
 
 /* Style the horizontal ruler */
