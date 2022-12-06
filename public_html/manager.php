@@ -157,14 +157,14 @@ hr {
       <input type="text" name="state" placeholder="City" required>
 
       <label for = "zipcode"><b>Zipcode</b></label>
-			<input type="number" name="zipcode" placeholder="Zipcode" required>
+			<input type="text" name="zipcode" placeholder="Zipcode" required>
 
-		  <label for="apt"><b>Apt/Unit></b></label>
+		  <label for="apt"><b>Apt/Unit</b></label>
 		  <input type="text" name="apt" placeholder ="Apt/Unit #" value="">
 
       <label for = "branch"><b>Branch</b></label>
-	    <input type="text" name="branch" list="directions" placeholder="Branch" required>
-		  <datalist id="directions">
+	    <input type="text" name="branch" list="branches" placeholder="Branch" required>
+		  <datalist id="branches">
 			  <option>WCS Western</option>
 		  	<option>WCS Green Line</option>
 		  	<option>WCS Cottage Grove</option>
