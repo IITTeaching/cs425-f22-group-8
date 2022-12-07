@@ -90,7 +90,12 @@ function loadSchedule(){
 	for(let i = 0; i < json.length; i++){
 		let row = json[i];
 		let tr = document.createElement("tr");
-		tr.innerHTML = `<td>${row["day"]}</td><td>$${row["transaction_amount"]}</td><td>$${row["account_balance"]}</td><td>${row["transaction_description"]}</td>`;
+
+		let balance = parseFloat(row["account_balance"]).toLocaleString('en-US',{ style: 'currency', currency: 'USD' });
+		let amount = parseFloat(row["transaction_amount"]).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+
+		tr.innerHTML = `<td>${row["day"]}</td><td>${amount < 0 ? '-' : ''}$${amount}</td><td>${balance < 0 ? '-' : ''}$${balance}</td><td>${row["transaction_description"]}</td>`;
 		table.appendChild(tr);
 	}
 }
