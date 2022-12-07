@@ -157,7 +157,7 @@ function accountListener(){
 }
 
 
-function displayAccount(account_number){
+export function displayAccount(account_number){
 	let params = `account_number=${account_number}`;
 	const req = new XMLHttpRequest();
 	req.addEventListener("load", accountListener);

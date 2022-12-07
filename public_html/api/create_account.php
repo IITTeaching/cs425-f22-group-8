@@ -43,6 +43,7 @@ try {
 	$account = Account::createAccount($user, $_POST["account_name"], $_POST["account_type"], $balance);
 	http_response_code(200);
 	respond("Created account successfully");
+	header("Account-Number: " . $account->getAccountNumber());
 	return;
 } catch (PGException|InvalidArgumentException $e) {
 	http_response_code(500);
