@@ -7,13 +7,13 @@ require_once "api/constants.php";
 try{
 	$cookie = new CookieManager();
 	if($cookie->isEmployee()){
-		$user = null; // TODO: If there's time, get the employee's name to put on the floating menu
+		$first_name = $cookie->getCookieUsername(); // TODO: If there's time, get the employee's name to put on the floating menu
 	} else{
-		$user = User::fromUsername($cookie->getCookieUsername());
+		$first_name = User::fromUsername($cookie->getCookieUsername())->getFirstName();
 	}
 } catch(PGException | InvalidArgumentException $e){
 	respond($e->getMessage());
-	$user = null;
+	$first_name = null;
 }
 
 ?>
@@ -45,16 +45,12 @@ try{
             the depositors get paid, and new collateral enters the system!
         </h2>
 		<nav class="floating-menu">
-			<?php if(is_null($user)): ?>
+			<?php if(is_null($first_name)): ?>
 			<h3>We sold you?</h3>
 			<a href="/login">Log In</a>
 			<a href="/signup">Sign Up</a>
 			<?php else: ?>
-			<h3>Hello <?php try {
-					echo $user->getFirstName();
-				} catch (PGException $e) {
-					echo $e->getMessage();
-			} ?></h3>
+			<h3>Hello <?php echo $first_name?></h3>
 			<a href="/profile">Check My Profile</a>
 			<a href="/api/logout">Logout</a>
 			<?php endif; ?>
