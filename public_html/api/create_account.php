@@ -4,6 +4,7 @@ require_once (dirname(__DIR__) . "/api/constants.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/Account.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/CookieManager.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/User.php");
+require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/Manager.php");
 
 if(!( isset($_POST["account_name"]) && isset($_POST["account_type"]) )){
 	http_response_code(400);

@@ -48,9 +48,11 @@ class Account extends CS425Class
 			throw new InvalidArgumentException("The given account type was not valid.");
 		}
 
-		$result = $this->query(sprintf("INSERT INTO Account(holder, account_name, type) VALUES(%d,'%s','%s');",
+		$result = $this->query(sprintf("INSERT INTO Account(holder, account_name, type) VALUES(%d,'%s','%s') RETURNING number",
 			$creator->getUserId(), $name, $type));
-		// TODO: Add Result checking for register
+
+		$this->account_number = pg_fetch_result($result, 0);
+
 		if($initial_balance > 0){
 			(new AccountTransaction())->deposit($creator, $this, $initial_balance, "Initial Deposit");
 		}

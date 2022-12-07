@@ -141,7 +141,7 @@ $loans = $user->getLoans();
 				</datalist>
 
 				<label class="form_label" for="initial_balance">Initial Balance</label>
-				<input type="number" name="initial_balance" id="initial_balance" placeholder="Initial Balance" min="0" step="2">
+				<input type="number" name="initial_balance" id="initial_balance" placeholder="Initial Balance" min="0" step="0.01">
 
 				<div class="clearfix">
 					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
