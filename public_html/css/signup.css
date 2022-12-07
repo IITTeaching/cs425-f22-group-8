@@ -27,6 +27,13 @@ p {
 h1 {
 	font-weight: normal;
 }
+  
+.img-nav {
+    height: auto;
+    width: auto;
+    max-height: 66px;
+    max-width: 66px;
+}
 
 /* =============================================================================== */
 

@@ -253,7 +253,7 @@ email.reportValidity();
 			</div>
 			 <!-- Your Logo Goes Here -->
 			<div id="toggle" class="nav-container">
-				<img src="/images/wcs.png" alt="LOGO" />
+				<img class = "img-nav" src = "/images/logo_square.png" alt = "WCS">
 				<a class="left" href="/index"><li>Go Back Home</li></a>
 			</div>
 		</ul>

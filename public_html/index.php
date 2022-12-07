@@ -57,8 +57,8 @@ try{
 	.img-nav {
     height: auto;
     width: auto;
-    max-height: 99px;
-    max-width: 99px;
+    max-height: 66px;
+    max-width: 66px;
 }
 
 </style>
