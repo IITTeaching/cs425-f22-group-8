@@ -212,3 +212,33 @@ function createAccount(){
 	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	req.send(`account_name=${name}&account_type=${type}&initial_balance=${initial}`);
 }
+
+function deleteListener(){
+	alert(this.responseText);
+	if(this.status !== 200){
+		return;
+	}
+	let deleted_account = this.getResponseHeader("Deleted-Account");
+	let table = document.getElementById("accounts");
+	for(let i = 0; i < table.children.length; i++){
+		let child = table.children[i];
+		if(child.id === `account${deleted_account}`){
+			table.removeChild(child);
+			return;
+		}
+	}
+}
+
+function deleteAccount(){
+	const name = document.getElementById("name").value;
+	const number = document.getElementById("number").value;
+	let confirmation = prompt(`Deleting an account is an irreversible action, but the transactions of the account will remain. If you understand, please type the account name: "${name}"`)
+	if(confirmation !== name){
+		return;
+	}
+	const req = new XMLHttpRequest();
+	req.addEventListener("load", deleteListener);
+	req.open("POST", "https://cs425.lenwashingtoniii.com/api/delete_account");
+	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	req.send(`account_number=${number}`);
+}

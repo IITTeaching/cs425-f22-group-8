@@ -89,10 +89,15 @@ $loans = $user->getLoans();
 			<option>Deposit</option>
 			<option>Transfer</option>
 		</datalist>
-		$<input name="amount" id="amount" step="0.01" min="0" max="1000" placeholder="Amount" required><br>
+		$<input name="amount" id="amount" type="number" step="0.01" min="0" max="1000" placeholder="Amount" required><br>
 		<input name="transfer_to_account_number" id="transfer_to_account_number" placeholder="Recipient Account Number" hidden><br id="transfer_break" hidden>
 		<input name="description" id="description" type="text" placeholder="Transaction Description"><br>
 		<input name="do_transaction" id="do_transaction" type="submit" value="Do the Transaction" onclick="transact()">
+	</div>
+	<div id="scheduling">
+		<br><hr><br>
+		<h3 style="color: red">Delete Account</h3>
+		<button onclick="deleteAccount()">Delete This Account</button>
 	</div>
 	<div id="scheduling">
 		<br><hr><br>
