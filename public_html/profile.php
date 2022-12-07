@@ -46,6 +46,7 @@ $loans = $user->getLoans();
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link href="/css/sidebar.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/employee_pages.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/profile.css" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<script type="text/javascript" src="/scripts/transactions.js"></script>
 	<script type="text/javascript">
@@ -95,7 +96,7 @@ $loans = $user->getLoans();
 		<input name="do_transaction" id="do_transaction" type="submit" value="Do the Transaction" onclick="transact()">
 	</div>
 	<div id="scheduling">
-		<br><hr><br>
+		<br><hr>
 		<h3 style="color: red">Delete Account</h3>
 		<button onclick="deleteAccount()">Delete This Account</button>
 	</div>
@@ -126,6 +127,9 @@ $loans = $user->getLoans();
 			<th>Can Be Overdrawn</th>
 		</tr>
 	</table>
+	<div class="popup">Need Help?
+	<p>To edit your account, click on one of your accounts to see the options.</p>
+	</div>
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 		<form class="modal-content" id="create_account_form">

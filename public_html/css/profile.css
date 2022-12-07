@@ -1,0 +1,7 @@
+div.popup {
+	display: none;
+}
+
+div.popup:hover{
+	display: block;
+}
