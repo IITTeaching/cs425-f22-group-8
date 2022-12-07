@@ -51,7 +51,7 @@ class Manager extends Employee
 	/**
 	 * @throws PGException
 	 */
-	public static function fromUsername(string $username):  int|false{
+	public static function fromUsername(string $username): false|Manager{
 		$id = parent::fromUsername($username);
 		if(!$id) { return false; }
 		return new Manager($id);

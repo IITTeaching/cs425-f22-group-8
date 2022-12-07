@@ -43,7 +43,7 @@ class LoanShark extends Employee
 		return $this->query("DELETE FROM LoanRequests WHERE loan_request_number = %d", $loan->getNumber());
 	}
 
-	public static function fromUsername(string $username): int|false {
+	public static function fromUsername(string $username): LoanShark|false {
 		$id = parent::fromUsername($username);
 		if(!$id) { return false; }
 		return new LoanShark($id);

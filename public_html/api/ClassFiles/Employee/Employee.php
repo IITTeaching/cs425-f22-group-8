@@ -54,7 +54,7 @@ abstract class Employee extends CS425Class
 	/**
 	 * @throws PGException
 	 */
-	protected static function fromUsername(string $username): int|false {
+	protected static function fromUsername(string $username) {
 		$db = new CS425Class(new ManagerConfig());
 		$username = $db->prepareData($username);
 		$result = $db->query(sprintf("SELECT id FROM EmployeeLogins WHERE username = '%s'", $username));
