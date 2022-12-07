@@ -7,6 +7,7 @@ GRANT SELECT ON TABLE Logins TO bankbot;
 GRANT SELECT ON TABLE Employee TO bankbot;
 GRANT SELECT ON TABLE EmployeeLogins TO bankbot;
 GRANT SELECT ON TABLE States TO bankbot;
+GRANT SELECT ON get_account_types TO bankbot;
 GRANT CONNECT ON DATABASE cs425 TO bankbot;
 
 
@@ -27,7 +28,7 @@ GRANT CONNECT ON DATABASE cs425 TO loanbot;
 
 CREATE ROLE profilebot WITH PASSWORD '1900eab6c028483d7126599ee6f50de0d27907b5c65fa90524580b4b0f9852b0' LOGIN;
 GRANT SELECT, UPDATE ON TABLE Customers TO profilebot;
-GRANT SELECT, UPDATE, INSERT ON TABLE Account TO profilebot;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE Account TO profilebot;
 GRANT USAGE, SELECT ON SEQUENCE account_number_seq TO profilebot;
 GRANT SELECT ON TABLE AuthorizedUsers TO profilebot;
 GRANT SELECT ON TABLE LoanApprovals TO profilebot;

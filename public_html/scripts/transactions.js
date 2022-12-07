@@ -230,8 +230,8 @@ function deleteListener(){
 }
 
 function deleteAccount(){
-	const name = document.getElementById("name").value;
-	const number = document.getElementById("number").value;
+	const name = document.getElementById("name").innerText;
+	const number = document.getElementById("number").innerText;
 	let confirmation = prompt(`Deleting an account is an irreversible action, but the transactions of the account will remain. If you understand, please type the account name: "${name}"`)
 	if(confirmation !== name){
 		return;
