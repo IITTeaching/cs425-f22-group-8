@@ -102,7 +102,7 @@ function loadSchedule(){
 		let amount = parseMoney(row["transaction_amount"]);
 		let time = new Date(Date.parse(row["day"])).toLocaleString();
 
-		tr.innerHTML = `<td>${time}</td><td>${amount}</td><td>${balance}</td><td>${row["transaction_description"]}</td>`;
+		tr.innerHTML = `<td>${time}</td><td style="text-align: right">${amount}</td><td style="text-align: right">${balance}</td><td>${row["transaction_description"]}</td>`;
 		table.appendChild(tr);
 	}
 }

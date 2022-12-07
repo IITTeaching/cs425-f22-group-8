@@ -75,7 +75,7 @@ $loans = $user->getLoans();
 		<input name="do_transaction" id="do_transaction" type="submit" value="Do the Transaction" onclick="transact()">
 	</div>
 	<hr>
-	<div id="scheduling">
+	<div id="scheduling"> <!-- TODO: Try to correct the CSS so this isn't wonky and showing up inside the transactions box.-->
 		<button id="pending_transactions" onclick="getPendingTransactions()">See Pending Transactions</button>
 		<label for="statement_month">Input Month</label><input type="month" id="statement_month" name="statement_month" placeholder="mm-yyyy" value="" min="2022-11-01" max="<?php echo date("Y-m-d")?>">
 		<button id="see_statement" onclick="getMonthlyStatement()">See Monthly Statement</button>
