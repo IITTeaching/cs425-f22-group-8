@@ -121,6 +121,11 @@ function getMonthlyStatement(){
 	let month = document.getElementById("statement_month").value;
 	let account_number = document.getElementById("number").innerText;
 
+	if(month === ""){
+		alert("You must input a month and year to see its monthly report.");
+		return;
+	}
+
 	const req = new XMLHttpRequest();
 	req.addEventListener("load", loadSchedule);
 	req.open("POST", "https://cs425.lenwashingtoniii.com/api/get_monthly_statement");

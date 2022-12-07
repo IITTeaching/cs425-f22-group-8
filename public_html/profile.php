@@ -78,8 +78,8 @@ $loans = $user->getLoans();
 	<div id="scheduling">
 		<br><hr><br>
 		<button id="pending_transactions" onclick="getPendingTransactions()">See Pending Transactions</button><br>
-		<label for="statement_month">Input Month: </label><input type="month" id="statement_month" name="statement_month" placeholder="mm-yyyy" value="" min="2022-11-01" max="<?php echo date("Y-m-d")?>">
-		<button id="see_statement" onclick="getMonthlyStatement()">See Monthly Statement</button> <!-- TODO: Add error checking so nothing happens if there is no month-->
+		<label for="statement_month">Input Month: </label><input type="month" id="statement_month" name="statement_month" placeholder="mm-yyyy" value="" min="2022-11-01" max="<?php echo date("Y-m-d")?>"><br>
+		<button id="see_statement" onclick="getMonthlyStatement()">See Monthly Statement</button>
 		<table id="schedule" class="profile_info">
 			<tr>
 				<th>Time</th>
