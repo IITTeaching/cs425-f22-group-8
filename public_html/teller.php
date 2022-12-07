@@ -41,7 +41,7 @@ try{
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 </head>
-<body>
+<body class="employee">
 	<h2>Welcome <?php echo $teller->getName()?>::Teller!</h2>
 	<h3>This is your homepage.</h3>
 
