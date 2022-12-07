@@ -1,5 +1,6 @@
 <?php
 
+require_once "Employee.php";
 require_once (dirname(__DIR__, 2) . "/ConfigFiles/LoanConfig.php");
 
 class LoanShark extends Employee
@@ -42,7 +43,7 @@ class LoanShark extends Employee
 		return $this->query("DELETE FROM LoanRequests WHERE loan_request_number = %d", $loan->getNumber());
 	}
 
-	public static function fromUsername(string $username): false|LoanShark{
+	public static function fromUsername(string $username): int|false {
 		$id = parent::fromUsername($username);
 		if(!$id) { return false; }
 		return new LoanShark($id);
