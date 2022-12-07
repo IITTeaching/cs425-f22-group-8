@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
+require_once(dirname(__DIR__) . "/Exceptions/PGException.php");
 require_once(dirname(__DIR__) . "/constants.php");
 require_once "CS425Class.php";
 
@@ -46,8 +47,63 @@ class Verifications extends CS425Class
 			return false;
 		}
 
+		try{
+			$username = $this->getBasicResult("SELECT username FROM Logins WHERE id = (SELECT id FROM Customers WHERE email = '%s')", $email);
+			$this->send2FALink($email, $name, $username);
+		} catch(PGException $e){
+			;
+		}
 		return true;
 		// TODO: If its true, the system should send another 2 links to set_two_factor that will display the QR code for the user. The first link will have the activate param which will activate it, the other will have deactivate which will make sure the system doesn't create 2FA for them.
+	}
+
+	public function send2FALink(string $email, string $name, string $username){
+		$auth_link = HTTPS_HOST . "/activate_auth?username=" . $username;
+		$enable = $auth_link . "&enable=true";
+		$subject = "WCS Account Activation";
+		$message = sprintf("
+			<html lang='en'>
+				<div style=\"background-color:#ffffff;width:600px;margin-left:auto;margin-right:auto\">
+				<hr style=\"color:grey\">
+				<table style=\"background-color:#ffffff;width:600px;text-align:center\" align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+					<td style=\"padding-top:24px;padding-left:16px;padding-bottom:10px\">
+						<tbody><tr style=\"margin:24px;margin-left:0\">
+						<td align=\"left\">
+							<p style=\"word-wrap:break-word;font-size:15px;margin:0px;padding:0px\">Hello %s,</p>
+							<p style=\"word-wrap:break-word;font-size:13px;margin-top:24px;padding:0px;line-height:19px\">Thank you for registering with our bank. Our users have the option of enabling a Time-based One Time Password, more commonly known as 2-Factor Authentication (2FA). If you would like to set up 2FA, please click the button titled <i>Enable</i>, if not, click <i>Disable.</i></p>
+									<table align=\"left\" style=\"text-align:center;vertical-align:center;color:#fff;display:block\">
+										<tbody><tr>
+											<td style=\"border-radius:4px 4px 4px 4px\">
+												<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" style=\"color:#fff!important;padding-left:28px;padding-top:12px;padding-bottom:12px;padding-right:28px;height:40px;width:160px;background-color:#0696d7;font-size:16px;text-decoration:none;text-transform:uppercase;border-radius:4px 4px 4px 4px\">
+													DISABLE
+												</a>
+											</td>
+											<td style=\"border-radius:4px 4px 4px 4px\">
+												<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" style=\"color:#fff!important;padding-left:28px;padding-top:12px;padding-bottom:12px;padding-right:28px;height:40px;width:160px;background-color:#0696d7;font-size:16px;text-decoration:none;text-transform:uppercase;border-radius:4px 4px 4px 4px\">
+													ENABLE
+												</a>
+											</td>
+										</tr>
+										</tbody></table>
+								</td>
+							</tr>
+							</tbody></table>
+							<p style=\"word-wrap:break-word;display:block;font-size:12px;margin-top:15px\">
+								<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" >%s</a>
+							</p>
+							<p style=\"word-wrap:break-word;display:block;font-size:12px;margin-top:15px\">
+								<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" >%s</a>
+							</p>
+					<hr style=\"color:grey\">
+				</div>
+			</html>
+			", $name, $auth_link, $enable, $auth_link, $enable);
+
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= 'From: <cs425@lenwashingtoniii.com>' . "\r\n";
+
+		mail($email, $subject, $message, $headers);
 	}
 
 	public function send_verification_email($email, $name){
