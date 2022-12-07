@@ -44,11 +44,12 @@ function reqListener() {
 function checkTransactionType(){
 	let type = document.getElementById("transaction");
 	let transfer_account = document.getElementById("transfer_to_account_number");
+	let line_break = document.getElementById("transfer_break");
 	if(type.value === "Transfer"){
-		transfer_account.hidden = false;
+		transfer_account.hidden = line_break.hidden = false;
 		transfer_account.required = true;
 	} else{
-		transfer_account.hidden = true;
+		transfer_account.hidden = line_break.hidden = true;
 		transfer_account.required = false;
 	}
 }

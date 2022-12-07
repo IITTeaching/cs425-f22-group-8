@@ -71,7 +71,7 @@ $loans = $user->getLoans();
 			<option>Transfer</option>
 		</datalist>
 		$<input name="amount" id="amount" step="0.01" min="0" type="currency" max="1000" placeholder="Amount" required><br>
-		<input name="transfer_to_account_number" id="transfer_to_account_number" placeholder="Recipient Account Number" hidden><br>
+		<input name="transfer_to_account_number" id="transfer_to_account_number" placeholder="Recipient Account Number" hidden><br id="transfer_break" hidden>
 		<input name="description" id="description" type="text" placeholder="Transaction Description"><br>
 		<input name="do_transaction" id="do_transaction" type="submit" value="Do the Transaction" onclick="transact()">
 	</div>
