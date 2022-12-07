@@ -267,9 +267,9 @@ email.reportValidity();
 		<input type="password" id="password" name="password" placeholder="Password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8">
 		<input type="text" id="fullname" name="fullname" placeholder="Full Name" value="" oninput="checkInfo()" required autocomplete="name">
 		<input type="email" id="email" name="email" value="" placeholder="Email Address" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$">
-		<input name="phone" id="phone" value="" type="tel" placholder="Phone No." oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}">
-		<input type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
-		<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
+		<input name="phone" id="phone" value="" type="tel" placeholder="Phone No." oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}">
+		<input class ="name-surname" type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
+		<input class ="name-surname" type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
 		<datalist id="directions">
 			<option>N</option>
 			<option>E</option>
@@ -278,13 +278,13 @@ email.reportValidity();
 		</datalist>
 		<input type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
 		<input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required>
-		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
+		<input class ="name-surname" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
 			<datalist id="states">
 				<?php foreach($states as $state) {?>
 					<?php echo $state . PHP_EOL; ?>
 				<?php }?>
 			</datalist>
-		<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal">
+		<input class ="name-surname" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal">
 		<input type="text" name="apt" id="apt" placeholder="Apt/Unit # (Optional)" value="">
 		<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
 				<datalist id="branches">
