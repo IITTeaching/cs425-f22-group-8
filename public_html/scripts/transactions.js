@@ -218,7 +218,7 @@ function deleteListener(){
 	if(this.status !== 200){
 		return;
 	}
-	let deleted_account = this.getResponseHeader("Deleted-Account");
+	let deleted_account = this.getResponseHeader("Deleted-Account-Number");
 	let table = document.getElementById("accounts");
 	for(let i = 0; i < table.children.length; i++){
 		let child = table.children[i];
@@ -232,7 +232,7 @@ function deleteListener(){
 function deleteAccount(){
 	const name = document.getElementById("name").innerText;
 	const number = document.getElementById("number").innerText;
-	let confirmation = prompt(`Deleting an account is an irreversible action, but the transactions of the account will remain. If you understand, please type the account name: "${name}"`)
+	let confirmation = prompt(`Deleting an account is an irreversible action, but the transactions of the account will remain. If you understand, please type the account name: "${name}".`)
 	if(confirmation !== name){
 		return;
 	}

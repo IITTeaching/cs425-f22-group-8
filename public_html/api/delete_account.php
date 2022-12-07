@@ -44,7 +44,7 @@ try {
 
 	http_response_code(200);
 	respond("Account deleted successfully");
-	header("Account-Number: " . $account->getAccountNumber());
+	header("Deleted-Account-Number: " . $account->getAccountNumber());
 	return;
 } catch (PGException|InvalidArgumentException $e) {
 	http_response_code(500);
