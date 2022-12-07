@@ -16,9 +16,9 @@ class Account extends CS425Class
 		$argc = func_num_args();
 
 		if($argc == 1) {
-			call_user_func(array($this, "__init__"), $argv[0]);
+			call_user_func_array(array($this, "__init__"), $argv);
 		} elseif ($argc == 4){
-			call_user_func(array($this, "register"), $argv);
+			call_user_func_array(array($this, "register"), $argv);
 		} else{
 			//TODO: Figure out if there is a was to pass arguments (specifically exception variables to deconstructor)
 			parent::__destruct(); //new InvalidArgumentException("The account constructor can only take 1 argument, the account number."));
