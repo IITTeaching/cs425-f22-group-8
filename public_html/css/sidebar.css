@@ -1,15 +1,19 @@
-#leftcontent{
+#leftcontent {
 	float: left;
 	width: 40%;
 	text-align: left;
 	color: #cdcdcd;
 }
 
-#rightcontent{
+#rightcontent {
 	float: right;
 	width: 40%;
 	text-align: right;
 	color: #cdcdcd;
+}
+
+#scheduling {
+	clear: both;
 }
 
 div.label {
@@ -36,6 +40,7 @@ body.sidebar {
 #page-side.show {
 	padding: 20px 10px;
 	width: 50%;
+	overflow: hidden;
 	visibility: visible;
 }
 

@@ -42,6 +42,12 @@ class CookieManager
 	private function getCookieData(): array|bool{
 		if(!isset($_COOKIE[$this->cookieName])){ return false; }
 		$data = json_decode($_COOKIE[$this->cookieName], true);
+
+		if($data["expires"] < time()){
+			$this->deleteCookie();
+			return array();
+		}
+
 		$data["isEmployee"] = isset($data["usage"]);
 		return $data;
 	}
