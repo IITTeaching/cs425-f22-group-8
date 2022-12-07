@@ -39,8 +39,6 @@ $loans = $user->getLoans();
 			let side = document.getElementById("page-side");
 			side.classList.remove("show");
 		}
-
-
 	</script>
 </head>
 <body class="sidebar">
@@ -96,7 +94,7 @@ $loans = $user->getLoans();
 				<td><?php echo $account->getType(); ?></td>
 				<td><?php echo $account->getInterest(); ?>%</td>
 				<td>$<?php echo sprintf("%.2f", $account->getMonthlyFee()); ?></td>
-				<td><?php if($account->canGoNegative()) { echo "True"; } else{ echo "False";} ?></td>
+				<td><?php echo ($account->canGoNegative() ? "True" :  "False") ?></td>
 			</tr>
 		<?php }}; ?>
 	</table>

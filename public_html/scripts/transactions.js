@@ -54,7 +54,7 @@ function checkTransactionType(){
 }
 
 function transactionListener() {
-	alert(this.responseText);
+	alert(this.responseText);  // TODO: Don't update the page unless its one of the success headers.
 	window.location.reload(); // TODO: Come up with a better way of updating the page.
 }
 

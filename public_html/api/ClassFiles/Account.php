@@ -96,7 +96,7 @@ class Account extends CS425Class
 
 	public function getMonthlyFee(): float { return $this->getBasicResult(sprintf("SELECT monthly_fee FROM Account WHERE number = %d", $this->account_number)); }
 
-	public function canGoNegative(): bool { return $this->getBasicResult(sprintf("SELECT can_go_negative FROM Account WHERE number = %d", $this->account_number)); }
+	public function canGoNegative(): bool { return convert_to_bool($this->getBasicResult(sprintf("SELECT can_go_negative FROM Account WHERE number = %d", $this->account_number))); }
 
 	public function deleteAccount() { return $this->getBasicResult(sprintf("DELETE FROM Account WHERE number = %d", $this->getAccountNumber())); }
 
