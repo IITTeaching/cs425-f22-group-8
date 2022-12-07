@@ -20,7 +20,8 @@ class Account extends CS425Class
 		} elseif ($argc == 4){
 			call_user_func(array($this, "register"), $argv);
 		} else{
-			parent::__destruct(new InvalidArgumentException("The account constructor can only take 1 argument, the account number."));
+			//TODO: Figure out if there is a was to pass arguments (specifically exception variables to deconstructor)
+			parent::__destruct(); //new InvalidArgumentException("The account constructor can only take 1 argument, the account number."));
 		}
 	}
 	private function __init__($account_number){

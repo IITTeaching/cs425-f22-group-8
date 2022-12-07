@@ -24,8 +24,11 @@ class CS425Class
 
 	public function __destruct(Exception $error=null){
 		pg_close($this->connect);
-		if(!is_null($error)){
-			throw $error;
+
+		$argc = func_num_args();
+
+		if($argc == 1){
+			throw func_get_args()[0];
 		}
 	}
 
