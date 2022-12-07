@@ -2,6 +2,7 @@
 
 require_once "api/constants.php";
 require_once "api/ClassFiles/CookieManager.php";
+require_once "api/ClassFiles/DataBase.php";
 require_once "api/ClassFiles/Employee/Manager.php";
 require_once "api/Exceptions/PGException.php";
 
