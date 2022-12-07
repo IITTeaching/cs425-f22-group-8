@@ -11,6 +11,7 @@ require_once "User.php";
 require_once "Verifications.php";
 require_once "CS425Class.php";
 require_once "Authentication.php";
+require_once "Address.php";
 
 class DataBase extends CS425Class
 {
@@ -163,7 +164,7 @@ class DataBase extends CS425Class
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
 		$phone = $this->prepareData($phone);
 		$branch = $this->prepareData($branch);
-		$address_id = $this->createAddress($address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
+		$address_id = Address::createAddress($address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
 		#endregion
 
 		# region Getting the branch id
@@ -183,106 +184,6 @@ class DataBase extends CS425Class
 		$verification = new Verifications();
 		$verification->send_verification_email($email, $fullname);
 		return true;
-	}
-
-	/**
-	 * @throws PGException
-	 */
-	function postAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): string{
-		$streetNumber = $this->prepareData($streetNumber);
-		$direction = $this->prepareData($direction);
-		$streetName = $this->prepareData($streetName);
-		$city = $this->prepareData($city);
-		$state = $this->prepareData($state);
-		$zipcode = $this->prepareData($zipcode);
-
-		if($id == null){
-			$row = $this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode);
-			$this->checkQueryResult($row);
-			return $this->parseAddress($row);
-		}
-
-		$result = parent::query(sprintf("SELECT * FROM addresses WHERE id = %s", $id));
-		if(pg_affected_rows($result) == 0){
-			return $this->parseAddress($this->createAddress($streetNumber, $direction, $streetName, $city, $state, $zipcode));
-		}
-		return $this->parseAddress($this->updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode));
-	}
-
-	private function parseAddress($row): string{
-		return sprintf("=%s=%s=%s=%s=%s=%s=%s=", $row["id"], $row["number"], $row["direction"], $row["street_name"], $row["city"], $row["state"], $row["zipcode"]);
-	}
-
-	/**
-	 * @throws PGException
-	 */
-	private function updateAddress($id, $streetNumber, $direction, $streetName, $city, $state, $zipcode): array {
-		$streetNumber = $this->prepareData($streetNumber);
-		$direction = $this->prepareData($direction);
-		$streetName = $this->prepareData($streetName);
-		$city = $this->prepareData($city);
-		$state = $this->prepareData($state);
-		$zipcode = $this->prepareData($zipcode);
-
-		$dct = array(
-			"number" => $streetNumber,
-			"direction" => $direction,
-			"street_name" => $streetName,
-			"city" => $city,
-			"state" => $state,
-			"zipcode" => $zipcode
-		);
-
-		foreach($dct as $attribute => $value){
-			if($value == null){
-				continue;
-			}
-			//Checks if the value needs to be changed
-			$check = parent::query(sprintf("SELECT %s FROM Addresses WHERE id = %s", $attribute, $id));
-			$row = pg_fetch_assoc($check);
-			if($row[$attribute] == $value){
-				continue;
-			}
-
-			parent::query(sprintf("UPDATE Addresses SET %s = %s WHERE id = %s", $attribute, $value, $id));
-		}
-
-		$result = parent::query(sprintf("SELECT * FROM Addresses WHERE id = %s", $id));
-		return pg_fetch_assoc($result);
-	}
-
-	/**
-	 * @throws PGException
-	 */
-	private function createAddress($address_number, $direction, $streetName, $city, $state, $zipcode, $apt): int
-	{
-		$address_number = $this->prepareData($address_number);
-		$direction = $this->prepareData($direction);
-		$streetName = $this->prepareData($streetName);
-		$city = $this->prepareData($city);
-		$state = $this->prepareData($state);
-		$zipcode = $this->prepareData($zipcode);
-		$apt = $this->prepareData($apt);
-
-		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction::TEXT) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = '%s' AND UPPER(unitnumber) = '%s'",
-			$address_number, strtoupper($direction), strtoupper($streetName), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
-
-		$result = parent::query($sql);
-		$address_count = pg_num_rows($result);
-		if($address_count == 0){ // Address isn't in the database, add it
-			if(strlen($apt) == 0){
-				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(%s,'%s','%s','%s','%s',%s) RETURNING id",
-					$address_number, $direction, $streetName, $city, $state, $zipcode);
-			} else{
-				$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode, unitnumber) VALUES(%s,'%s','%s','%s','%s',%s,'%s') RETURNING id",
-					$address_number, $direction, $streetName, $city, $state, $zipcode, $apt);
-			}
-			$result = parent::query($sql);
-			if(pg_num_rows($result) == 0){
-				throw new InvalidArgumentException("Something happened creating the address tuple");
-			}
-		}
-		return pg_fetch_result($result, 0, 0);
 	}
 
 	public function isLoggedIn(): bool{

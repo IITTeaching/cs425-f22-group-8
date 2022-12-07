@@ -59,7 +59,11 @@ function checkTransactionType(){
 }
 
 function transactionListener() {
-	alert(this.responseText);  // TODO: Don't update the page unless its one of the success headers.
+	alert(this.responseText);
+	if(this.status !== 200){
+		return;
+	}
+
 	let affected_rows = JSON.parse(this.getResponseHeader("Affected-Rows"));
 	for(let i = 0; i < affected_rows; i++){
 		; // TODO: Update the individual rows

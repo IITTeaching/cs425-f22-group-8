@@ -34,7 +34,7 @@ class LoanShark extends Employee
 			sprintf("An error occurred when accepting LoanRequest: %d from Customer id: %d", $loan->getNumber(), $loan->getCustomer()->getUserId()));
 		return new Loan(pg_fetch_assoc($result, 0));
 	}
-	// TODO: Create a home page for employees.
+
 	public function denyLoan(LoanRequest $loan){ # TODO: Maybe add a reason why the request was denied
 		return $this->query("DELETE FROM LoanRequests WHERE loan_request_number = %d", $loan->getNumber());
 	}
