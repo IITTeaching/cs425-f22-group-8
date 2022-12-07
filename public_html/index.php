@@ -6,10 +6,14 @@ require_once "api/constants.php";
 
 try{
 	$cookie = new CookieManager();
-	if($cookie->isEmployee()){
-		$first_name = $cookie->getCookieUsername(); // TODO: If there's time, get the employee's name to put on the floating menu
-	} else{
-		$first_name = User::fromUsername($cookie->getCookieUsername())->getFirstName();
+	if($cookie->isValidCookie()){
+		if($cookie->isEmployee()){
+			$first_name = $cookie->getCookieUsername(); // TODO: If there's time, get the employee's name to put on the floating menu
+		} else{
+			$first_name = User::fromUsername($cookie->getCookieUsername())->getFirstName();
+		}
+	} else {
+		$first_name = null;
 	}
 } catch(PGException | InvalidArgumentException $e){
 	respond($e->getMessage());
