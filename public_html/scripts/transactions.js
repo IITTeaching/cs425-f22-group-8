@@ -45,7 +45,7 @@ function reqListener() {
 	}
 }
 
-export function checkTransactionType(){
+function checkTransactionType(){
 	let type = document.getElementById("transaction");
 	let transfer_account = document.getElementById("transfer_to_account_number");
 	let line_break = document.getElementById("transfer_break");
@@ -71,7 +71,7 @@ function transactionListener() {
 	getAccounts();
 }
 
-export function transact(){
+function transact(){
 	let transaction_type = document.getElementById("transaction").value;
 	let amount = document.getElementById("amount").value;
 	let this_account = document.getElementById("number").innerText;
@@ -111,7 +111,7 @@ function loadSchedule(){
 	}
 }
 
-export function getPendingTransactions(){
+function getPendingTransactions(){
 	let account_number = document.getElementById("number").innerText;
 
 	const req = new XMLHttpRequest();
@@ -121,7 +121,7 @@ export function getPendingTransactions(){
 	req.send(`account_number=${account_number}`);
 }
 
-export function getMonthlyStatement(){
+function getMonthlyStatement(){
 	let month = document.getElementById("statement_month").value;
 	let account_number = document.getElementById("number").innerText;
 
@@ -157,7 +157,7 @@ function accountListener(){
 }
 
 
-export function displayAccount(account_number){
+function displayAccount(account_number){
 	let params = `account_number=${account_number}`;
 	const req = new XMLHttpRequest();
 	req.addEventListener("load", accountListener);
@@ -166,7 +166,7 @@ export function displayAccount(account_number){
 	req.send(params);
 }
 
-export function getAccounts(){
+function getAccounts(){
 	let table = document.getElementById("accounts");
 	while(table.lastElementChild !== table.firstElementChild){
 		table.removeChild(table.lastElementChild);
@@ -185,4 +185,30 @@ export function getAccounts(){
 	req.open("POST", "https://cs425.lenwashingtoniii.com/api/get_accounts");
 	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	req.send("");
+}
+
+function listener(){
+	if(this.status !== 200){
+		return;
+	}
+	alert(this.responseText);
+	displayAccount(this.getResponseHeader("Account-Number"))
+}
+
+export function createAccount(){
+	const form = document.forms.create_account_form;
+	const name = encodeURIComponent(form.elements.account_name.value);
+	const type = form.elements.account_type.value;
+	const initial = form.elements.initial_balance.value;
+
+	if(initial < 0){
+		alert("The initial amount of an account can not be negative.");
+		return;
+	}
+
+	const req = new XMLHttpRequest();
+	req.addEventListener("load", listener);
+	req.open("POST", "https://cs425.lenwashingtoniii.com/api/create_account");
+	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	req.send(`account_name=${name}&account_type=${type}&initial_balance=${initial}`);
 }
