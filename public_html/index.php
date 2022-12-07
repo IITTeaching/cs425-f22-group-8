@@ -92,8 +92,8 @@ try{
 
 <!-- About Section -->
 <div class="w3-container" style="padding:128px 16px" id="about">
-  <h3 class="w3-center">ABOUT WCS BANKING</h3>
-  <p class="w3-center w3-large">Why choose us?</p>
+  <h2 class="w3-center">ABOUT WCS BANKING</h2>
+  <h3 class="w3-center w3-large">Why choose us?</h3>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
 	<p> WCS Banking is a peer-to-peer system of banking in which people pledge the value of their digital property
         as collateral to borrow from other users. In the world of WCS Banking, all depositors are credited with a
