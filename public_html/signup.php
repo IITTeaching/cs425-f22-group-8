@@ -263,11 +263,11 @@ email.reportValidity();
 <div class="center">
 
 	<form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
-		<input type="text" id="username" name="username" placeholder="Username" value="" oninput="checkInfo()" required autocomplete="username"><br>
-		<input type="password" id="password" name="password" placeholder="Password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8"><br>
-		<input type="text" id="fullname" name="fullname" placeholder="Full Name" value="" oninput="checkInfo()" required autocomplete="name"><br>
-		<input type="email" id="email" name="email" value="" placeholder="Email Address" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
-		<input name="phone" id="phone" value="" type="tel" placholder="Phone No." oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
+		<input type="text" id="username" name="username" placeholder="Username" value="" oninput="checkInfo()" required autocomplete="username">
+		<input type="password" id="password" name="password" placeholder="Password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8">
+		<input type="text" id="fullname" name="fullname" placeholder="Full Name" value="" oninput="checkInfo()" required autocomplete="name">
+		<input type="email" id="email" name="email" value="" placeholder="Email Address" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$">
+		<input name="phone" id="phone" value="" type="tel" placholder="Phone No." oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}">
 		<input type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
 		<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
 		<datalist id="directions">
@@ -277,19 +277,19 @@ email.reportValidity();
 			<option>W</option>
 		</datalist>
 		<input type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
-		<input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required><br>
+		<input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required>
 		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
 			<datalist id="states">
 				<?php foreach($states as $state) {?>
 					<?php echo $state . PHP_EOL; ?>
 				<?php }?>
 			</datalist>
-		<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal"><br>
-		<input type="text" name="apt" id="apt" placeholder="Apt/Unit # (Optional)" value=""><br>
+		<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal">
+		<input type="text" name="apt" id="apt" placeholder="Apt/Unit # (Optional)" value="">
 		<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
 				<datalist id="branches">
 					<?php foreach($branches as $key => $value) { ?>
-					<option value="<?php echo $key?>"><?php echo $value ?></option>
+						<option value="<?php echo $key?>"><?php echo $value ?></option>
 					<?php } ?>
 				</datalist><br>
 		<button type="submit" name="submit" id="submit" form="signup_form" hidden>Sign Up!</button>
