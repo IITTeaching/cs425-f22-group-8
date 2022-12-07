@@ -116,4 +116,15 @@ class Account extends CS425Class
 
 		return new Account($creator, $name, $type, $initial_balance);
 	}
+
+	public function getMonthlyStatement(int $month, int $year): array{
+		$result = $this->query(sprintf("SELECT * FROM statement(%d,%d,%d)", $this->getAccountNumber(), $month, $year));
+		$statement = array();
+
+		while ($row = pg_fetch_assoc($result)){
+			$statement[] = $row;
+		}
+
+		return $statement;
+	}
 }
