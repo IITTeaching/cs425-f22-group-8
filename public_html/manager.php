@@ -22,7 +22,13 @@ if(!$cookie->isEmployee()){
 	return;
 }
 
-$manager = Manager::fromUsername($username);
+try{
+	$manager = Manager::fromUsername($username);
+} catch (PGException | InvalidArgumentException $e){
+	respond($e->getMessage());
+	http_response_code(500);
+	return;
+}
 
 try{
 	$db = new DataBase();
