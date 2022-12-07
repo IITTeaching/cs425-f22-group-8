@@ -53,6 +53,7 @@ try{
 </style>
 </head>
 <body>
+	
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
@@ -66,16 +67,16 @@ try{
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-left w3-text-white" style="padding:48px">
-    <span class="w3-jumbo w3-hide-small">Welcome to WCS Banking</span><br>
-    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Welcome to WCS Banking</span><br>
-    <span class="w3-large">A banking system of the people, by the people, for the people!</span>
-	<?php if(is_null($first_name)): ?>
-    <p><a href="/signup" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Learn more and start today</a></p>
-	<p><a href="/login" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Already a member? Login here</a></p>
-	<?php else: ?>
-	<p><a href="/profile" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Check my profile</a></p>
-	<p><a href="/api/logout" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Logout</a></p>	
-</div> 
+		<span class="w3-jumbo w3-hide-small">Welcome to WCS Banking</span><br>
+		<span class="w3-xxlarge w3-hide-large w3-hide-medium">Welcome to WCS Banking</span><br>
+		<span class="w3-large">A banking system of the people, by the people, for the people!</span>
+		<?php if(is_null($first_name)): ?>
+		<p><a href="/signup" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Learn more and start today</a></p>
+		<p><a href="/login" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Already a member? Login here</a></p>
+		<?php else: ?>
+		<p><a href="/profile" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Check my profile</a></p>
+		<p><a href="/api/logout" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Logout</a></p>	
+	</div> 
 </header>
 
 <!-- About Section -->
