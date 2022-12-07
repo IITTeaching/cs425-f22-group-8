@@ -64,7 +64,11 @@ class Account extends CS425Class
 
 	public function deleteAccount() { return $this->getBasicResult(sprintf("DELETE FROM Account WHERE number = %d", $this->getAccountNumber())); }
 
-	public static function createAccount(User $creator, string $type, float $initial_balance, string $name="") {
-		# TODO: Write create account
+	public static function createAccount(User $creator, string $name, string $type, float $initial_balance) {
+		if(strlen($name) > 30 || strlen($name) == 0){
+			throw new InvalidArgumentException("The account name must be between 0 and 30 characters.");
+		}
+		$result = $this->query(sprintf("INSERT INTO Account(holder, type, balance, account_name) VALUES(%d,'%s',%f,'%s')",
+			$creator->getUserId(), $type, $initial_balance, $name));
 	}
 }

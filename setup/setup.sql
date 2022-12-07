@@ -55,7 +55,7 @@ CREATE TABLE Account(
     holder INT REFERENCES Customers(id) NOT NULL,
     type AccountType NOT NULL,
     balance DOUBLE PRECISION NOT NULL,
-    account_name VARCHAR(15) DEFAULT NULL,
+    account_name VARCHAR(30) NOT NULL,
     interest FLOAT DEFAULT 0,
     monthly_fee FLOAT DEFAULT 0,
     can_go_negative BOOLEAN DEFAULT FALSE

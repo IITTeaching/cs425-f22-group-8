@@ -46,7 +46,7 @@ else{
 	http_response_code(302);
 	header("Response: " . $result);
 	if(!is_header_set("Location")){
-		header("Location: " . HTTPS_HOST);
+		header("Location: " . HTTPS_HOST . "/profile");
 	}
 }
 

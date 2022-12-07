@@ -10,7 +10,7 @@ try{
 	return;
 }
 
-$result = $db->query("SELECT subquery.name, address FROM ( SELECT name, cast(a.number AS TEXT) || ' ' || a.direction || ' ' || a.street_name || ', ' || a.city || ', ' || a.state || ', ' || a.zipcode AS address FROM branch JOIN addresses a on a.id = branch.address) subquery;");
+$result = $db->query("SELECT * FROM branch_info;");
 if(!$result){
 	http_response_code(500);
 	header("Response: " . error_get_last());
