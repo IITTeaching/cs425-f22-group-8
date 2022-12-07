@@ -63,3 +63,9 @@ GRANT USAGE, SELECT ON SEQUENCE transactions_tid_seq TO transactionsbot;
 GRANT SELECT, UPDATE ON Account TO transactionsbot;
 GRANT SELECT ON AuthorizedUsers TO transactionsbot;
 GRANT CONNECT ON DATABASE cs425 TO transactionsbot;
+
+
+CREATE ROLE authbot WITH PASSWORD 'bdf49c3c3882102fc017ffb661108c63a836d065888a4093994398cc55c2ea2f' LOGIN;
+GRANT SELECT, UPDATE ON Logins TO authbot;
+GRANT SELECT, UPDATE ON EmployeeLogins TO authbot;
+GRANT CONNECT ON DATABASE cs425 TO authbot;

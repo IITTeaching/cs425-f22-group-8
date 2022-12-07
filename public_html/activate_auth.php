@@ -9,7 +9,10 @@ if($enable){
 	$auth = new Authentication();
 	$key = $auth->createSecretKey();
 	$qrcode = $auth->generateQRCode($username, $key);
+	$auth->setTOTP($username, $key);
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +20,7 @@ if($enable){
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
 	<title>WCS Authentication</title>
 </head>
 <body>
@@ -33,6 +36,7 @@ if($enable){
 	<code>
 		<?php echo $key?>
 	</code>
+	<button onclick="add()">Click Me When You Have Your Code</button>
 <?php endif ?>
 </body>
 </html>

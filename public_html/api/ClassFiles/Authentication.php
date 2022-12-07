@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 include_once "CS425Class.php";
-require_once(dirname(__DIR__) . "/ConfigFiles/VerificationConfig.php");
+require_once(dirname(__DIR__) . "/ConfigFiles/AuthConfig.php");
 require_once(dirname(__DIR__) . "/constants.php");
 
 use chillerlan\QRCode\QRCode;
@@ -18,9 +18,23 @@ class Authentication extends CS425Class
 
 	public function __construct()
 	{
-		parent::__construct(new VerificationConfig());
+		parent::__construct(new AuthConfig());
 		$this->charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 		#$this->db_cipher = "";
+	}
+
+	/**
+	 * @throws PGException
+	 */
+	public function setTOTP(string $username, string $key){
+		$result = $this->query("UPDATE Logins SET totp_secret = '%s' WHERE username = '%s'", $key, $username);
+	}
+
+	/**
+	 * @throws PGException
+	 */
+	public function removeTOTP(string $username){
+		$result = $this->query("UPDATE Logins SET totp_secret = NULL WHERE username = '%s'", $username);
 	}
 
 	# region Creating TOTP secret key
@@ -63,6 +77,8 @@ class Authentication extends CS425Class
 				'eccLevel' => QRCode::ECC_L,
 				'outputType' => QRCode::OUTPUT_MARKUP_SVG,
 				'version' => 5,
+				'bgColor' => "transparent",
+
 			]
 		);
 		# http://www1.auth.iij.jp/smartkey/en/uri_v1.html

@@ -89,15 +89,15 @@ class Verifications extends CS425Class
 							</tr>
 							</tbody></table>
 							<p style=\"word-wrap:break-word;display:block;font-size:12px;margin-top:15px\">
-								<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" >%s</a>
+								Disable: <a href=\"%s\" rel=\"nofollow\" target=\"_blank\" >%s</a>
 							</p>
 							<p style=\"word-wrap:break-word;display:block;font-size:12px;margin-top:15px\">
-								<a href=\"%s\" rel=\"nofollow\" target=\"_blank\" >%s</a>
+								Enable: <a href=\"%s\" rel=\"nofollow\" target=\"_blank\" >%s</a>
 							</p>
 					<hr style=\"color:grey\">
 				</div>
 			</html>
-			", $name, $auth_link, $enable, $auth_link, $enable);
+			", $name, $auth_link, $enable, $auth_link, $auth_link, $enable, $enable);
 
 		$headers = "MIME-Version: 1.0" . "\r\n";
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
