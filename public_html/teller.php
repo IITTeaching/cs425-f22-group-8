@@ -49,7 +49,7 @@ try{
 
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-		<form class="modal-content" action="/action_page.php">
+		<form class="modal-content" method="post" action="/action_page.php">
 			<div class="container">
 				<h1>Find the balance of a customer's account</h1>
 				<p>Please fill in the following form with the Customer's information.</p>

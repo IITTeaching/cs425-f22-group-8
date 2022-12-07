@@ -38,13 +38,13 @@ button.employee_forms:hover {
 }
 
 /* Extra styles for the cancel button */
-.employee_forms, .cancelbtn {
+button.employee_forms, .cancelbtn {
 	padding: 14px 20px;
 	background-color: #f44336;
 }
 
 /* Float cancel and signup buttons and add an equal width */
-.employee_forms, .cancelbtn, .signupbtn {
+button.employee_forms, .cancelbtn, .signupbtn {
 	float: left;
 	width: 50%;
 }

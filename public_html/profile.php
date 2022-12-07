@@ -123,7 +123,7 @@ $loans = $user->getLoans();
 	</table>
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-		<form class="modal-content" action="/api/create_account">
+		<form class="modal-content" method="post" action="/api/create_account">
 			<div class="container">
 				<h1>Add Account</h1>
 				<p style="color: rgb(133, 133, 133);">Please fill in the following form with the new Account's information.</p>
@@ -145,7 +145,7 @@ $loans = $user->getLoans();
 
 				<div class="clearfix">
 					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
-					<button type="submit" class="employee_forms signupbtn">Add Employee</button>
+					<button type="submit" class="employee_forms signupbtn">Create Account</button>
 				</div>
 			</div>
 		</form>

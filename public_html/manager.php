@@ -74,7 +74,7 @@ try{
 
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-		<form class="modal-content" action="/api/hire">
+		<form class="modal-content" method="post" action="/api/hire">
 			<div class="container">
 				<h1>Add Employee</h1>
 				<p>Please fill in the following form with the Employee's information.</p>
