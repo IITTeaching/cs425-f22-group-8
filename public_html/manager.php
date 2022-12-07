@@ -198,8 +198,8 @@ while($row = pg_fetch_array($result)){
 				<label class="form_label" for="apt">Apt/Unit</label>
 				<input type="text" name="apt" id="apt" placeholder ="Apt/Unit #" value="">
 
-				<label class="form_label" for="apt">Apt/Unit</label>
-				<input type="text" name="apt" id="apt" placeholder ="Apt/Unit #" value="">
+				<label class="form_label" for="ssn">Social Security Number</label>
+				<input type="number" name="ssn" id="ssn" placeholder="Social Security Number" pattern="\d{9}" value="" required>
 
 				<label class="form_label" for="branch">Branch</label>
 				<input type="text" name="branch" id="branch" list="branches" placeholder="Branch" required>
