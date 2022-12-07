@@ -24,10 +24,13 @@ try{
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<title>WCS Banking</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>WCS Banking</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
+	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
+	<link href="https://fonts.cdnfonts.com/css/pepsi-cyr-lat" rel="stylesheet">
+	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -53,29 +56,30 @@ try{
 </style>
 </head>
 <body>
+	
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
     <a href="/index" class="w3-bar-item w3-button w3-wide">
-		<img src = logos\wcs.png>
+		<img src = "/images/wcs.png" alt = "WCS">
 	</a>
   </div>
 </div>
 
-
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-left w3-text-white" style="padding:48px">
-    <span class="w3-jumbo w3-hide-small">Welcome to WCS Banking</span><br>
-    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Welcome to WCS Banking</span><br>
-    <span class="w3-large">A banking system of the people, by the people, for the people!</span>
-	<?php if(is_null($first_name)): ?>
-    <p><a href="/signup" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Learn more and start today</a></p>
-	<p><a href="/login" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Already a member? Login here</a></p>
-	<?php else: ?>
-	<p><a href="/profile" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Check my profile</a></p>
-	<p><a href="/api/logout" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Logout</a></p>	
-</div> 
+		<span class="w3-jumbo w3-hide-small">Welcome to WCS Banking</span><br>
+		<span class="w3-xxlarge w3-hide-large w3-hide-medium">Welcome to WCS Banking</span><br>
+		<span class="w3-large">A banking system of the people, by the people, for the people!</span>
+		<?php if(is_null($first_name)): ?>
+		<p><a href="/signup" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Learn more and start today</a></p>
+		<p><a href="/login" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Already a member? Login here</a></p>
+		<?php else: ?>
+		<p><a href="/profile" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Check my profile</a></p>
+		<p><a href="/api/logout" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Logout</a></p>	
+		<?php endif; ?>
+	</div> 
 </header>
 
 <!-- About Section -->
