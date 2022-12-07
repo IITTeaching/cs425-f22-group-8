@@ -24,10 +24,13 @@ try{
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<title>WCS Banking</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>WCS Banking</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
+	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
+	<link href="https://fonts.cdnfonts.com/css/pepsi-cyr-lat" rel="stylesheet">
+	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
