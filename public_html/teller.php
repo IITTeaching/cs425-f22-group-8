@@ -45,7 +45,7 @@ try{
 	<h2>Welcome <?php echo $teller->getName()?>::Teller!</h2>
 	<h3>This is your homepage.</h3>
 
-	<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Find an Account Balance</button>
+	<button class="employee_forms" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Find an Account Balance</button>
 
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -57,8 +57,8 @@ try{
 				<hr>
 				
 				<div class="clearfix">
-					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-					<button type="submit" class="signupbtn">Find Balance</button>
+					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
+					<button type="submit" class="employee_forms signupbtn">Find Balance</button>
 				</div>
 			</div>
 		</form>

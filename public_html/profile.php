@@ -125,14 +125,14 @@ $loans = $user->getLoans();
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 		<form class="modal-content" action="/api/create_account">
 			<div class="container">
-				<h1>Add Employee</h1>
-				<p>Please fill in the following form with the Employee's information.</p>
+				<h1>Add Account</h1>
+				<p style="color: rgb(133, 133, 133);">Please fill in the following form with the new Account's information.</p>
 
 				<hr>
 				<label class="form_label" for="account_name">Account Name</label>
 				<input type="text" placeholder="New Account Name" name="account_name" id="account_name" minlength="0" maxlength="30" required>
 
-				<label class="form_label" for="account_type">Branch</label>
+				<label class="form_label" for="account_type">Account Type</label>
 				<input type="text" name="account_type" id="account_type" list="account_types" placeholder="Account Type" required>
 				<datalist id="account_types">
 					<?php foreach($account_types as $account_type) { ?>
@@ -141,8 +141,8 @@ $loans = $user->getLoans();
 				</datalist>
 
 				<div class="clearfix">
-					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-					<button type="submit" class="signupbtn">Add Employee</button>
+					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
+					<button type="submit" class="employee_forms signupbtn">Add Employee</button>
 				</div>
 			</div>
 		</form>

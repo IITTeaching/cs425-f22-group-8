@@ -22,7 +22,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=number]:focus {
 }
 
 /* Set a style for all buttons */
-button {
+button.employee_forms {
 	background-color: #04AA6D;
 	color: white;
 	padding: 14px 20px;
@@ -33,7 +33,7 @@ button {
 	opacity: 0.9;
 }
 
-button:hover {
+button.employee_forms:hover {
 	opacity:1;
 }
 
@@ -113,5 +113,6 @@ hr {
 }
 
 .form_label{
+	color: rgb(133, 133, 133);
 	font-weight: bold;
 }
