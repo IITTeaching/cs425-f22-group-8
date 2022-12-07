@@ -50,7 +50,7 @@ $state_result = $db->query("SELECT * FROM state_options");
 		}
 
 		/* Add a background color when the inputs get focus */
-		input[type=text]:focus, input[type=password]:focus, input[type=number] {
+		input[type=text]:focus, input[type=password]:focus, input[type=number]:focus {
 			background-color: #ddd;
 			outline: none;
 		}
