@@ -36,15 +36,8 @@ class Account extends CS425Class
 		$name = $this->prepareData($name);
 		$type = $this->prepareData($type);
 
-		$possible_account_types = $this->query("SELECT * FROM get_account_types");
-		$is_possible_account_type = false;
-		foreach(pg_fetch_row($possible_account_types) as $account_type){
-			if(strtolower($account_type) == strtolower($type)){
-				$is_possible_account_type = true;
-				break;
-			}
-		}
-		if(!$is_possible_account_type){
+		$possible_account_types = $this->getBasicResult(sprintf("SELECT COUNT(*)::INT::BOOL FROM get_account_types WHERE LOWER(account_type) = LOWER('%s')", $type));
+		if(!convert_to_bool($possible_account_types)){
 			throw new InvalidArgumentException("The given account type was not valid.");
 		}
 
