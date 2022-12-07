@@ -247,12 +247,13 @@ email.reportValidity();
 <!-- NAVIGATION STARTS HERE -->
 	<nav>
 		<ul class="navigation">
-			<div class="brand"><img src="/images/wcs.png" alt="LOGO" /> 
+			<div class="brand"> 
 <!-- Making menu icon clickable to display the navigation menu on smaller screens -->
 				<i onclick="navToggle()" id="nav-icon" class="fa fa-navicon" style="font-size:24px"></i> 
 			</div>
 			 <!-- Your Logo Goes Here -->
 			<div id="toggle" class="nav-container">
+				<img src="/images/wcs.png" alt="LOGO" />
 				<a class="left" href="/index"><li>Go Back Home</li></a>
 			</div>
 		</ul>
