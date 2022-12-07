@@ -57,8 +57,8 @@ try{
 	.img-nav {
     height: auto;
     width: auto;
-    max-height: 128px;
-    max-width: 128px;
+    max-height: 99px;
+    max-width: 99px;
 }
 
 </style>
@@ -69,7 +69,7 @@ try{
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
     <a href="/" class="w3-bar-item w3-button w3-wide">
-		<img class = "img-nav" src = "/images/wcs.png" alt = "WCS">
+		<img class = "img-nav" src = "/images/logo_square.png" alt = "WCS">
 	</a>
   </div>
 </div>
