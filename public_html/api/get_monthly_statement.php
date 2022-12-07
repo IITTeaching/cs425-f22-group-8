@@ -30,9 +30,9 @@ if(!isset($_POST["authorizer_type"])){
 	return;
 }
 
-if(preg_match("/(\d{4})-(\d{2})/", $_POST["statement_month"], $matches) != 0){
+if(preg_match("/(\d{4})-(\d{2})/", $_POST["statement_month"], $matches) == 0){
 	http_response_code(400);
-	respond("The month provided does not match the format mm-yyyy.");
+	respond("The month provided does not match the format yyyy-mm.");
 	return;
 }
 

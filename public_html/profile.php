@@ -76,9 +76,9 @@ $loans = $user->getLoans();
 		<input name="do_transaction" id="do_transaction" type="submit" value="Do the Transaction" onclick="transact()">
 	</div>
 	<hr>
-	<button id="pending_transactions">See Pending Transactions</button>
+	<button id="pending_transactions" onclick="getPendingTransactions()">See Pending Transactions</button>
 	<label for="statement_month">Input Month</label><input type="month" id="statement_month" name="statement_month" placeholder="mm-yyyy" value="" min="2022-11-01" max="<?php echo date("Y-m-d")?>">
-	<button id="see_statement">See Monthly Statement</button>
+	<button id="see_statement" onClick="getMonthlyStatement()">See Monthly Statement</button>
 </nav>
 <div id="page-main">
 	<h2>My Accounts</h2>
