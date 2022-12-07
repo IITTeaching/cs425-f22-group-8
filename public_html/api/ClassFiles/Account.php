@@ -35,8 +35,8 @@ class Account extends CS425Class
 
 		$possible_account_types = $this->query("SELECT * FROM get_account_types");
 		$is_possible_account_type = false;
-		while($account_type = pg_fetch_row($possible_account_types)){
-			if(strtolower($account_type[0]) == strtolower($type)){
+		foreach(pg_fetch_row($possible_account_types) as $account_type){
+			if(strtolower($account_type) == strtolower($type)){
 				$is_possible_account_type = true;
 				break;
 			}

@@ -37,4 +37,14 @@ if(!isset($_POST["authorizer_type"])){
 }
 
 $balance = ((float)$_POST["initial_balance"]) ?? 0;
-$account = Account::createAccount($user, $_POST["account_name"], $_POST["account_type"], $balance);
+
+try {
+	$account = Account::createAccount($user, $_POST["account_name"], $_POST["account_type"], $balance);
+	http_response_code(200);
+	respond("Created account successfully");
+	return;
+} catch (PGException|InvalidArgumentException $e) {
+	http_response_code(500);
+	respond($e->getMessage());
+	return;
+}
