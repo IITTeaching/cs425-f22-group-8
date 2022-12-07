@@ -25,6 +25,7 @@ class Account extends CS425Class
 		}
 	}
 	private function __init__($account_number){
+		global $account_number;
 		$this->account_number = (int)$this->prepareData($account_number);
 	}
 
