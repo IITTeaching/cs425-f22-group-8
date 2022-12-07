@@ -43,6 +43,11 @@ abstract class Employee extends CS425Class
 		$this->authcode = $authcode;
 	}
 
+	public function getName(){
+		$result = $this->query(sprintf("SELECT name FROM Employee WHERE id = '%s'", $this->getEmployeeID()));
+		return pg_fetch_result($result, 0);
+	}
+
 	public function getAuthCode(): string|false{ return $this->authcode; }
 
 	protected static function fromUsername(string $username) {
