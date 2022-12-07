@@ -1,14 +1,15 @@
 <?php
 require_once "api/ClassFiles/DataBase.php";
 require_once "api/ClassFiles/User.php";
+require_once "api/Exceptions/PGException.php";
 require_once "api/constants.php";
 
 try{
 	$db = new DataBase();
 	$user = $db->getCurrentUserId();
-} catch(PGException $exception){
+} catch(PGException | InvalidArgumentException $e){
 	http_response_code(500);
-	respond("Response: There was an internal database error, try again later. If this problem persists, contact the system administrator.");
+	respond($e->getMessage());
 	return;
 }
 ?>
