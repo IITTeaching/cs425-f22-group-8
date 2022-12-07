@@ -263,11 +263,11 @@ email.reportValidity();
 <div class="center">
 
 	<form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
-		<input type="text" id="username" name="username" value="" oninput="checkInfo()" required autocomplete="username"><br>
-		<input type="password" id="password" name="password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8"><br>
-		<input type="text" id="fullname" name="fullname" value="" oninput="checkInfo()" required autocomplete="name"><br>
-		<input type="email" id="email" name="email" value="" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
-		<input name="phone" id="phone" value="" type="tel" oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
+		<input type="text" id="username" name="username" placeholder="Username" value="" oninput="checkInfo()" required autocomplete="username"><br>
+		<input type="password" id="password" name="password" placeholder="Password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8"><br>
+		<input type="text" id="fullname" name="fullname" placeholder="Full Name" value="" oninput="checkInfo()" required autocomplete="name"><br>
+		<input type="email" id="email" name="email" value="" placeholder="Email Address" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
+		<input name="phone" id="phone" value="" type="tel" placholder="Phone No." oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
 		<input type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
 		<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
 		<datalist id="directions">
