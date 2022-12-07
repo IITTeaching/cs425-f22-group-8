@@ -58,7 +58,6 @@ try{
 			<a href="/profile">Check My Profile</a> <!-- TODO: Switch with the respective employee type if the user is an employee. -->
 			<a href="/api/logout">Logout</a>
 			<?php endif; ?>
-
 		</nav>
 	</div>
 </body>

@@ -59,6 +59,8 @@ $state_result = $db->query("SELECT * FROM state_options");
 	<title>WCS Manager Home Page</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<link href="/css/employee_pages.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 	<h2>Welcome <?php echo $manager->getName()?>::Manager!</h2>
@@ -130,6 +132,11 @@ $state_result = $db->query("SELECT * FROM state_options");
 			</div>
 		</form>
 	</div>
+
+	<nav class="floating-menu">
+		<h3>Hello <?php echo $username?></h3>
+		<a href="/api/logout">Logout</a>
+	</nav>
 
 	<script>
 	// Get the modal
