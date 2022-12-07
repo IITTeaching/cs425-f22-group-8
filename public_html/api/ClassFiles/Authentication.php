@@ -69,7 +69,7 @@ class Authentication extends CS425Class
 		return join("", $array);
 	}
 
-	public function generateQRCode_old($username, $key, $length=6, $period=30){
+	public function generateQRCode($username, $key, $length=6, $period=30){
 		$data = sprintf("otpauth://totp/WCS%%20Banking:%s?secret=%s&issuer=WCS%%20Banking&digits=%d&period=%d",
 			$username, $key, $length, $period);
 		$options = new QROptions(
