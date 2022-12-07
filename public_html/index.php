@@ -51,7 +51,7 @@ try{
 			<a href="/signup">Sign Up</a>
 			<?php else: ?>
 			<h3>Hello <?php echo $first_name?></h3>
-			<a href="/profile">Check My Profile</a>
+			<a href="/profile">Check My Profile</a> <!-- TODO: Switch with the respective employee type if the user is an employee. -->
 			<a href="/api/logout">Logout</a>
 			<?php endif; ?>
 
