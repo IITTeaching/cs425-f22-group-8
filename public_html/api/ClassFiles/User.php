@@ -18,7 +18,7 @@ class User extends CS425Class
 
 		$result = $this->query(sprintf("SELECT COUNT(*) FROM Customers WHERE id = %d", $id));
 		if(pg_fetch_result($result, 0) == 0){
-			throw new InvalidArgumentException("No user exists ID'd %d.", $id);
+			throw new InvalidArgumentException(sprintf("No user exists ID'd %d.", $id));
 		}
 
 		$this->id = $id;

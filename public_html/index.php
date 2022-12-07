@@ -5,13 +5,17 @@ require_once "api/Exceptions/PGException.php";
 require_once "api/constants.php";
 
 try{
-	$db = new DataBase();
-	$user = $db->getCurrentUserId();
+	$cookie = new CookieManager();
+	if($cookie->isEmployee()){
+		$user = null; // TODO: If there's time, get the employee's name to put on the floating menu
+	} else{
+		$user = User::fromUsername($cookie->getCookieUsername());
+	}
 } catch(PGException | InvalidArgumentException $e){
-	http_response_code(500);
 	respond($e->getMessage());
-	return;
+	$user = null;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +45,7 @@ try{
             the depositors get paid, and new collateral enters the system!
         </h2>
 		<nav class="floating-menu">
-			<?php if(!$db->isLoggedIn()): ?>
+			<?php if(is_null($user)): ?>
 			<h3>We sold you?</h3>
 			<a href="/login">Log In</a>
 			<a href="/signup">Sign Up</a>
