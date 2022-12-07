@@ -15,7 +15,7 @@ class CookieManager
 
 	function createCookie($username,  $isEmployee=false): void
 	{
-		setcookie($this->cookieName, $this->createCookieValue($username),
+		setcookie($this->cookieName, $this->createCookieValue($username, $isEmployee),
 			time() + (($isEmployee) ? $this->employee_expire_time : $this->expire_time),
 			"/",
 			"cs425.lenwashingtoniii.com");
@@ -62,7 +62,7 @@ class CookieManager
 		return $this->expire_time;
 	}
 
-	private function createCookieValue($username, $isEmployee=true): string{
+	private function createCookieValue($username, $isEmployee=false): string{
 		$expires = time() + (($isEmployee) ? $this->employee_expire_time : $this->expire_time);
 		$data = array("username" => $username,
 			"expires" => $expires,
