@@ -24,7 +24,7 @@ while($row = pg_fetch_array($result)){
 	$dct[$row["name"]] = $row["address"];
 }
 // TODO: Check if there is a way to make the form less aggresive, it forces its way from one element to the next, skipping non-required ones, and not allowing you to go back until everything required has something in it.
-$state_result = $db->query("SELECT '<option value=\"' || abbreviation || '\">' || name || '</option>' FROM States;");
+$state_result = $db->query("SELECT * FROM state_options");
 ?><!DOCTYPE html>
 <html lang="en">
 <head>

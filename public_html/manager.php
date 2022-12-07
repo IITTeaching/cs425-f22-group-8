@@ -23,7 +23,7 @@ $dct = array();
 while($row = pg_fetch_array($result)){
 	$dct[$row["name"]] = $row["address"];
 }
-
+$state_result = $db->query("SELECT * FROM state_options");
 ?>
 <!DOCTYPE html>
 <html lang="">
@@ -39,7 +39,7 @@ while($row = pg_fetch_array($result)){
 		}
 
 		/* Full-width input fields */
-		input[type=text], input[type=password] {
+		input[type=text], input[type=password], input[type=number] {
 			width: 100%;
 			padding: 15px;
 			margin: 5px 0 22px 0;
@@ -50,7 +50,7 @@ while($row = pg_fetch_array($result)){
 		}
 
 		/* Add a background color when the inputs get focus */
-		input[type=text]:focus, input[type=password]:focus {
+		input[type=text]:focus, input[type=password]:focus, input[type=number] {
 			background-color: #ddd;
 			outline: none;
 		}
@@ -172,7 +172,7 @@ while($row = pg_fetch_array($result)){
 				<input type="text" placeholder="Enter Role (Teller, Loan Manager, Manager)" name="role" id="role" pattern="[Teller|Loan Manager|Manager]" required>
 
 				<label class="form_label" for="address_num">Address</label>
-				<input type="text" placeholder="3301" name="address_num" id="address_num" required>
+				<input type="number" placeholder="3301" name="address_num" id="address_num" min="0" required>
 
 				<label class="form_label" for="direction">Direction</label>
 				<input type="text" name="direction" id="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
@@ -190,7 +190,12 @@ while($row = pg_fetch_array($result)){
 				<input type="text" name="city" id="city" placeholder="City" required>
 
 				<label class="form_label" for="state">State</label>
-				<input type="text" name="state" id="state" placeholder="State" required>
+				<input type="text" name="state" id="state" placeholder="State" list="states" required>
+				<datalist id="states">
+					<?php while($row = pg_fetch_row($state_result)) {?>
+						<?php echo $row[0] . PHP_EOL; ?>
+					<?php }?>
+				</datalist>
 
 				<label class="form_label" for="zipcode">Zipcode</label>
 				<input type="text" name="zipcode" id="zipcode" placeholder="Zipcode" required>
