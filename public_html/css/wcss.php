@@ -40,7 +40,7 @@ h6 {
 	color: <?php echo $accent_color ?>;
 }
 
-p {
+p, code {
 	color: <?php echo $basic_color ?>;
 }
 

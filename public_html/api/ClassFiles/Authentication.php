@@ -9,6 +9,13 @@ require_once(dirname(__DIR__) . "/constants.php");
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\Label\Label;
+
 require_once (dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 class Authentication extends CS425Class
@@ -69,7 +76,7 @@ class Authentication extends CS425Class
 		return join("", $array);
 	}
 
-	public function generateQRCode($username, $key, $length=6, $period=30){
+	public function generateQRCode_old($username, $key, $length=6, $period=30){
 		$data = sprintf("otpauth://totp/WCS%%20Banking:%s?secret=%s&issuer=WCS%%20Banking&digits=%d&period=%d",
 			$username, $key, $length, $period);
 		$options = new QROptions(
@@ -83,6 +90,33 @@ class Authentication extends CS425Class
 		);
 		# http://www1.auth.iij.jp/smartkey/en/uri_v1.html
 		return (new QRCode($options))->render($data);  # TODO: Add logo (https://www.twilio.com/blog/create-qr-code-in-php)
+	}
+	public function generateQRCode($username, $key, $length=6, $period=30){
+		$data = sprintf("otpauth://totp/WCS%%20Banking:%s?secret=%s&issuer=WCS%%20Banking&digits=%d&period=%d",
+			$username, $key, $length, $period);
+		$qr = QrCode::create($data)
+			// (B1) CORRECTION LEVEL
+			->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh())
+			// (B2) SIZE & MARGIN
+			->setSize(300)
+			->setMargin(10)
+			// (B3) COLORS
+			->setForegroundColor(new Color(68, 153, 129))
+			->setBackgroundColor(new Color(23, 23, 23));
+
+// (B4) ATTACH LOGO
+		$logo = Logo::create("/cs425/logos/wcstransparent.svg")
+			->setResizeToWidth(70);
+
+// (B5) ATTACH LABEL
+		$label = Label::create("WCS Banking")
+			->setTextColor(new Color(0, 0, 0));
+
+// (C) OUTPUT QR CODE
+		$writer = new PngWriter();
+		$result = $writer->write($qr, $logo, $label);
+		header("Content-Type: " . $result->getMimeType());
+		return $result->getDataUri();
 	}
 	# endregion
 

@@ -31,7 +31,7 @@ if($enable){
 	<h1>Your 2FA Code</h1>
 	<p>Scan Me</p>
 	<div class="container">
-		<img src='<?= $qrcode ?>' alt='QR Code' width='800' height='800'>
+		<img src='<?= $qrcode ?>' alt='QR Code' width='400' height='400'>
 	</div>
 	<p>If you cannot scan me, enter the code manually</p>
 	<code>
