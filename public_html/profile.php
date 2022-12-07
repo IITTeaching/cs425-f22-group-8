@@ -1,5 +1,6 @@
 <?php
 require_once "api/ClassFiles/CookieManager.php";
+require_once "api/ClassFiles/User.php";
 require_once "api/ClassFiles/Views.php";
 require_once "api/constants.php";
 
