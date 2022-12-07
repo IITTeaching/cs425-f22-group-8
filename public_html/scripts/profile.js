@@ -8,7 +8,7 @@ function listener(){
 	displayAccount(this.getResponseHeader("Account-Number"))
 }
 
-function createAccount(){
+export function createAccount(){
 	const form = document.forms.create_account_form;
 	const name = encodeURIComponent(form.elements.account_name.value);
 	const type = form.elements.account_type.value;

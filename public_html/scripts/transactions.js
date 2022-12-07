@@ -45,7 +45,7 @@ function reqListener() {
 	}
 }
 
-function checkTransactionType(){
+export function checkTransactionType(){
 	let type = document.getElementById("transaction");
 	let transfer_account = document.getElementById("transfer_to_account_number");
 	let line_break = document.getElementById("transfer_break");
@@ -71,7 +71,7 @@ function transactionListener() {
 	getAccounts();
 }
 
-function transact(){
+export function transact(){
 	let transaction_type = document.getElementById("transaction").value;
 	let amount = document.getElementById("amount").value;
 	let this_account = document.getElementById("number").innerText;
@@ -111,7 +111,7 @@ function loadSchedule(){
 	}
 }
 
-function getPendingTransactions(){
+export function getPendingTransactions(){
 	let account_number = document.getElementById("number").innerText;
 
 	const req = new XMLHttpRequest();
@@ -121,7 +121,7 @@ function getPendingTransactions(){
 	req.send(`account_number=${account_number}`);
 }
 
-function getMonthlyStatement(){
+export function getMonthlyStatement(){
 	let month = document.getElementById("statement_month").value;
 	let account_number = document.getElementById("number").innerText;
 
@@ -166,7 +166,7 @@ export function displayAccount(account_number){
 	req.send(params);
 }
 
-function getAccounts(){
+export function getAccounts(){
 	let table = document.getElementById("accounts");
 	while(table.lastElementChild !== table.firstElementChild){
 		table.removeChild(table.lastElementChild);
