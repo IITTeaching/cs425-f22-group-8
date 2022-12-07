@@ -58,7 +58,7 @@ try{
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
     <a href="/index" class="w3-bar-item w3-button w3-wide">
-		<img src = "/images/wcd.png" alt = "WCS">
+		<img src = "/images/wcs.png" alt = "WCS">
 	</a>
   </div>
 </div>
