@@ -4,13 +4,13 @@ use PgSql\Result;
 
 require_once (dirname(__DIR__) . "/ConfigFiles/DataBaseConfig.php");
 require_once (dirname(__DIR__) . "/Exceptions/PGException.php");
+require_once (dirname(__DIR__) . "/constants.php");
 require_once (dirname(__DIR__) . "/tools.php");
 require_once "CookieManager.php";
 require_once "User.php";
 require_once "Verifications.php";
 require_once "CS425Class.php";
 require_once "Authentication.php";
-require_once (dirname(__DIR__) . "/constants.php");
 
 class DataBase extends CS425Class
 {
@@ -31,16 +31,16 @@ class DataBase extends CS425Class
 	 * @throws PGException
 	 */
 	function usernameInUse($username): bool{
-		$result = parent::query(sprintf("SELECT COUNT(username) FROM Logins WHERE username = '%s'", $this->prepareData($username)));
-		return pg_fetch_result($result, 0, 0) == 1;
+		$result = parent::query(sprintf("SELECT username_in_use('%s')", $this->prepareData($username)));
+		return convert_to_bool(pg_fetch_result($result, 0, 0));
 	}
 
 	/**
 	 * @throws PGException
 	 */
 	function emailInUse(string $email): bool{
-		$result = parent::query(sprintf("SELECT COUNT(email) FROM Customers WHERE email = '%s'", $this->prepareData($email)));
-		return pg_fetch_result($result, 0, 0) != 0;
+		$result = parent::query(sprintf("SELECT email_in_use('%s')", $this->prepareData($email)));
+		return convert_to_bool(pg_fetch_result($result, 0, 0));
 	}
 
 	/**
@@ -97,12 +97,12 @@ class DataBase extends CS425Class
 
 		if (pg_affected_rows($result) == 0) {
 			// The login is for an employee
-			header("Response: You do not have an account with us, please create one at " . HTTPS_HOST . "/signup.");
+			respond("You do not have an account with us, please create one at " . HTTPS_HOST . "/signup.");
 			return false;
 		}
 
 		if(!convert_to_bool(pg_fetch_result($result, 0, 0))){
-			header("Response: You must verify your email before you log in.");
+			respond("You must verify your email before you log in.");
 			return false;
 		}
 		# endregion
@@ -118,7 +118,6 @@ class DataBase extends CS425Class
 		$totp = $row["totp_secret"];
 		if(!is_null($totp) && false){ // TODO: Remove false when customers need 2FA to login.
 			$valid_code = $this->authenticator->checkTOTP($username, $authcode, false);
-			header("Response: Valid Code: " . ($valid_code) ? "Yes" : "No");
 			if(!$valid_code){
 				throw new InvalidArgumentException("Response: Invalid 2FA code");
 			}
@@ -143,7 +142,7 @@ class DataBase extends CS425Class
 			throw new InvalidArgumentException("Invalid username or password.");
 		}
 		if(!$this->authenticator->checkTOTP($username, $authcode, true) && false){  // TODO: Remove and false when employees need 2FA again.
-			header("Response: Incorrect 2 Factor Authentication.");
+			respond("Incorrect 2 Factor Authentication.");
 			return false;
 		}
 		$this->cookieManager->createCookie($username);

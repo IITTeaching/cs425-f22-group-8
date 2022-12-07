@@ -9,7 +9,7 @@ if (!(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['usern
 	&& isset($_POST['apt']) && isset($_POST["branch"])
 )) {
 	http_response_code(400);
-	header("Response: All fields are required");
+	respond("All fields are required");
 	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
@@ -18,7 +18,7 @@ try{
 	$db = new DataBase();
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Response: Internal Database connection");
+	respond("Internal Database connection");
 	header("Location: " . HTTPS_HOST);
 	return;
 }
@@ -26,20 +26,20 @@ try{
 try{
 	if($db->usernameInUse($_POST['username'])){
 		http_response_code(226);
-		header("Response: Username is already taken. Try a different one.");
+		respond("Username is already taken. Try a different one.");
 		header("Location: " . HTTPS_HOST . "/signup");
 		return;
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Response: " . $pgException->getMessage());
+	respond($pgException->getMessage());
 	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
 if(!isValidEmail($_POST["email"])){
 	http_response_code(406);
-	header("Response: You must input a valid email address.");
+	respond("You must input a valid email address.");
 	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
@@ -47,20 +47,20 @@ if(!isValidEmail($_POST["email"])){
 try {
 	if($db->emailInUse($_POST["email"])){
 		http_response_code(226);
-		header("Response: Email-address is already in use, please use a different one.");
+		respond("Email-address is already in use, please use a different one.");
 		header("Location: " . HTTPS_HOST . "/signup");
 		return;
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Response: " . $pgException->getMessage());
+	respond($pgException->getMessage());
 	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
 
 if(strlen($_POST["state"]) != 2){
 	http_response_code(400);
-	header("Response: The state should be the 2 letter US state abbreviation, not: " . $_POST["state"]);
+	respond("The state should be the 2 letter US state abbreviation, not: " . $_POST["state"]);
 	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
@@ -68,7 +68,7 @@ if(strlen($_POST["state"]) != 2){
 $result = $db->query(sprintf("SELECT COUNT(abbreviation) FROM States WHERE abbreviation = UPPER('%s')", $_POST["state"]));
 if(pg_fetch_result($result, 0, 0) == 0){
 	http_response_code(400);
-	header("Response: I wasn't aware we had a US state abbreviated: " . $_POST["state"] . ".");
+	respond("I wasn't aware we had a US state abbreviated: " . $_POST["state"] . ".");
 	header("Location: " . HTTPS_HOST . "/signup");
 	return;
 }
@@ -78,15 +78,15 @@ try {
 		$_POST["address_number"], $_POST["direction"], $_POST["streetname"], $_POST["city"], $_POST["state"],
 		$_POST["zipcode"], $_POST["apt"], $_POST["branch"])) {
 		http_response_code(303);
-		header("Response: Sign Up Success");
+		respond("Sign Up Success");
 		header("Location: " . HTTPS_HOST . "/login");
 	} else {
 		http_response_code(500);
-		header("Response: Sign up Failed");
+		respond("Sign up Failed");
 		header("Location: " . HTTPS_HOST . "/signup");
 	}
 } catch(PGException $pgException){
 	http_response_code(500);
-	header("Response: " . $pgException->getMessage());
+	respond($pgException->getMessage());
 	header("Location: " . HTTPS_HOST);
 }

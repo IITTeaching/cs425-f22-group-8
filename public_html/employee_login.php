@@ -9,13 +9,13 @@ try{
 	$cookies = new CookieManager();
 } catch (PGException $pgError){
 	http_response_code(500);
-	header("Response: " . $pgError->getMessage());
+	respond($pgError->getMessage());
 	header("Location: " . HTTPS_HOST);
 	return;
 }
 
 if(!$cookies->isEmployee()){
-	header("Response: You are not an employee.");
+	respond("You are not an employee.");
 	header("Location: " . HTTPS_HOST . "/profile");
 	return;
 }
@@ -37,6 +37,6 @@ switch(pg_fetch_result($result, 0)){
 		break;
 	default:
 		http_response_code(500);
-		header(sprintf("Response: Employee named '%s' has an unknown role, and cannot be redirected.", $username));
+		respond(sprintf("Employee named '%s' has an unknown role, and cannot be redirected.", $username));
 		return;
 }

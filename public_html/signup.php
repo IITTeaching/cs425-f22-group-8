@@ -13,7 +13,7 @@ try{
 $result = $db->query("SELECT * FROM branch_info;");
 if(!$result){
 	http_response_code(500);
-	header("Response: " . error_get_last());
+	respond(error_get_last());
 	return;
 }
 
@@ -23,7 +23,7 @@ $dct = array();
 while($row = pg_fetch_array($result)){
 	$dct[$row["name"]] = $row["address"];
 }
-// TODO: Check if there is a way to make the form less aggresive, it forces its way from one element to the next, skipping non-required ones, and not allowing you to go back until everything required has something in it.
+// TODO: Check if there is a way to make the form less aggressive, it forces its way from one element to the next, skipping non-required ones, and not allowing you to go back until everything required has something in it.
 $state_result = $db->query("SELECT * FROM state_options");
 ?><!DOCTYPE html>
 <html lang="en">
@@ -194,7 +194,7 @@ email.reportValidity();
 		function checkState(){
 			let state = document.forms["signup_form"]["state"];
 
-			if(state.value.length != 2){
+			if(state.value.length !== 2){
 				state.setCustomValidity("You must choose the proper state.");
 				state.reportValidity();
 				return false;
@@ -272,7 +272,7 @@ email.reportValidity();
 	</datalist>
     <input class="input1" type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
     <br>
-    <block id = "input">
+    <block id="input">
         <input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required>
 
 		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
@@ -288,7 +288,7 @@ email.reportValidity();
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
 	<label for="branch">Your favorite (or closest) branch: </label>
-	<input name="branch" id="branch" oninput="checkInfo()" oninput="checkInfo()" list="branches" placeholder="Branch" required>
+	<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
 	<datalist id="branches">
 		<?php foreach($dct as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>

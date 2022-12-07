@@ -32,16 +32,5 @@ END
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE VIEW branch_info AS (
-    SELECT name, cast(a.number AS TEXT) || ' ' || a.direction || ' ' || a.street_name || ', ' || a.city || ', ' || a.state || ', ' || a.zipcode AS address FROM branch
-    JOIN addresses a on a.id = branch.address
-);
-
-
-CREATE OR REPLACE VIEW state_options AS (
-    SELECT '<option value="' || abbreviation || '">' || name || '</option>' FROM States
-);
-
-
 -- SELECT * FROM pending_transactions(1);
 -- SELECT * FROM statement(1, 11, 2022);

@@ -6,6 +6,7 @@ require_once (dirname(__DIR__) . "/api/ClassFiles/User.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/Manager.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/Teller.php");
 require_once (dirname(__DIR__) . "/api/Exceptions/PGException.php");
+require_once (dirname(__DIR__) . "/api/constants.php");
 require_once (dirname(__DIR__) . "/api/tools.php");
 
 if(!isset($_POST["transaction_type"])){
@@ -23,14 +24,14 @@ if(!in_array($_POST["transaction_type"], array("Deposit", "Transfer", "Withdrawa
 if($_POST["transaction_type"] == "Transfer"){
 	if(!( isset($_POST["initial_account"]) && isset($_POST["final_account"]) && isset($_POST["amount"]) )){
 		http_response_code(400);
-		echo "All fields required";
+		respond("All fields required");
 		return;
 	}
 } else{
 	if(!( isset($_POST["account_number"]) && isset($_POST["amount"]) )){
 		http_response_code(400);
 		echo isset($_POST["account_number"]) . PHP_EOL;
-		echo "All fields required (Amount and account_number)";
+		respond("All fields required (Amount and account_number)");
 		return;
 	}
 }
@@ -39,7 +40,7 @@ if($_POST["transaction_type"] == "Transfer"){
 $cookie = new CookieManager();
 $username = $cookie->getCookieUsername();
 if(!$username){
-	header("Response: You are registered as logged in, but there is no user attached to this session.");
+	respond("You are registered as logged in, but there is no user attached to this session.");
 	http_response_code(500);
 	$cookie->deleteCookie();
 	return;
@@ -53,7 +54,7 @@ if(!isset($_POST["authorizer_type"])){
 	$authorizer = Teller::fromUsername($username);
 } else{
 	http_response_code(400);
-	header("Response: The system could not find the user to authorize this transaction.");
+	respond("The system could not find the user to authorize this transaction.");
 	return;
 }
 
@@ -95,6 +96,6 @@ try {
 	}
 } catch (PGException $pgError) {
 	http_response_code(500);
-	header("Response: " . $pgError->getMessage());
+	respond($pgError->getMessage());
 	return;
 }

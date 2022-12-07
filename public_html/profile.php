@@ -5,9 +5,9 @@ require_once "api/constants.php";
 try{
 	$db = new DataBase();
 	$user = $db->getCurrentUserId();
-} catch(PGException $PGException){
+} catch(PGException $pgError){
 	http_response_code(500);
-	header("Response: " . $PGException->getMessage());  # TODO: Add a note telling users how to access the transactions.
+	respond($pgError->getMessage());  # TODO: Add a note telling users how to access the transactions.
 	return;
 }
 

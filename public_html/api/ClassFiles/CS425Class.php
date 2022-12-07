@@ -22,8 +22,11 @@ class CS425Class
 		}
 	}
 
-	public function __destruct(){
+	public function __destruct(Exception $error=null){
 		pg_close($this->connect);
+		if(!is_null($error)){
+			throw $error;
+		}
 	}
 
 	/**

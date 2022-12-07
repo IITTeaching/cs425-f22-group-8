@@ -3,6 +3,7 @@ CREATE TYPE BankRole AS ENUM('Teller', 'Loan Shark', 'Manager');
 CREATE TYPE AccountType AS ENUM('Checkings', 'Savings');
 CREATE TYPE TransactionType AS ENUM('Deposit', 'Withdrawal', 'Transfer');
 
+
 CREATE TABLE Addresses(
     id SERIAL PRIMARY KEY NOT NULL,
     number INT NOT NULL,
@@ -13,6 +14,7 @@ CREATE TABLE Addresses(
     zipcode CHAR(5) NOT NULL,
     unitNumber TEXT DEFAULT NULL
 );
+
 
 CREATE TABLE Branch(
     id SERIAL PRIMARY KEY NOT NULL,
@@ -53,9 +55,9 @@ CREATE TABLE Customers(
 CREATE TABLE Account(
     number SERIAL PRIMARY KEY NOT NULL,
     holder INT REFERENCES Customers(id) NOT NULL,
-    type AccountType NOT NULL,
-    balance DOUBLE PRECISION NOT NULL,
     account_name VARCHAR(30) NOT NULL,
+    type AccountType NOT NULL,
+    balance DOUBLE PRECISION DEFAULT 0,
     interest FLOAT DEFAULT 0,
     monthly_fee FLOAT DEFAULT 0,
     can_go_negative BOOLEAN DEFAULT FALSE

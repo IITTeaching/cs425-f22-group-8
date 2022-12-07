@@ -32,17 +32,17 @@ class Verifications extends CS425Class
 		}
 
 		if(!password_verify(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), $code)){
-			echo "Didn't work";
+			respond("Didn't work");
 			return false;
 		}
 
 		if(!$this->query(sprintf("DELETE FROM AwaitingVerification WHERE email = '%s'", $email))){
-			header("Response: Your verification code was correct, but something happened when unlocking your account");
+			respond("Your verification code was correct, but something happened when unlocking your account");
 			return false;
 		}
 
 		if(!$this->query(sprintf("UPDATE Customers SET authenticated_email = TRUE WHERE email = '%s'", $email))){
-			header("Response: " . pg_last_error());
+			respond(pg_last_error());
 			return false;
 		}
 

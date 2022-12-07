@@ -8,7 +8,7 @@ try{
 	$user = $db->getCurrentUserId();
 } catch(PGException $exception){
 	http_response_code(500);
-	header("Response: There was an internal database error, try again later. If this problem persists, contact the system administrator.");
+	respond("Response: There was an internal database error, try again later. If this problem persists, contact the system administrator.");
 	return;
 }
 ?>
