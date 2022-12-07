@@ -2,7 +2,7 @@
 
 require_once "api/constants.php";
 require_once "api/ClassFiles/CookieManager.php";
-require_once "api/ClassFiles/DataBase.php";
+require_once "api/ClassFiles/Views.php";
 require_once "api/ClassFiles/Employee/Teller.php";
 require_once "api/Exceptions/PGException.php";
 
@@ -30,27 +30,6 @@ try{
 	return;
 }
 
-try{
-	$db = new DataBase();
-}catch (PGException | InvalidArgumentException $exception){
-	http_response_code(500);
-	echo $exception->getMessage();
-	return;
-}
-
-$result = $db->query("SELECT * FROM branch_info;");
-if(!$result){
-	http_response_code(500);
-	respond(error_get_last());
-	return;
-}
-
-$dct = array();
-
-while($row = pg_fetch_array($result)){
-	$dct[$row["name"]] = $row["address"];
-}
-$state_result = $db->query("SELECT * FROM state_options");
 ?>
 <!DOCTYPE html>
 <html lang="en">

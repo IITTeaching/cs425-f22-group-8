@@ -7,7 +7,7 @@ require_once("api/constants.php");
 try{
 	$db = new DataBase();
 	$cookies = new CookieManager();
-} catch (PGException $pgError){
+} catch (PGException | InvalidArgumentException $pgError){
 	http_response_code(500);
 	respond($pgError->getMessage());
 	header("Location: " . HTTPS_HOST);

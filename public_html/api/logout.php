@@ -1,13 +1,13 @@
 <?php
-require_once("ClassFiles/DataBase.php");
+require_once "ClassFiles/CookieManager.php";
 require_once "constants.php";
 
 try{
-	$db = new DataBase();
-	$db->logout();
-} catch(PGException $exception){
+	$cookie = new CookieManager();
+	$cookie->deleteCookie();
+} catch(InvalidArgumentException $exception){
 	http_response_code(500);
-	respond("Internal Database Error, please try again later: " . $exception->getMessage());
+	respond($exception->getMessage());
 }
 
 header("Location: " . HTTPS_HOST);

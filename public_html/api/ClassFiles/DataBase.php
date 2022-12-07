@@ -187,27 +187,9 @@ class DataBase extends CS425Class
 		return true;
 	}
 
-	public function isLoggedIn(): bool{
-		return $this->cookieManager->isValidCookie();
-	}
-
-	public function logout(): void{
-		$this->cookieManager->deleteCookie();
-	}
-
 	public function query($query, $errorMessage=""): bool|Result
 	{
 		if(!str_starts_with($query, "SELECT")){ return false; }
 		return parent::query($query, $errorMessage);
-	}
-
-	/**
-	 * @throws PGException
-	 */
-	public function getCurrentUserId(): User|false {
-		$username = $this->cookieManager->getCookieUsername();
-		if(!$username){ return false; }
-		$result = parent::query(sprintf("SELECT id FROM logins WHERE username = '%s' LIMIT 1", $username));
-		return new User(pg_fetch_result($result, 0));
 	}
 }

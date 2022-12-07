@@ -1,20 +1,37 @@
 <?php
-require_once "api/ClassFiles/DataBase.php";
+require_once "api/ClassFiles/CookieManager.php";
+require_once "api/ClassFiles/Views.php";
 require_once "api/constants.php";
 
+$cookie = new CookieManager();
+$username = $cookie->getCookieUsername();
+
+if(!$cookie->isValidCookie()){
+	http_response_code(401);
+	header("Location: " . HTTPS_HOST . "/");
+	return;
+}
+
+if(!$username){
+	respond("You are registered as logged in, but there is no user attached to this session.");
+	http_response_code(500);
+	$cookie->deleteCookie();
+	return;
+}
+
 try{
-	$db = new DataBase();
-	$user = $db->getCurrentUserId();
-} catch(PGException $pgError){
+	$user = User::fromUsername($username);
+} catch(PGException | InvalidArgumentException $pgError){
 	http_response_code(500);
 	respond($pgError->getMessage());  # TODO: Add a note telling users how to access the transactions.
 	return;
 }
 
-if(!$db->isLoggedIn()){
-	http_response_code(401);
-	header("Location: " . HTTPS_HOST . "/");
-	return;
+try {
+	$account_types = (new Views())->getAccountTypes();
+} catch (PGException $e) {
+	respond($e->getMessage());
+	$account_types = array();
 }
 
 $loans = $user->getLoans();
@@ -27,6 +44,7 @@ $loans = $user->getLoans();
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link href="/css/sidebar.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/employee_pages.css" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<script type="text/javascript" src="/scripts/transactions.js"></script>
 	<script type="text/javascript">
@@ -102,6 +120,33 @@ $loans = $user->getLoans();
 			<th>Can Be Overdrawn</th>
 		</tr>
 	</table>
+	<div id="id01" class="modal">
+		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+		<form class="modal-content" action="/api/hire">
+			<div class="container">
+				<h1>Add Employee</h1>
+				<p>Please fill in the following form with the Employee's information.</p>
+
+				<hr>
+				<label class="form_label" for="account_name">Account Name</label>
+				<input type="text" placeholder="New Account Name" name="account_name" id="account_name" minlength="0" maxlength="30" required>
+
+				<label class="form_label" for="account_type">Branch</label>
+				<input type="text" name="account_type" id="account_type" list="account_types" placeholder="Account Type" required>
+				<datalist id="account_types">
+					<?php foreach($account_types as $account_type) { ?>
+						<option><?php echo $account_type ?></option>
+					<?php } ?>
+				</datalist>
+
+				<div class="clearfix">
+					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+					<button type="submit" class="signupbtn">Add Employee</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
 	<h2>My Loans</h2>
 	<table id="loans" class="profile_info">
 		<tr>
@@ -120,19 +165,16 @@ $loans = $user->getLoans();
 		<?php }} ?>
 	</table>
 	<nav class="floating-menu">
-		<?php if(!$db->isLoggedIn()): ?>
-			<h3>We sold you?</h3>
-			<a href="/login">Log In</a>
-			<a href="/signup">Sign Up</a>
-		<?php else: ?>
-			<h3>Hello <?php try {
+		<h3>Hello <?php try {
 					echo $user->getFirstName();
 				} catch (PGException $e) {
 					echo "Internal Server Error";
 				} ?></h3>
-			<a href="/profile">Check My Profile</a>
-			<a href="/api/logout">Logout</a>
-		<?php endif; ?>
+		<div class="clearfix">
+			<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+			<button type="submit" class="signupbtn">Create New Account</button>
+		</div>
+		<a href="/api/logout">Logout</a>
 
 	</nav>
 </div>

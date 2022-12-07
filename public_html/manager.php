@@ -33,24 +33,28 @@ try{
 
 try{
 	$db = new DataBase();
+	$views = new Views();
 }catch (PGException | InvalidArgumentException $exception){
 	http_response_code(500);
 	echo $exception->getMessage();
 	return;
 }
-$result = $db->query("SELECT * FROM branch_info;");
-if(!$result){
+
+try{
+	$branches = $views->getBranchInfo();
+} catch (PGException $e){
 	http_response_code(500);
 	respond(error_get_last());
 	return;
 }
 
-$dct = array();
-
-while($row = pg_fetch_array($result)){
-	$dct[$row["name"]] = $row["address"];
+try{
+	$states = $views->getStateOptions();
+} catch (PGException $e){
+	http_response_code(500);
+	respond(error_get_last());
+	return;
 }
-$state_result = $db->query("SELECT * FROM state_options");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,8 +107,8 @@ $state_result = $db->query("SELECT * FROM state_options");
 				<label class="form_label" for="state">State</label>
 				<input type="text" name="state" id="state" placeholder="State" list="states" required>
 				<datalist id="states">
-					<?php while($row = pg_fetch_row($state_result)) {?>
-						<?php echo $row[0] . PHP_EOL; ?>
+					<?php foreach($states as $state) {?>
+						<?php echo $state . PHP_EOL; ?>
 					<?php }?>
 				</datalist>
 
@@ -120,8 +124,8 @@ $state_result = $db->query("SELECT * FROM state_options");
 				<label class="form_label" for="branch">Branch</label>
 				<input type="text" name="branch" id="branch" list="branches" placeholder="Branch" required>
 				<datalist id="branches">
-					<?php foreach($dct as $key => $value) { ?>
-					<option value="<?php echo $key?>"><?php echo $value ?></option>
+					<?php foreach($branches as $key => $value) { ?>
+						<option value="<?php echo $key?>"><?php echo $value ?></option>
 					<?php } ?>
 				</datalist>
 

@@ -1,30 +1,31 @@
 <?php
-require_once "api/ClassFiles/DataBase.php";
+require_once "api/ClassFiles/Views.php";
 require_once "api/constants.php";
 
 try{
-	$db = new DataBase();
+	$views = new Views();
 }catch (PGException $exception){
 	http_response_code(500);
 	echo $exception->getMessage();
 	return;
 }
 
-$result = $db->query("SELECT * FROM branch_info;");
-if(!$result){
+try{
+	$branches = $views->getBranchInfo();
+} catch (PGException $e){
 	http_response_code(500);
 	respond(error_get_last());
 	return;
 }
 
-$numRows = pg_affected_rows($result);
-$dct = array();
-
-while($row = pg_fetch_array($result)){
-	$dct[$row["name"]] = $row["address"];
+try{
+	$states = $views->getStateOptions();
+} catch (PGException $e){
+	http_response_code(500);
+	respond(error_get_last());
+	return;
 }
 // TODO: Check if there is a way to make the form less aggressive, it forces its way from one element to the next, skipping non-required ones, and not allowing you to go back until everything required has something in it.
-$state_result = $db->query("SELECT * FROM state_options");
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -277,8 +278,8 @@ email.reportValidity();
 
 		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
 		<datalist id="states">
-			<?php while($row = pg_fetch_row($state_result)) {?>
-				<?php echo $row[0] . PHP_EOL; ?>
+			<?php foreach($states as $state) {?>
+				<?php echo $state . PHP_EOL; ?>
 			<?php }?>
 		</datalist>
 
@@ -290,7 +291,7 @@ email.reportValidity();
 	<label for="branch">Your favorite (or closest) branch: </label>
 	<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
 	<datalist id="branches">
-		<?php foreach($dct as $key => $value) { ?>
+		<?php foreach($branches as $key => $value) { ?>
 			<option value="<?php echo $key?>"><?php echo $value ?></option>
 		<?php } ?>
 	</datalist><br>
