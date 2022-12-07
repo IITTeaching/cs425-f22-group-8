@@ -16,7 +16,7 @@ class Account extends CS425Class
 		$argc = func_num_args();
 
 		if($argc == 1) {
-			call_user_func(array($this, "__init__"), $argv);
+			call_user_func(array($this, "__init__"), $argv[0]);
 		} elseif ($argc == 4){
 			call_user_func(array($this, "register"), $argv);
 		} else{
