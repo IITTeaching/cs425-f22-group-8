@@ -168,7 +168,7 @@ $state_result = $db->query("SELECT * FROM state_options");
 				
 				<div class="clearfix">
 					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-					<button type="submit" class="signupbtn">Add Employee</button>
+					<button type="submit" class="signupbtn">Find Balance</button>
 				</div>
 			</div>
 		</form>
