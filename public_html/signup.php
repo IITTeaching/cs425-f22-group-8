@@ -272,7 +272,7 @@ email.reportValidity();
 	</datalist>
     <input class="input1" type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
     <br>
-    <block id="input">
+    <div id="input">
         <input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required>
 
 		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
@@ -284,7 +284,7 @@ email.reportValidity();
 
         <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal"><br>
 
-    </block>
+    </div>
     <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
 
 	<label for="branch">Your favorite (or closest) branch: </label>

@@ -19,15 +19,16 @@ class Teller extends Employee
 	 *
 	 * @param Account $account
 	 * @return float|false
+	 * @throws PGException
 	 */
 	public function getAccountBalance(Account $account): float|false{
-		if(!$this->checkAccountExists($account)){
-			return false;
-		}
 		$result = $this->query(sprintf("SELECT balance FROM Account WHERE number = %d", $account->getAccountNumber()));
 		return pg_fetch_result($result, 0);
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public static function fromUsername(string $username): false|Teller{
 		$id = parent::fromUsername($username);
 		if(!$id) { return false; }

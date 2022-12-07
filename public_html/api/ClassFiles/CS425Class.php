@@ -58,10 +58,14 @@ class CS425Class
 			if(strlen($errorMessage) == 0){
 				$errorMessage = pg_last_error();
 			}
+			error_log($errorMessage, 3, "/cs425/log/php_errors.log");
 			throw new PGException($errorMessage);
 		}
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public function query($query, $errorMessage=""): bool|Result
 	{
 		if(!$this->connect){ return false; }
@@ -74,8 +78,9 @@ class CS425Class
 	 * Gets a single result from an SQL query
 	 * @param $query
 	 * @return false|string
+	 * @throws PGException
 	 */
-	protected function getBasicResult($query){
+	protected function getBasicResult($query): bool|string {
 		return pg_fetch_result($this->query($query), 0, 0);
 	}
 }

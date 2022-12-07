@@ -13,7 +13,7 @@ class CookieManager
 		$this->key = " Somekey";
 	}
 
-	function createCookie($username,  $isEmployee=true): void
+	function createCookie($username,  $isEmployee=false): void
 	{
 		setcookie($this->cookieName, $this->createCookieValue($username),
 			time() + (($isEmployee) ? $this->employee_expire_time : $this->expire_time),

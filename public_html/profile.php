@@ -70,7 +70,7 @@ $loans = $user->getLoans();
 			<option>Deposit</option>
 			<option>Transfer</option>
 		</datalist>
-		$<input name="amount" id="amount" step="0.01" min="0" type="currency" max="1000" placeholder="Amount" required><br>
+		$<input name="amount" id="amount" step="0.01" min="0" max="1000" placeholder="Amount" required><br>
 		<input name="transfer_to_account_number" id="transfer_to_account_number" placeholder="Recipient Account Number" hidden><br id="transfer_break" hidden>
 		<input name="description" id="description" type="text" placeholder="Transaction Description"><br>
 		<input name="do_transaction" id="do_transaction" type="submit" value="Do the Transaction" onclick="transact()">
@@ -117,7 +117,7 @@ $loans = $user->getLoans();
 				<td>$<?php echo sprintf("%.2f", $loan->getAmountRemaining()); ?></td>
 				<td><?php echo $loan->getAPR(); ?>%</td>
 			</tr>
-		<?php }}; ?>
+		<?php }} ?>
 	</table>
 	<nav class="floating-menu">
 		<?php if(!$db->isLoggedIn()): ?>

@@ -48,7 +48,7 @@ class User extends CS425Class
 	 * @return Account[]
 	 * @throws PGException
 	 */
-	public function getAccounts(){
+	public function getAccounts(): array {
 		$result = $this->query(sprintf("SELECT number FROM Account a WHERE holder = %d OR number = (SELECT account_number FROM AuthorizedUsers WHERE owner_number = %d)", $this->getUserId(), $this->getUserId()));
 		$accounts = array();
 		if(pg_affected_rows($result) != 0){
@@ -63,7 +63,7 @@ class User extends CS425Class
 	 * @return Loan[]
 	 * @throws PGException
 	 */
-	public function getLoans(){
+	public function getLoans(): array{
 		$result = $this->query(sprintf("SELECT loan_number FROM LoanApprovals WHERE customer_id = %d", $this->getUserId()));
 		$loans = array();
 		if(pg_affected_rows($result) != 0){

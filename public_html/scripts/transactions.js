@@ -66,7 +66,7 @@ function transactionListener() {
 
 	let affected_rows = JSON.parse(this.getResponseHeader("Affected-Rows"));
 	for(let i = 0; i < affected_rows; i++){
-		; // TODO: Update the individual rows
+		// TODO: Update the individual rows
 	}
 	getAccounts();
 }

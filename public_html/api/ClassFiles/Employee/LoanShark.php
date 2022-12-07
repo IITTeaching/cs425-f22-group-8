@@ -35,7 +35,10 @@ class LoanShark extends Employee
 		return new Loan(pg_fetch_assoc($result, 0));
 	}
 
-	public function denyLoan(LoanRequest $loan){ # TODO: Maybe add a reason why the request was denied
+	/**
+	 * @throws PGException
+	 */
+	public function denyLoan(LoanRequest $loan): \PgSql\Result|bool{ # TODO: Maybe add a reason why the request was denied
 		return $this->query("DELETE FROM LoanRequests WHERE loan_request_number = %d", $loan->getNumber());
 	}
 

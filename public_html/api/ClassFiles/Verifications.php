@@ -14,7 +14,7 @@ class Verifications extends CS425Class
 		parent::__construct(new VerificationConfig());
 	}
 
-	public function createVerificationCode($email, $name){
+	public function createVerificationCode($email, $name): string {
 		$time = time();
 		$this->query(sprintf("INSERT INTO AwaitingVerification VALUES('%s','%s',%s)", $email, $name, $time));
 		return password_hash(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), PASSWORD_DEFAULT);

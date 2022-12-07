@@ -14,8 +14,11 @@ class Manager extends Employee
 		parent::__construct($employee_id, new ManagerConfig());
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public function addEmployee(string $name, EmployeeTypes $role, Address $address, int $ssn, Address $branch, float $salary,
-									string $password): Employee{
+								string $password): Employee{
 		$name = $this->prepareData($name);
 		$ssn = hash_hmac("sha256", $ssn, "A super duper secret key");
 		$username = explode(" ", strtolower(str_replace(".", "", $name)));
@@ -27,17 +30,12 @@ class Manager extends Employee
 		$result = $this->query($sql);
 		$this->checkQueryResult($result);
 		$id = pg_fetch_result($result, 0);
-		switch ($role){
-			case EmployeeTypes::LoanShark:
-				$employee = new LoanShark($id);
-				break;
-			case EmployeeTypes::Teller:
-				$employee = new Teller($id);
-				break;
-			case EmployeeTypes::Manager:
-				$employee = new Manager($id);
-				break;
-		}
+		$employee = match ($role) {
+			EmployeeTypes::LoanShark => new LoanShark($id),
+			EmployeeTypes::Teller => new Teller($id),
+			EmployeeTypes::Manager => new Manager($id),
+			default => throw new InvalidArgumentException("Unknown value in EmployeeTypes enum: " . $role->value),
+		};
 
 		$_2fa = (new Authentication())->createSecretKey();
 		$employee->setAuthCode($_2fa);
@@ -50,9 +48,12 @@ class Manager extends Employee
 
 	protected function employeeType(): EmployeeTypes { return EmployeeTypes::Manager; }
 
+	/**
+	 * @throws PGException
+	 */
 	public static function fromUsername(string $username): false|Manager{
 		$id = parent::fromUsername($username);
 		if(!$id) { return false; }
 		return new Manager($id);
 	}
-} ?>
+}

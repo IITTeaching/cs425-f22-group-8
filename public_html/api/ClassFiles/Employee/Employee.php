@@ -44,14 +44,17 @@ abstract class Employee extends CS425Class
 		$this->authcode = $authcode;
 	}
 
-	public function getName(){
+	public function getName(): bool|string|null {
 		$result = $this->query(sprintf("SELECT name FROM Employee WHERE id = '%s'", $this->getEmployeeID()));
 		return pg_fetch_result($result, 0);
 	}
 
 	public function getAuthCode(): string|false{ return $this->authcode; }
 
-	protected static function fromUsername(string $username) {
+	/**
+	 * @throws PGException
+	 */
+	protected static function fromUsername(string $username): bool|string|null {
 		$db = new CS425Class(new ManagerConfig());
 		$username = $db->prepareData($username);
 		$result = $db->query(sprintf("SELECT id FROM EmployeeLogins WHERE username = '%s'", $username));

@@ -146,7 +146,7 @@ class DataBase extends CS425Class
 			respond("Incorrect 2 Factor Authentication.");
 			return false;
 		}
-		$this->cookieManager->createCookie($username);
+		$this->cookieManager->createCookie($username, true);
 		header("Location: " . HTTPS_HOST . "/employee_login");
 		return "Employee Logged In";
 	}
@@ -164,7 +164,7 @@ class DataBase extends CS425Class
 		$password = password_hash($this->prepareData($password), CRYPT_SHA512);
 		$phone = $this->prepareData($phone);
 		$branch = $this->prepareData($branch);
-		$address_id = Address::createAddress($address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
+		$address = Address::createAddress($address_number, $direction, $streetname, $city, $state, $zipcode, $apt);
 		#endregion
 
 		# region Getting the branch id
@@ -176,7 +176,8 @@ class DataBase extends CS425Class
 
 		# endregion
 
-		$result = parent::query(sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s','%s',%s,%s) RETURNING id", $fullname, $email, $phone, $branch_id, $address_id));
+		$result = parent::query(sprintf("INSERT INTO Customers(name,email,phone,home_branch,address) VALUES ('%s','%s','%s',%s,%s) RETURNING id",
+			$fullname, $email, $phone, $branch_id, $address->getAddressId()));
 		$user_id = pg_fetch_result($result, 0, 0);
 
 		parent::query(sprintf("INSERT INTO Logins VALUES (%s,'%s','%s')", $user_id, $username, $password));
@@ -194,10 +195,10 @@ class DataBase extends CS425Class
 		$this->cookieManager->deleteCookie();
 	}
 
-	public function query($command, $errorMessage=""): bool|Result
+	public function query($query, $errorMessage=""): bool|Result
 	{
-		if(!str_starts_with($command, "SELECT")){ return false; }
-		return parent::query($command, $errorMessage);
+		if(!str_starts_with($query, "SELECT")){ return false; }
+		return parent::query($query, $errorMessage);
 	}
 
 	/**
