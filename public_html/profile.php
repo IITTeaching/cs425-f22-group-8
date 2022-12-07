@@ -16,7 +16,6 @@ if(!$db->isLoggedIn()){
 	return;
 }
 
-$accounts = $user->getAccounts();
 $loans = $user->getLoans();
 ?>
 <!DOCTYPE html>
@@ -41,7 +40,7 @@ $loans = $user->getLoans();
 		}
 	</script>
 </head>
-<body class="sidebar">
+<body class="sidebar" onload="getAccounts()">
 <nav id="page-side">
 	<div id="leftcontent">
 		<div id="account-number" class="side-account-info">
@@ -101,16 +100,6 @@ $loans = $user->getLoans();
 			<th>Monthly Fee</th>
 			<th>Can Be Overdrawn</th>
 		</tr>
-		<?php if(is_array($accounts)) {foreach($accounts as $account) { ?>
-			<tr id="account<?php echo $account->getAccountNumber();?>" onclick="accountRowOnClick(this)">
-				<td><?php echo $account->getName(); ?></td>
-				<td>$<?php echo sprintf("%.2f", $account->getBalance()); ?></td>
-				<td><?php echo $account->getType(); ?></td>
-				<td><?php echo $account->getInterest(); ?>%</td>
-				<td>$<?php echo sprintf("%.2f", $account->getMonthlyFee()); ?></td>
-				<td><?php echo ($account->canGoNegative() ? "True" :  "False") ?></td>
-			</tr>
-		<?php }}; ?>
 	</table>
 	<h2>My Loans</h2>
 	<table id="loans" class="profile_info">
