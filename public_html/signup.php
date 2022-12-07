@@ -243,65 +243,58 @@ email.reportValidity();
 
 </head>
 <body onload="onOpen()">
-<div id="signup_box">
 
-<form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
-	<label for="username">Username: </label>
-	<input type="text" id="username" name="username" value="" oninput="checkInfo()" required autocomplete="username"><br>
+<!-- NAVIGATION STARTS HERE -->
+	<nav>
+		<ul class="navigation">
+			<div class="brand"><img src="/images/wcs.png" alt="LOGO" /> 
+<!-- Making menu icon clickable to display the navigation menu on smaller screens -->
+				<i onclick="navToggle()" id="nav-icon" class="fa fa-navicon" style="font-size:24px"></i> 
+			</div>
+			 <!-- Your Logo Goes Here -->
+			<div id="toggle" class="nav-container">
+				<a class="left" href="/index"><li>Go Back Home</li></a>
+			</div>
+		</ul>
+	</nav>
 
-	<label for="password">Password: </label>
-	<input type="password" id="password" name="password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8"><br>
+<section class="form">
+<div class="center">
 
-	<label for="fullname">Fullname: </label>
-	<input type="text" id="fullname" name="fullname" value="" oninput="checkInfo()" required autocomplete="name"><br>
-
-	<label for="email">Email: </label>
-	<input type="email" id="email" name="email" value="" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
-
-	<label for="phone">Telephone Number:</label>
-	<input name="phone" id="phone" value="" type="tel" oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
-
-	<label for="address_number">Address: </label>
-	<input type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
-
-	<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
-	<datalist id="directions">
-		<option>N</option>
-		<option>E</option>
-		<option>S</option>
-		<option>W</option>
-	</datalist>
-    <input class="input1" type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
-    <br>
-    <div id="input">
-        <input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required>
-
-		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
-		<datalist id="states">
-			<?php foreach($states as $state) {?>
-				<?php echo $state . PHP_EOL; ?>
-			<?php }?>
+	<form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
+		<input type="text" id="username" name="username" value="" oninput="checkInfo()" required autocomplete="username"><br>
+		<input type="password" id="password" name="password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8"><br>
+		<input type="text" id="fullname" name="fullname" value="" oninput="checkInfo()" required autocomplete="name"><br>
+		<input type="email" id="email" name="email" value="" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"><br>
+		<input name="phone" id="phone" value="" type="tel" oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"><br>
+		<input type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
+		<input type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
+		<datalist id="directions">
+			<option>N</option>
+			<option>E</option>
+			<option>S</option>
+			<option>W</option>
 		</datalist>
-
-        <input class="input1" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal"><br>
-
-    </div>
-    <label for="apt">Apt/Unit: </label><input type="text" name="apt" id="apt" value=""><br>
-
-	<label for="branch">Your favorite (or closest) branch: </label>
-	<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
-	<datalist id="branches">
-		<?php foreach($branches as $key => $value) { ?>
-			<option value="<?php echo $key?>"><?php echo $value ?></option>
-		<?php } ?>
-	</datalist><br>
-
-	<div class="" id="submit_wrapper">
+		<input type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
+		<input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required><br>
+		<input class = "input1" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
+			<datalist id="states">
+				<?php foreach($states as $state) {?>
+					<?php echo $state . PHP_EOL; ?>
+				<?php }?>
+			</datalist>
+		<input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal"><br>
+		<input type="text" name="apt" id="apt" placeholder="Apt/Unit # (Optional)" value=""><br>
+		<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
+				<datalist id="branches">
+					<?php foreach($branches as $key => $value) { ?>
+					<option value="<?php echo $key?>"><?php echo $value ?></option>
+					<?php } ?>
+				</datalist><br>
 		<button type="submit" name="submit" id="submit" form="signup_form" hidden>Sign Up!</button>
-	</div>
-
-</form>
-    <a href="<?php echo HTTPS_HOST?>" class="back">Back</a>
+		<p>Already have an account? <a href="/login">Login Here</a></p>
+	</form>
 </div>
+</section>
 </body>
 </html>
