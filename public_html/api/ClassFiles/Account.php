@@ -24,9 +24,9 @@ class Account extends CS425Class
 			parent::__destruct(); //new InvalidArgumentException("The account constructor can only take 1 argument, the account number."));
 		}
 	}
-	private function __init__($account_number){
+	private function __init__($acc_number){
 		global $account_number;
-		$this->account_number = (int)$this->prepareData($account_number);
+		$this->account_number = (int)$this->prepareData($acc_number);
 	}
 
 	private function register(User $creator, string $name, string $type, float $initial_balance=0){
