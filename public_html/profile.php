@@ -79,6 +79,14 @@ $loans = $user->getLoans();
 	<button id="pending_transactions" onclick="getPendingTransactions()">See Pending Transactions</button>
 	<label for="statement_month">Input Month</label><input type="month" id="statement_month" name="statement_month" placeholder="mm-yyyy" value="" min="2022-11-01" max="<?php echo date("Y-m-d")?>">
 	<button id="see_statement" onClick="getMonthlyStatement()">See Monthly Statement</button>
+	<table id="schedule">
+		<tr>
+			<th>Time</th>
+			<th>Amount</th>
+			<th>Account Balance</th>
+			<th>Description</th>
+		</tr>
+	</table>
 </nav>
 <div id="page-main">
 	<h2>My Accounts</h2>
