@@ -112,7 +112,7 @@ $loans = $user->getLoans();
 		<?php if(is_array($loans)){ foreach($loans as $loan) { ?>
 			<tr>
 				<td><?php echo $loan->getName(); ?></td>
-				<td>$<?php echo sprintf("%.2f", $loan->getInitialAmount()); ?></td> <!-- TODO: Make these right aligned on the period -->
+				<td>$<?php echo sprintf("%.2f", $loan->getInitialAmount()); ?></td>
 				<td>$<?php echo sprintf("%.2f", $loan->getAmountRemaining()); ?></td>
 				<td><?php echo $loan->getAPR(); ?>%</td>
 			</tr>

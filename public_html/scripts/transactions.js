@@ -127,7 +127,7 @@ function getMonthlyStatement(){
 function accountListener(){
 	let json = JSON.parse(this.responseText);
 
-	let tr = document.createElement("tr"); // Set ID
+	let tr = document.createElement("tr");
 
 	let number = json["Account Number"];
 	let name = json["Name"];
@@ -139,7 +139,7 @@ function accountListener(){
 
 	tr.id = `account${number}`;
 	tr.onclick = () => accountRowOnClick(tr);
-	tr.innerHTML = `<td>${name}</td><td style="float:left">${balance}</td><td>${type}</td><td>${interest}%</td><td>${monthly_fee}</td><td>${overdrawn}</td>`;
+	tr.innerHTML = `<td>${name}</td><td style="text-align:right">${balance}</td><td>${type}</td><td>${interest}%</td><td style="text-align:right">${monthly_fee}</td><td>${overdrawn}</td>`;
 	document.getElementById("accounts").appendChild(tr);
 }
 
