@@ -60,7 +60,12 @@ function checkTransactionType(){
 
 function transactionListener() {
 	alert(this.responseText);  // TODO: Don't update the page unless its one of the success headers.
-	window.location.reload(); // TODO: Come up with a better way of updating the page.
+	window.location.reload();
+	let affected_rows = JSON.parse(this.getResponseHeader("Affected-Rows"));
+	for(let i = 0; i < affected_rows; i++){
+		; // TODO: Update the individual rows
+	}
+	getAccounts();
 }
 
 function transact(){
@@ -139,7 +144,7 @@ function accountListener(){
 
 	tr.id = `account${number}`;
 	tr.onclick = () => accountRowOnClick(tr);
-	tr.innerHTML = `<td>${name}</td><td style="text-align:right">${balance}</td><td>${type}</td><td>${interest}%</td><td style="text-align:right">${monthly_fee}</td><td>${overdrawn}</td>`;
+	tr.innerHTML = `<td>${name}</td><td style="text-align:right">${balance}</td><td>${type}</td><td style="text-align: right">${interest}%</td><td style="text-align:right">${monthly_fee}</td><td style="text-align: center">${overdrawn}</td>`;
 	document.getElementById("accounts").appendChild(tr);
 }
 
@@ -154,6 +159,11 @@ function displayAccount(account_number){
 }
 
 function getAccounts(){
+	let table = document.getElementById("accounts");
+	while(table.lastElementChild !== table.firstElementChild){
+		table.removeChild(table.lastElementChild);
+	}
+
 	const req = new XMLHttpRequest();
 
 	function _thisListener(){

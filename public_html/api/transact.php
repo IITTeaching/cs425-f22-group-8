@@ -67,6 +67,7 @@ try {
 			$deposit = $trans->deposit($authorizer, new Account($_POST["account_number"]), $_POST["amount"], $description);
 			if($deposit == (float)$_POST["amount"]){
 				http_response_code(200);
+				header("Affected-Rows: [" . $_POST["account_number"] . "]");
 				respond("Amount deposit successfully.");
 				return;
 			}
@@ -77,6 +78,7 @@ try {
 			$deposit = $trans->transfer($authorizer, $_POST["amount"], new Account($_POST["initial_account"]), new Account($_POST["final_account"]), $description);
 			if($deposit == (float)$_POST["amount"]){
 				http_response_code(200);
+				header("Affected-Rows: [" . $_POST["initial_account"] . "," . $_POST["final_account"] . "]");
 				respond("Transfer successful.");
 				return;
 			}
@@ -87,6 +89,7 @@ try {
 			$withdrawn = $trans->withdrawal($authorizer, new Account($_POST["account_number"]), $_POST["amount"], $description);
 			if($withdrawn == (float)$_POST["amount"]){
 				http_response_code(200);
+				header("Affected-Rows: [" . $_POST["account_number"] . "]");
 				respond("Amount withdrawn successfully.");
 				return;
 			}
