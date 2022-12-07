@@ -63,7 +63,6 @@ try{
   </div>
 </div>
 
-
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-left w3-text-white" style="padding:48px">
@@ -76,6 +75,7 @@ try{
 		<?php else: ?>
 		<p><a href="/profile" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Check my profile</a></p>
 		<p><a href="/api/logout" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Logout</a></p>	
+		<?php endif; ?>
 	</div> 
 </header>
 
