@@ -2,6 +2,7 @@
 
 require_once (dirname(__DIR__) . "/CS425Class.php");
 require_once (dirname(__DIR__,2) . "/ConfigFiles/Config.php");
+require_once (dirname(__DIR__,2) . "/ConfigFiles/ManagerConfig.php");
 require_once "EmployeeTypes.php";
 
 abstract class Employee extends CS425Class

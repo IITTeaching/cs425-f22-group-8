@@ -5,7 +5,6 @@ require_once "api/ClassFiles/CookieManager.php";
 require_once "api/ClassFiles/Employee/Teller.php";
 require_once "api/Exceptions/PGException.php";
 
-
 $cookie = new CookieManager();
 $username = $cookie->getCookieUsername();
 if (!$username) {
@@ -22,7 +21,13 @@ if(!$cookie->isEmployee()){
 	return;
 }
 
-$teller = Teller::fromUsername($username);
+try{
+	$teller = Teller::fromUsername($username);
+} catch (PGException | InvalidArgumentException $e){
+	respond($e->getMessage());
+	http_response_code(500);
+	return;
+}
 
 try{
 	$db = new DataBase();

@@ -1,8 +1,9 @@
 <?php
 
-require_once (dirname(__DIR__, 2) . "/ConfigFiles/TellerConfig.php");
-require_once (dirname(__DIR__, 2) . "/ClassFiles/Account.php");
+require_once "Employee.php";
 require_once (dirname(__DIR__, 2) . "/tools.php");
+require_once (dirname(__DIR__, 2) . "/ClassFiles/Account.php");
+require_once (dirname(__DIR__, 2) . "/ConfigFiles/TellerConfig.php");
 
 class Teller extends Employee
 {
