@@ -123,7 +123,7 @@ $loans = $user->getLoans();
 	</table>
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-		<form class="modal-content" action="/api/hire">
+		<form class="modal-content" action="/api/create_account">
 			<div class="container">
 				<h1>Add Employee</h1>
 				<p>Please fill in the following form with the Employee's information.</p>
@@ -171,10 +171,7 @@ $loans = $user->getLoans();
 				} catch (PGException $e) {
 					echo "Internal Server Error";
 				} ?></h3>
-		<div class="clearfix">
-			<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-			<button type="submit" class="signupbtn">Create New Account</button>
-		</div>
+		<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Create New Account</button>
 		<a href="/api/logout">Logout</a>
 
 	</nav>
