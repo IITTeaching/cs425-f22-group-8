@@ -53,6 +53,14 @@ try{
 	.w3-bar .w3-button {
 		padding: 16px;
 	}
+
+	.img-nav {
+    height: auto;
+    width: auto;
+    max-height: 72px;
+    max-width: 72px;
+}
+
 </style>
 </head>
 <body>
@@ -61,7 +69,7 @@ try{
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
     <a href="/index" class="w3-bar-item w3-button w3-wide">
-		<img src = "/images/wcs.png" alt = "WCS" width = "16" height = "16">
+		<img class = "img-nav" src = "/images/wcs.png" alt = "WCS">
 	</a>
   </div>
 </div>
