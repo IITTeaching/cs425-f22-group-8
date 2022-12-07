@@ -2,6 +2,7 @@
 
 require_once "User.php";
 require_once "CS425Class.php";
+require_once "AccountTransaction.php";
 require_once (dirname(__DIR__) . "/ConfigFiles/ProfileConfig.php");
 require_once (dirname(__DIR__) . "/tools.php");
 
@@ -47,9 +48,12 @@ class Account extends CS425Class
 			throw new InvalidArgumentException("The given account type was not valid.");
 		}
 
-		$result = $this->query(sprintf("INSERT INTO Account(holder, account_name, type, balance) VALUES(%d,'%s','%s',%f);",
-			$creator->getUserId(), $name, $type, $initial_balance));
+		$result = $this->query(sprintf("INSERT INTO Account(holder, account_name, type) VALUES(%d,'%s','%s');",
+			$creator->getUserId(), $name, $type));
 		// TODO: Add Result checking for register
+		if($initial_balance > 0){
+			(new AccountTransaction())->deposit($creator, $this, $initial_balance, "Initial Deposit");
+		}
 	}
 
 	/**
