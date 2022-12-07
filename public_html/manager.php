@@ -152,79 +152,81 @@ while($row = pg_fetch_array($result)){
 	</style>
 </head>
 <body>
+	<h2>Welcome Manager!</h2>
+	<h3>This is your homepage.</h3>
 
-<h2>Welcome Manager!</h2>
-<h3>This is your homepage.</h3>
+	<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add New Employee</button>
 
-<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add New Employee</button>
+	<div id="id01" class="modal">
+		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+		<form class="modal-content" action="/action_page.php">
+			<div class="container">
+				<h1>Add Employee</h1>
+				<p>Please fill in the following form with the Employee's information.</p>
 
-<div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-  <form class="modal-content" action="/action_page.php">
-    <div class="container">
-      <h1>Add Employee</h1>
-      <p>Please fill in the following form with the Employee's information.</p>
+				<hr>
+				<label class="form_label" for="fullname">Name</label>
+				<input type="text" placeholder="Enter Full Name" name="fullname" id="fullname" required>
 
-      <hr>
-      <label class="form_label" for="fullname">Name</label>
-      <input type="text" placeholder="Enter Full Name" name="fullname" id="fullname" required>
+				<label class="form_label" for="role">Role</label>
+				<input type="text" placeholder="Enter Role (Teller, Loan Manager, Manager)" name="role" id="role" pattern="[Teller|Loan Manager|Manager]" required>
 
-      <label class="form_label" for="role">Role</label>
-      <input type="text" placeholder="Enter Role (Teller, Loan Manager, Manager)" name="role" id="role" pattern="[Teller|Loan Manager|Manager]" required>
+				<label class="form_label" for="address_num">Address</label>
+				<input type="text" placeholder="3301" name="address_num" id="address_num" required>
 
-      <label class="form_label" for="address_num">Address</label>
-      <input type="text" placeholder="3301" name="address_num" id="address_num" required>
+				<label class="form_label" for="direction">Direction</label>
+				<input type="text" name="direction" id="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
+				<datalist id="directions">
+					<option>N</option>
+					<option>E</option>
+					<option>S</option>
+					<option>W</option>
+				</datalist>
 
-      <label class="form_label" for="direction">Direction</label>
-		<input type="text" name="direction" id="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
-		<datalist id="directions">
-			<option>N</option>
-			<option>E</option>
-			<option>S</option>
-			<option>W</option>
-		</datalist>
+				<label class="form_label" for="streetname">Street</label>
+				<input type="text" name="streetname" id="streetname" placeholder="Street Name" required>
 
-      <label class="form_label" for="streetname">Street</label>
-		  <input type="text" name="streetname" id="streetname" placeholder="Street Name" required>
+				<label class="form_label" for="city">City</label>
+				<input type="text" name="city" id="city" placeholder="City" required>
 
-      <label class="form_label" for="city">City</label>
-      <input type="text" name="city" id="city" placeholder="City" required>
+				<label class="form_label" for="state">State</label>
+				<input type="text" name="state" id="state" placeholder="State" required>
 
-      <label class="form_label" for="state">State</label>
-      <input type="text" name="state" id="state" placeholder="City" required>
+				<label class="form_label" for="zipcode">Zipcode</label>
+				<input type="text" name="zipcode" id="zipcode" placeholder="Zipcode" required>
 
-      <label class="form_label" for="zipcode">Zipcode</label>
-		<input type="text" name="zipcode" id="zipcode" placeholder="Zipcode" required>
+				<label class="form_label" for="apt">Apt/Unit</label>
+				<input type="text" name="apt" id="apt" placeholder ="Apt/Unit #" value="">
 
-	  <label class="form_label" for="apt">Apt/Unit</label>
-	  <input type="text" name="apt" id="apt" placeholder ="Apt/Unit #" value="">
+				<label class="form_label" for="apt">Apt/Unit</label>
+				<input type="text" name="apt" id="apt" placeholder ="Apt/Unit #" value="">
 
-      <label class="form_label" for="branch">Branch</label>
-	    <input type="text" name="branch" id="branch" list="branches" placeholder="Branch" required>
-		  <datalist id="branches">
-			  <?php foreach($dct as $key => $value) { ?>
-				  <option value="<?php echo $key?>"><?php echo $value ?></option>
-			  <?php } ?>
-		  </datalist>
+				<label class="form_label" for="branch">Branch</label>
+				<input type="text" name="branch" id="branch" list="branches" placeholder="Branch" required>
+					<datalist id="branches">
+					<?php foreach($dct as $key => $value) { ?>
+					<option value="<?php echo $key?>"><?php echo $value ?></option>
+					<?php } ?>
+				</datalist>
 
-      <div class="clearfix">
-        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-        <button type="submit" class="signupbtn">Add Employee</button>
-      </div>
-    </div>
-  </form>
-</div>
+				<div class="clearfix">
+					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+					<button type="submit" class="signupbtn">Add Employee</button>
+				</div>
+			</div>
+		</form>
+	</div>
 
-<script>
-// Get the modal
-let modal = document.getElementById('id01');
+	<script>
+	// Get the modal
+	let modal = document.getElementById('id01');
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
-}
-</script>
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target === modal) {
+		modal.style.display = "none";
+	  }
+	}
+	</script>
 </body>
 </html> 
