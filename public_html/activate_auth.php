@@ -22,6 +22,7 @@ if($enable){
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
 	<title>WCS Authentication</title>
+	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <?php if(!$enable): ?>
