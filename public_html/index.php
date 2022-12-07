@@ -26,7 +26,7 @@ try{
 <body>
 	<div id="content">
         <div class="WCS-header">
-            <img src="images/wcsbanner.png" alt="WCS banking logo">
+            <img src="/images/wcsbanner.png" alt="WCS banking logo">
         </div>
         <h1 class="title">Welcome to WCS Banking</h1>
         <h2>A banking system of the people, by the people, for the people!

@@ -47,6 +47,7 @@ class Verifications extends CS425Class
 		}
 
 		return true;
+		// TODO: If its true, the system should send another 2 links to set_two_factor that will display the QR code for the user. The first link will have the activate param which will activate it, the other will have deactivate which will make sure the system doesn't create 2FA for them.
 	}
 
 	public function send_verification_email($email, $name){

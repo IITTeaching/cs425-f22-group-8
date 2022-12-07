@@ -21,11 +21,15 @@ if(!$username){
 }
 
 if(!isset($_POST["authorizer_type"])){
-	$authorizer = User::fromUsername($username);
+	$user = User::fromUsername($username);
 } elseif ($_POST["authorizer_type"] == "Manager"){
 	$authorizer = Manager::fromUsername($username);
-} elseif ($_POST["authorizer_type"] == "Teller"){
-	$authorizer = Teller::fromUsername($username);
+	if(!isset($_POST["owner_id"])){
+		http_response_code(400);
+		respond("The system needs to know the id of the owner of the account.");
+		return;
+	}
+	$user = User::fromUsername($_POST["owner_id"]);
 } else{
 	http_response_code(400);
 	respond("The system could not find the user to authorize this transaction.");
@@ -33,4 +37,4 @@ if(!isset($_POST["authorizer_type"])){
 }
 
 $balance = ((float)$_POST["initial_balance"]) ?? 0;
-$account = Account::createAccount(, $_POST["account_name"], $_POST["account_type"], $balance);
+$account = Account::createAccount($user, $_POST["account_name"], $_POST["account_type"], $balance);

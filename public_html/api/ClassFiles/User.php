@@ -84,6 +84,9 @@ class User extends CS425Class
 		return $this->getBasicResult(sprintf("SELECT COUNT(loan_number) FROM LoanApprovals WHERE customer_id = %d", $this->id));
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public static function fromUsername(string $username): User|false{
 		$db = new CS425Class(new VerificationConfig());
 		$username = $db->prepareData($username);
