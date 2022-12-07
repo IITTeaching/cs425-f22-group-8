@@ -128,7 +128,6 @@ $loans = $user->getLoans();
 		</tr>
 	</table>
 	<button class="addMore" title="To edit your account, click on one of your accounts to see the options.">?</button>
-	</div>
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 		<form class="modal-content" id="create_account_form">
