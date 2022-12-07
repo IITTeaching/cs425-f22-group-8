@@ -95,6 +95,16 @@ function loadSchedule(){
 	}
 }
 
+function getPendingTransactions(){
+	let account_number = document.getElementById("number").innerText;
+
+	const req = new XMLHttpRequest();
+	req.addEventListener("load", loadSchedule);
+	req.open("POST", "https://cs425.lenwashingtoniii.com/api/get_pending_transactions");
+	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	req.send(`account_number=${account_number}`);
+}
+
 function getMonthlyStatement(){
 	let month = document.getElementById("statement_month").value;
 	let account_number = document.getElementById("number").innerText;

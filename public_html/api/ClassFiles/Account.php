@@ -127,4 +127,15 @@ class Account extends CS425Class
 
 		return $statement;
 	}
+
+	public function getPendingTransactions(): array{
+		$result = $this->query(sprintf("SELECT * FROM pending_transactions(%d)", $this->getAccountNumber()));
+		$statement = array();
+
+		while ($row = pg_fetch_assoc($result)){
+			$statement[] = $row;
+		}
+
+		return $statement;
+	}
 }
