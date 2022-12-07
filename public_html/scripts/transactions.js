@@ -134,12 +134,12 @@ function accountListener(){
 	let balance = parseMoney(json["Balance"]);
 	let type = json["Type"];
 	let interest = json["Interest"];
-	let monthly_fee = json["Monthly Fee"];
+	let monthly_fee = parseMoney(json["Monthly Fee"]);
 	let overdrawn = json["Overdrawn"] ? "Yes" : "No";
 
 	tr.id = `account${number}`;
 	tr.onclick = () => accountRowOnClick(tr);
-	tr.innerHTML = `<td>${name}</td><td>${balance}</td><td>${type}</td><td>${interest}</td><td>${monthly_fee}</td><td>${overdrawn}</td>`;
+	tr.innerHTML = `<td>${name}</td><td style="float:left">${balance}</td><td>${type}</td><td>${interest}%</td><td>${monthly_fee}</td><td>${overdrawn}</td>`;
 	document.getElementById("accounts").appendChild(tr);
 }
 
