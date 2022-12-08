@@ -27,15 +27,15 @@ require_once "api/constants.php";
 <body>
 <div class="wrapper fadeInDown">
 	<div id="formContent">
-		<h2 class="active"> Sign In </h2>
+		<h2 class="active">Sign In</h2>
 	</div>
 	<div class = "fadeIn first"></div>
 	
 	<form name="form" id="form" action="/api/login" method="POST">
-		<input type="text" id="username" name="username" value="" autocomplete="username" placeholder = "login" oninput="checkInfo()" required>
-		<input type="password" id="password" name="password" value="" autocomplete="current-password" placeholder = "password" oninput="checkInfo()" onkeyup="checkInfo()" required>
-		<input type="number" id="auth_code" name="auth_code" value="" placeholder = "2FA code">
-		<input type="submit" id="submit" name="submit" class="fadeIn fourth" value = "Log In">
+		<input class = "fadeIn second" type="text" id="username" name="username" value="" autocomplete="username" placeholder = "login" oninput="checkInfo()" required>
+		<input class = "fadeIn third" type="password" id="password" name="password" value="" autocomplete="current-password" placeholder = "password" oninput="checkInfo()" onkeyup="checkInfo()" required>
+		<input class = "fadeIn fourth" type="number" id="auth_code" name="auth_code" value="" placeholder = "2FA code">
+		<input type="submit" id="submit" name="submit" class="fadeIn fifth" value = "Log In">
 	</form>
 </div>
 </body>
