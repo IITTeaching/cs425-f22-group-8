@@ -252,10 +252,9 @@ email.reportValidity();
 				<i onclick="navToggle()" id="nav-icon" class="fa fa-navicon" style="font-size:24px"></i> 
 			</div>
 			 <!-- Your Logo Goes Here -->
-			<div id="toggle" class="nav-container">
-				<img class = "img-nav" src = "/images/logo_square.png" alt = "WCS">
-				<a class="left" href="/index"><li>Go Back Home</li></a>
-			</div>
+			 <a href="/" class="w3-bar-item w3-button w3-wide">
+				<img class="img-nav" src="/images/logo_square.png" alt="WCS">
+			</a>
 		</ul>
 	</nav>
 
