@@ -288,7 +288,7 @@ email.reportValidity();
 		<input type="text" name="apt" id="apt" placeholder="Apt/Unit # (Optional)" value="">
 		<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
 				<datalist id="branches">
-					<?php foreach($branches as $key => $value) { ?>
+					<?php foreach($branches as $key => $value) { echo $key; ?>
 						<option value="<?php echo $key?>"><?php echo $value ?></option>
 					<?php } ?>
 				</datalist><br>
