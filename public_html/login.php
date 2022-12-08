@@ -42,11 +42,11 @@ require_once "api/constants.php";
 	<section class="form">
 	<div class="center">
 		<form name="form" id="form" action="/api/login" method="POST">
-			<input type="text" id="username" name="username" value="" autocomplete="username" placeholder = "login" oninput="checkInfo()" required>
-			<input type="password" id="password" name="password" value="" autocomplete="current-password" placeholder = "password" oninput="checkInfo()" onkeyup="checkInfo()" required>
+			<input type="text" id="username" name="username" value="" autocomplete="username" placeholder = "Username" oninput="checkInfo()" required>
+			<input type="password" id="password" name="password" value="" autocomplete="current-password" placeholder = "Password" oninput="checkInfo()" onkeyup="checkInfo()" required>
 			<input type="number" id="auth_code" name="auth_code" value="" placeholder = "2FA code"><br>
 			<button type="submit" name="submit" id="submit" form="form" hidden>Login</button>
-			<p>Not with us yet?<a href="/signup">Sign Up Here</a></p>
+			<p>Not with us yet?<a href="/signup"> Sign Up Here</a></p>
 		</form>
 	</div>
 	</section>
