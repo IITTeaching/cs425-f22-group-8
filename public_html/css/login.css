@@ -24,7 +24,7 @@ h2 {
   font-weight: 600;
   text-transform: uppercase;
   display:inline-block;
-  margin: 40px 8px 10px 8px; 
+  margin: 20px 8px 10px 8px; 
   color: #cccccc;
 }
 
@@ -47,7 +47,8 @@ h2 {
   border-radius: 10px 10px 10px 10px;
   background: #fff;
   padding: 30px;
-  width: 90%;
+  width: 70%;
+  height: 60px;
   max-width: 450px;
   position: relative;
   padding: 0px;
