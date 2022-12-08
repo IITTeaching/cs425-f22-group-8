@@ -35,6 +35,7 @@ try{
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/signup.css" type="text/css" rel="stylesheet"/>
+	<link href="/css/navigation.css" type="text/css" rel="stylesheet"/>
     <link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
     <link href="/css/back_button.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="/scripts/buttons.js"></script>
