@@ -117,7 +117,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
-input[type=text], [type=password], [type=number] {
+input[type=text], input[type=password], input[type=number] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
@@ -138,12 +138,12 @@ input[type=text], [type=password], [type=number] {
   border-radius: 5px 5px 5px 5px;
 }
 
-input[type=text]:focus {
+input[type=text]:focus,input[type=password]:focus,input[type=number]:focus  {
   background-color: #fff;
   border-bottom: 2px solid #5fbae9;
 }
 
-input[type=text]:placeholder {
+input[type=text]:placeholder, input[type=password]:placeholder, input[type=number]:placeholder {
   color: #cccccc;
 }
 
@@ -271,8 +271,4 @@ input[type=text]:placeholder {
 
 * {
   box-sizing: border-box;
-}
-
-.content{
-  text-align: center;
 }

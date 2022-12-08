@@ -252,7 +252,6 @@ email.reportValidity();
 <!-- Making menu icon clickable to display the navigation menu on smaller screens -->
 				<i onclick="navToggle()" id="nav-icon" class="fa fa-navicon" style="font-size:24px"></i> 
 			</div>
-			 <!-- Your Logo Goes Here -->
 			 <a href="/" class="w3-bar-item w3-button w3-wide">
 				<img class="img-nav" src="/images/logo_square.png" alt="WCS">
 			</a>
