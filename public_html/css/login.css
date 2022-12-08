@@ -271,5 +271,8 @@ input[type=text]:placeholder {
 
 * {
   box-sizing: border-box;
+}
+
+.content{
   text-align: center;
 }
