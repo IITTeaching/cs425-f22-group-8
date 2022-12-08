@@ -5,9 +5,10 @@ require_once "api/constants.php";
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CS425 Test login</title>
+    <title>WCS Login</title>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
+	<link href="/css/login.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
 	<script type="text/javascript" src="/scripts/buttons.js"></script>
 	<script type="text/javascript">
@@ -24,20 +25,18 @@ require_once "api/constants.php";
 	</script>
 </head>
 <body>
-<form name="form" id="form" action="/api/login" method="POST">
-    <label for="username">Username: </label>
-    <input type="text" id="username" name="username" value="" autocomplete="username" oninput="checkInfo()" required><br>
-
-    <label for="password">Password: </label>
-    <input type="password" id="password" name="password" value="" autocomplete="current-password" oninput="checkInfo()" onkeyup="checkInfo()" required><br>
-
-    <label for="auth_code">2FA Code: </label>
-    <input type="number" id="auth_code" name="auth_code" value=""><br>
-
-	<div class="" id="submit_wrapper">
-		<button type="submit" name="submit" id="submit" form="form" hidden>LOGIN</button>
+<div class="wrapper fadeInDown">
+	<div id="formContent">
+		<h2 class="active"> Sign In </h2>
 	</div>
-</form>
-
+	<div class = "fadeIn first"></div>
+	
+	<form name="form" id="form" action="/api/login" method="POST">
+		<input type="text" id="username" name="username" value="" autocomplete="username" placeholder = "login" oninput="checkInfo()" required>
+		<input type="password" id="password" name="password" value="" autocomplete="current-password" placeholder = "password" oninput="checkInfo()" onkeyup="checkInfo()" required>
+		<input type="number" id="auth_code" name="auth_code" value="" placeholder = "2FA code">
+		<input type="submit" id="submit" name="submit" class="fadeIn fourth" value = "Log In">
+	</form>
+</div>
 </body>
 </html>
