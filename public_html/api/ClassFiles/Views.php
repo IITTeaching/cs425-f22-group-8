@@ -37,7 +37,7 @@ class Views extends CS425Class
 		$branches = array();
 
 		while($row = pg_fetch_array($result)) {
-			$branches[] = array("name" => $row["name"], "address" => $row["address"]);
+			$branches[$row["name"]] = $row["address"];
 		}
 
 		return $branches;
