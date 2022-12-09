@@ -90,4 +90,4 @@
  }
  _function_map = {"F/P":"single_compound_payment","P/F":"present_value","F/A":"uniform_compound","A/F":"uniform_sinking_fund","A/P":"uniform_capital_recovery","P/A":"uniform_present_worth"};
  console.log(_function_map["A/P"](4, 360, 360000));
- //echo $_function_map["A/P"](8,12,50) . PHP_EOL;
+ //echo $_function_map["A/P"](8,12,50) . PHP_EOL; 
