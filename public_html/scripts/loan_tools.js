@@ -6,7 +6,7 @@
  * @param $present_sum float|int The present value. This is not required if you are trying to find the rate. (P)
  * @return float The future value (F).
  */
- function single_compound_payment(float interest, int periods, float|int present_sum = 1) : float
+ function single_compound_payment(interest, periods, present_sum = 1) : float
  {
      interest /= 100;
      exponent = (1 + interest) ** periods;
@@ -20,7 +20,7 @@
   * @param $future_value float|int The future value (f).
   * @return float The present value (P).
   */
- function present_value(float interest, int periods, float|int future_value = 1) : float
+ function present_value(interest, periods, future_value = 1) : float
  {
      interest /= 100;
      exponent = 1 / (1 + interest) ** periods;
@@ -34,7 +34,7 @@
   * @param $payments float|int The number of payments (A).
   * @return float The future value (F).
   */
- function uniform_compound(float interest, int periods, float|int payments = 1) : float
+ function uniform_compound(interest, periods, payments = 1) : float
  {
      interest /= 100;
      numerator = (1 + interest) ** periods - 1;
@@ -48,7 +48,7 @@
   * @param $future_value float|int The future value (F).
   * @return float The amount per payment (A).
   */
- function uniform_sinking_fund(float interest, int periods, float|int future_value = 1) : float
+ function uniform_sinking_fund(interest, periods, future_value = 1) : float
  {
      interest /= 100;
      denominator = (1 + interest) ** periods - 1;
@@ -62,7 +62,7 @@
   * @param $present_value int|float The present value (P).
   * @return float The amount per payment (A).
   */
- function uniform_capital_recovery(float interest, int periods, int|float present_value = 1) : float
+ function uniform_capital_recovery(interest, periods, present_value = 1) : float
  {
      interest /= 100;
      exponent = (1 + interest) ** periods;
