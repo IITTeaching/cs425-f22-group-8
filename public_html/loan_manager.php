@@ -70,68 +70,24 @@ try{
 <h2>Welcome <?php echo $shark->getName()?>::Loan Manager!</h2>
 <h3>This is your homepage.</h3>
 
-<button class="employee_forms" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add New Employee</button>
+<button class="employee_forms" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Approve/Deny Loan Request</button>
 
 <div id="id01" class="modal">
 	<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 	<form class="modal-content" method="post" action="/api/hire">
 		<div class="container">
-			<h1>Add Employee</h1>
-			<p>Please fill in the following form with the Employee's information.</p>
+			<h1>Find A Requested Loan</h1>
+			<p>Please fill in the following form with the Customer's information.</p>
 
 			<hr>
-			<label class="form_label" for="fullname">Name</label>
-			<input type="text" placeholder="Enter Full Name" name="fullname" id="fullname" required>
+			<label class="form_label" for="loannum">Loan Number</label>
+			<input type="text" placeholder="Loan Request Number" name="loannum" id="loannum" required>
 
-			<label class="form_label" for="role">Role</label>
-			<input type="text" placeholder="Enter Role (Teller, Loan Manager, Manager)" name="role" id="role" pattern="[Teller|Loan Manager|Manager]" required>
 
-			<label class="form_label" for="address_num">Address</label>
-			<input type="number" placeholder="3301" name="address_num" id="address_num" min="0" required>
-
-			<label class="form_label" for="direction">Direction</label>
-			<input type="text" name="direction" id="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
-			<datalist id="directions">
-				<option>N</option>
-				<option>E</option>
-				<option>S</option>
-				<option>W</option>
-			</datalist>
-
-			<label class="form_label" for="streetname">Street</label>
-			<input type="text" name="streetname" id="streetname" placeholder="Street Name" required>
-
-			<label class="form_label" for="city">City</label>
-			<input type="text" name="city" id="city" placeholder="City" required>
-
-			<label class="form_label" for="state">State</label>
-			<input type="text" name="state" id="state" placeholder="State" list="states" required>
-			<datalist id="states">
-				<?php foreach($states as $state) {?>
-					<?php echo $state . PHP_EOL; ?>
-				<?php }?>
-			</datalist>
-
-			<label class="form_label" for="zipcode">Zipcode</label>
-			<input type="text" name="zipcode" id="zipcode" placeholder="Zipcode" required>
-
-			<label class="form_label" for="apt">Apt/Unit</label>
-			<input type="text" name="apt" id="apt" placeholder ="Apt/Unit #" value="">
-
-			<label class="form_label" for="ssn">Social Security Number</label>
-			<input type="number" name="ssn" id="ssn" placeholder="Social Security Number" pattern="\d{9}" value="" required>
-
-			<label class="form_label" for="branch">Branch</label>
-			<input type="text" name="branch" id="branch" list="branches" placeholder="Branch" required>
-			<datalist id="branches">
-				<?php foreach($branches as $key => $value) { ?>
-					<option value="<?php echo $key?>"><?php echo $value ?></option>
-				<?php } ?>
-			</datalist>
 
 			<div class="clearfix">
-				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
-				<button type="submit" class="employee_forms signupbtn">Add Employee</button>
+				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Deny Loan</button>
+				<button type="submit" class="employee_forms signupbtn">Approve Loan</button>
 			</div>
 		</div>
 	</form>
