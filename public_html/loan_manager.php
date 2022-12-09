@@ -78,16 +78,20 @@ try{
 		<div class="container">
 			<h1>Find A Requested Loan</h1>
 			<p>Please fill in the following form with the Customer's information.</p>
-
 			<hr>
 			<label class="form_label" for="loannum">Loan Number</label>
 			<input type="text" placeholder="Loan Request Number" name="loannum" id="loannum" required>
 
-
-
 			<div class="clearfix">
-				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Deny Loan</button>
-				<button type="submit" class="signupbtn">Approve Loan</button>
+				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+				<button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">View Loan Info</button>
+
+				<div id="id02" class="modal">
+				<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+					<div class="container">
+						<!-- figure out how to display loan info -->
+					</div>
+				</div>
 			</div>
 		</div>
 	</form>
