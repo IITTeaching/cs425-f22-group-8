@@ -22,7 +22,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=number]:focus {
 }
 
 /* Set a style for all buttons */
-button.employee_forms {
+button {
 	background-color: #04AA6D;
 	color: white;
 	padding: 14px 20px;
@@ -33,18 +33,18 @@ button.employee_forms {
 	opacity: 0.9;
 }
 
-button.employee_forms:hover {
+button:hover {
 	opacity:1;
 }
 
 /* Extra styles for the cancel button */
-button.employee_forms, .cancelbtn {
+.cancelbtn {
 	padding: 14px 20px;
 	background-color: #f44336;
 }
 
 /* Float cancel and signup buttons and add an equal width */
-button.employee_forms, .cancelbtn, .signupbtn {
+.cancelbtn, .signupbtn {
 	float: left;
 	width: 50%;
 }

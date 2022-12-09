@@ -69,7 +69,7 @@ try{
 	<h2>Welcome <?php echo $manager->getName()?>::Manager!</h2>
 	<h3>This is your homepage.</h3>
 
-	<button class="employee_forms" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add New Employee</button>
+	<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add New Employee</button>
 
 	<div id="id01" class="modal">
 		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -129,8 +129,8 @@ try{
 				</datalist>
 
 				<div class="clearfix">
-					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
-					<button type="submit" class="employee_forms signupbtn">Add Employee</button>
+					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+					<button type="submit" class="signupbtn">Add Employee</button>
 				</div>
 			</div>
 		</form>
