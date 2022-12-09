@@ -70,7 +70,7 @@ try{
 <h2>Welcome <?php echo $shark->getName()?>::Loan Manager!</h2>
 <h3>This is your homepage.</h3>
 
-<button class="employee_forms" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Approve/Deny Loan Request</button>
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Approve/Deny Loan Request</button>
 
 <div id="id01" class="modal">
 	<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -86,8 +86,8 @@ try{
 
 
 			<div class="clearfix">
-				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Deny Loan</button>
-				<button type="submit" class="employee_forms signupbtn">Approve Loan</button>
+				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Deny Loan</button>
+				<button type="submit" class="signupbtn">Approve Loan</button>
 			</div>
 		</div>
 	</form>
