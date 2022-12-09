@@ -76,9 +76,8 @@ try{
 
 	<script>
 		function getLoanListener(){
-			console.log(this.responseText);
-
-
+			let json = JSON.parse(this.responseText);
+			// TODO: Populate the information table with the json data.
 		}
 
 		function getLoanRequest(){
