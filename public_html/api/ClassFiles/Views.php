@@ -16,7 +16,7 @@ class Views extends CS425Class
 	/**
 	 * @throws PGException
 	 */
-	private function getViewResults($query): array{
+	private function getViewResults(string $query): array{
 		$result = $this->query($query);
 		$types = array();
 
@@ -32,6 +32,9 @@ class Views extends CS425Class
 	 */
 	public function getAccountTypes(): array { return $this->getViewResults("SELECT * FROM get_account_types"); }
 
+	/**
+	 * @throws PGException
+	 */
 	public function getBranchInfo(): array {
 		$result = $this->query("SELECT * FROM branch_info");
 		$branches = array();
@@ -43,6 +46,9 @@ class Views extends CS425Class
 		return $branches;
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public function getStateOptions(): array {
 		$result = $this->query("SELECT * FROM state_options");
 		$states = array();

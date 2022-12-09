@@ -12,6 +12,7 @@ require_once "api/constants.php";
 	<link href="/css/ring_indicator.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/navigation.css" type="text/css" rel="stylesheet"/>
 	<script type="text/javascript" src="/scripts/buttons.js"></script>
+	<script type="text/javascript" src="/scripts/join.js"></script>
 	<script type="text/javascript">
 		function checkInfo(){
 			let username = document.getElementById("username");

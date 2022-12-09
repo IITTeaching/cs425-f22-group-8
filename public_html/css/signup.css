@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
 
+.err {
+	background: #ffe6ee;
+	border: 1px solid #b1395f;
+}
+
+.emsg {
+	color: #c12020;
+	font-weight: bold;
+}
+
+/* =============================================================================== */
+
 body {
 	background-color: #101010;
 	font-family: 'Abel', sans-serif;

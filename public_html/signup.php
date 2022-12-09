@@ -25,7 +25,6 @@ try{
 	respond(error_get_last());
 	return;
 }
-// TODO: Check if there is a way to make the form less aggressive, it forces its way from one element to the next, skipping non-required ones, and not allowing you to go back until everything required has something in it.
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +38,7 @@ try{
     <link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
     <link href="/css/back_button.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="/scripts/buttons.js"></script>
+    <script type="text/javascript" src="/scripts/join.js"></script>
 
 	<script type="text/javascript">
 		function onOpen(){
@@ -52,168 +52,167 @@ try{
 			document.getElementById("address_number").addEventListener("input", checkAddressNumber);
 			document.getElementById("streetname").addEventListener("input", checkStreetNumber);
 			document.getElementById("state").addEventListener("input", checkState);
-			document.getElementById("city").addEventListener("input", checkState);
+			document.getElementById("city").addEventListener("input", checkCity);
 			document.getElementById("branch").addEventListener("input", checkBranch);
 		}
-
+		
 		function checkUsername(){
 			let username = document.forms["signup_form"]["username"];
+			let error_field = document.getElementById("username_error");
 			if(username.value.length === 0){
-				username.setCustomValidity("The username cannot be empty.");
-				username.reportValidity();
+				_setError(error_field, "The username cannot be empty.\r\n");
 				return false;
+			} else{
+				_removeError(error_field)
+				return true;
 			}
-			username.setCustomValidity("");
-			return true;
 		}
 
 		function checkName(){
 			let name = document.forms["signup_form"]["fullname"];
+			let error_field = document.getElementById("fullname_error");
 			if(name.value.length === 0){
-				name.setCustomValidity("Your name is required.");
-				name.reportValidity();
+				_setError(error_field, "Your name is required.")
 				return false;
 			}
-			name.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkEmail(){
 			let email = document.forms["signup_form"]["email"];
 			let email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			let error_field = document.getElementById("email_error");
 
 			if(!email_regex.test(email.value.toLowerCase()) || email.validity.typeMismatch){
-				email.setCustomValidity("Your email must be valid.");
-email.reportValidity();
+				_setError(error_field, "Your email must be valid.");
 				return false;
 			}
-			email.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkPhoneNumber(){
 			let phone = document.forms["signup_form"]["phone"];
+			let error_field = document.getElementById("phone_error");
 
 			let phone_number_regex = /\(?(\d{3})\)?-?(\d{3})-?(\d{4})/;
 			if(!phone_number_regex.test(phone.value)){
-				phone.setCustomValidity("Please enter a valid phone number.");
-				phone.reportValidity();
+				_setError(error_field, "Please enter a valid phone number.");
 				return false;
 			}
-			phone.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkPassword(){
 			let password = document.forms["signup_form"]["password"];
 			let value = password.value;
-
+			let error_field = document.getElementById("password_error");
+			
 			if(value.length < 8){
-				password.setCustomValidity("Your password must be at least 8 characters long.");
-				password.reportValidity();
+				_setError(error_field, "Your password must be at least 8 characters long.");
 				return false;
 			}
 
 			let password_number_regex = /.*\d.*/;
 			if(!password_number_regex.test(value)){
-				password.setCustomValidity("Your password must contain a number.");
-				password.reportValidity();
+				_setError(error_field, "Your password must contain a number.");
 				return false;
 			}
 
 			let upper_regex = /.*[A-Z].*/;
 			if(!upper_regex.test(value)){
-				password.setCustomValidity("Your password must have at least one upper case letter.");
-				password.reportValidity();
+				_setError(error_field, "Your password must have at least one upper case letter.");
 				return false;
 			}
 
 			let lower_regex = /.*[a-z].*/;
 			if(!lower_regex.test(value)){
-				password.setCustomValidity("Your password must have at least one lower case letter.");
-				password.reportValidity();
+				_setError(error_field, "Your password must have at least one lower case letter.");
 				return false;
 			}
 
 			let symbol_regex = /.*[!#$@%()^&;:-].*/;
 			if(!symbol_regex.test(value)){
-				password.setCustomValidity("Your password must have one of the following characters in it `!#$@%()^&;:-`.");
+				_setError(error_field, "Your password must have one of the following characters in it `!#$@%()^&;:-`.");
 				return false;
 			}
 
-			password.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkZipcode(){
 			let zipcode = document.forms["signup_form"]["zipcode"];
+			let error_field = document.getElementById("zipcode_error");
 
-			if(zipcode.value < 10000 || zipcode.value > 99999){
-				zipcode.setCustomValidity("Please enter a valid zipcode.");
-				zipcode.reportValidity();
+			if(zipcode.value < 10000 || zipcode.value > 99999) {
+				_setError(error_field, "Please enter a valid zipcode.");
 				return false;
 			}
-			zipcode.setCustomValidity("");
+			
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkAddressNumber(){
 			let address = document.forms["signup_form"]["address_number"];
-
+			let error_field = document.getElementById("address_number_error");
+			
 			if(address.value <= 0){
-				address.setCustomValidity("Please enter an address number.");
-				address.reportValidity();
+				_setError(error_field, "Please enter an address number.");
 				return false;
 			}
-			address.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkStreetNumber(){
 			let streetname = document.forms["signup_form"]["streetname"];
+			let error_field = document.getElementById("streetname_error");
 
 			if(streetname.value.length === 0){
-				streetname.setCustomValidity("The street number cannot be empty.");
-				streetname.reportValidity();
+				_setError(error_field, "The street number cannot be empty.");
 				return false;
 			}
-			streetname.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkCity(){
 			let city = document.forms["signup_form"]["city"];
+			let error_field = document.getElementById("city_error");
 
 			if(city.value.length === 0){
-				city.setCustomValidity("You must provide your city.");
-				city.reportValidity();
+				_setError(error_field, "You must provide your city.");
 				return false;
 			}
-			city.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkState(){
 			let state = document.forms["signup_form"]["state"];
+			let error_field = document.getElementById("state_error");
 
 			if(state.value.length !== 2){
-				state.setCustomValidity("You must choose the proper state.");
-				state.reportValidity();
+				_setError(error_field, "You must choose the proper state.");
 				return false;
 			}
-			state.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
 		function checkBranch(){
 			let branch = document.forms["signup_form"]["branch"];
+			let error_field = document.getElementById("branch_error");
 
 			if(branch.value.length === 0){ // TODO: Check if there is a way to see if branch is in the branches datalist.
-				branch.setCustomValidity("You must choose the location of one of our branches.");
-				branch.reportValidity();
+				_setError(error_field, "You must choose the location of one of our branches.");
 				return false;
 			}
-			branch.setCustomValidity("");
+			_removeError(error_field);
 			return true;
 		}
 
@@ -263,12 +262,20 @@ email.reportValidity();
 
 	<form name="signup_form" id="signup_form" action="/api/signup" method="POST" onsubmit="return validate()">
 		<input type="text" id="username" name="username" placeholder="Username" value="" oninput="checkInfo()" required autocomplete="username">
+		<div id="username_error" class="emsg"></div>
 		<input type="password" id="password" name="password" placeholder="Password" value="" oninput="checkInfo()" required autocomplete="new-password" minlength="8">
+		<div id="password_error" class="emsg"></div>
+
 		<input type="text" id="fullname" name="fullname" placeholder="Full Name" value="" oninput="checkInfo()" required autocomplete="name">
+		<div id="fullname_error" class="emsg"></div>
 		<input type="email" id="email" name="email" value="" placeholder="Email Address" oninput="checkInfo()" required autocomplete="email" pattern="^(([^<>()\[\]\\.,;:\s@]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$">
+		<div id="email_error" class="emsg"></div>
 		<input name="phone" id="phone" value="" type="tel" placeholder="Phone No." oninput="checkInfo()" required autocomplete="tel" pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}">
+		<div id="phone_error" class="emsg"></div>
 		<input class ="name-surname" type="number" id="address_number" name="address_number" placeholder="3301" oninput="checkInfo()" min="0" inputmode="decimal" required>
 		<input class ="name-surname" type="text" class="input1" id="direction" name="direction" pattern="[N|E|S|W]?" list="directions" placeholder="Direction">
+		<div id="address_number_error" class="emsg"></div>
+		<div id="direction_error" class="emsg"></div>
 		<datalist id="directions">
 			<option>N</option>
 			<option>E</option>
@@ -276,7 +283,9 @@ email.reportValidity();
 			<option>W</option>
 		</datalist>
 		<input type="text" name="streetname" id="streetname" placeholder="Street Name" oninput="checkInfo()" required>
+		<div id="streetname_error" class="emsg"></div>
 		<input type="text" name="city" id="city" placeholder="City" oninput="checkInfo()" required>
+		<div id="city_error" class="emsg"></div>
 		<input class ="name-surname" name = "state" id="state" oninput="checkInfo()" list="states" placeholder="State" required>
 			<datalist id="states">
 				<?php foreach($states as $state) {?>
@@ -284,8 +293,12 @@ email.reportValidity();
 				<?php }?>
 			</datalist>
 		<input class ="name-surname" type="number" name="zipcode" id="zipcode" placeholder="Zipcode" oninput="checkInfo()" required min="10000" max="99999" autocomplete="postal-code" inputmode="decimal">
+		<div id="state_error" class="emsg"></div>
+		<div id="zipcode_error" class="emsg"></div>
 		<input type="text" name="apt" id="apt" placeholder="Apt/Unit # (Optional)" value="">
+		<div id="apt_error" class="emsg"></div>
 		<input name="branch" id="branch" oninput="checkInfo()" list="branches" placeholder="Branch" required>
+		<div id="branch_error" class="emsg"></div>
 				<datalist id="branches">
 					<?php foreach($branches as $key => $value) { ?>
 						<option value="<?php echo $key?>"><?php echo $value ?></option>
