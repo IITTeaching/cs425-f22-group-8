@@ -113,11 +113,12 @@ CREATE TABLE LoanApprovals(
     approval_date DATE NOT NULL DEFAULT now(),
     customer_id INT NOT NULL REFERENCES Customers(id),
     initial_amount FLOAT NOT NULL CHECK (initial_amount > 0),
-    amount_remaining FLOAT NOT NULL CHECK (amount_remaining > 0),
+    amount_remaining FLOAT NOT NULL CHECK (amount_remaining >= 0),
     n INT NOT NULL CHECK ( n > 0),  -- N, Number of Payments,
     payment FLOAT NOT NULL CHECK (payment > 0),  -- Payment (A/PMT)
     compounding_per_year INT NOT NULL CHECK (compounding_per_year >= 1),
     apr FLOAT NOT NULL CHECK ( apr > 0 )
+    -- next_compounding_date DATE DEFAULT now()::DATE + ('')::interval // TODO: Let the database hold a date so it knows when the next time it needs to add interest is.
 );
 
 CREATE TABLE States(

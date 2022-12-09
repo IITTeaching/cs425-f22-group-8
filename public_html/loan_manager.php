@@ -55,6 +55,14 @@ try{
 	return;
 }
 
+try{
+	$loans = $shark->getRequestedLoans();
+} catch (PGException $e){
+	http_response_code(500);
+	respond(error_get_last());
+	return;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,6 +73,24 @@ try{
 	<link href="/css/employee_pages.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/menu_style.css" type="text/css" rel="stylesheet"/>
 	<link href="/css/wcss.php" type="text/css" rel="stylesheet"/>
+
+	<script>
+		function getLoanListener(){
+			console.log(this.responseText);
+
+
+		}
+
+		function getLoanRequest(){
+			let loan_id = document.getElementById("loan_num");
+
+			const req = new XMLHttpRequest();
+			req.addEventListener("load", getLoanListener);
+			req.open("POST", "https://cs425.lenwashingtoniii.com/api/get_loan_request");
+			req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			req.send(`loan_id=${loan_id}`);
+		}
+	</script>
 </head>
 <body class="employee">
 <h2>Welcome <?php echo $shark->getName()?>::Loan Manager!</h2>
@@ -79,8 +105,8 @@ try{
 			<h1>Find A Requested Loan</h1>
 			<p>Please fill in the following form with the Customer's information.</p>
 			<hr>
-			<label class="form_label" for="loannum">Loan Number</label>
-			<input type="text" placeholder="Loan Request Number" name="loannum" id="loannum" required>
+			<label class="form_label" for="loan_num">Loan Number</label>
+			<input type="text" placeholder="Loan Request Number" name="loan_num" id="loan_num" onclick="getLoanRequest()" pattern="(\d+)" required>
 
 			<div class="clearfix">
 				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
