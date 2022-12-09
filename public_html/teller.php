@@ -55,7 +55,9 @@ try{
 				<p>Please fill in the following form with the Customer's information.</p>
 
 				<hr>
-				
+				<label class="form_label" for="accnumber">Account Number</label>
+				<input type="text" placeholder="Customer's Account Number" name="accnumber" id="accnumber" required>
+
 				<div class="clearfix">
 					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
 					<button type="submit" class="employee_forms signupbtn">Find Balance</button>
