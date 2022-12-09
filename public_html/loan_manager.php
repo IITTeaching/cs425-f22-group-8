@@ -84,10 +84,10 @@ try{
 
 			<div class="clearfix">
 				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-				<button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">View Loan Info</button>
+				<button onclick="document.getElementById('id02').style.display='block'" style="width:auto;" class="signupbtn">View Loan Info</button>
 
 				<div id="id02" class="modal">
-				<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+				<span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
 					<div class="container">
 						<!-- figure out how to display loan info -->
 					</div>
