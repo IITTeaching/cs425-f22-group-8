@@ -94,24 +94,28 @@ CREATE TABLE AwaitingVerification(
 );
 
 CREATE TABLE LoanRequests(
-    loan_request_number SERIAL PRIMARY KEY NOT NULL,
+    loan_request_id SERIAL PRIMARY KEY NOT NULL,
     customer_id INT NOT NULL REFERENCES Customers(id),
+    loan_name TEXT NOT NULL,
     amount FLOAT NOT NULL CHECK (amount > 0), -- Present Value (P)
-    payback_period INT NOT NULL CHECK (payback_period > 0),  --
+    apr FLOAT NOT NULL CHECK ( apr > 0 ),  -- I = APR / Compounding per Year
+    payment FLOAT NOT NULL CHECK (payment > 0),  -- Payment (A/PMT)
+    n INT NOT NULL CHECK ( n > 0),  -- N, Number of Payments
     compounding_per_year INT NOT NULL CHECK (compounding_per_year >= 1),
-    apr FLOAT NOT NULL CHECK ( apr > 0 ),
     request_date DATE NOT NULL DEFAULT now()
-); -- I = APR / Compounding per Year
+);
+
 
 CREATE TABLE LoanApprovals(
     loan_number SERIAL PRIMARY KEY NOT NULL,
-    loan_name TEXT DEFAULT NULL,
+    loan_name TEXT NOT NULL,
     approver_id INT NOT NULL REFERENCES Employee(id),
     approval_date DATE NOT NULL DEFAULT now(),
     customer_id INT NOT NULL REFERENCES Customers(id),
     initial_amount FLOAT NOT NULL CHECK (initial_amount > 0),
     amount_remaining FLOAT NOT NULL CHECK (amount_remaining > 0),
-    payback_period INT NOT NULL CHECK (payback_period > 0),
+    n INT NOT NULL CHECK ( n > 0),  -- N, Number of Payments,
+    payment FLOAT NOT NULL CHECK (payment > 0),  -- Payment (A/PMT)
     compounding_per_year INT NOT NULL CHECK (compounding_per_year >= 1),
     apr FLOAT NOT NULL CHECK ( apr > 0 )
 );

@@ -1,16 +1,14 @@
 <?php
 
-require_once(dirname(__DIR__) . "/api/ClassFiles/Address.php");
 require_once(dirname(__DIR__) . "/api/ClassFiles/CookieManager.php");
+require_once(dirname(__DIR__) . "/api/ClassFiles/LoanRequest.php");
 require_once(dirname(__DIR__) . "/api/Exceptions/PGException.php");
-require_once(dirname(__DIR__) . "/api/constants.php");
 require_once(dirname(__DIR__) . "/api/tools.php");
 
-if (!(isset($_POST["address_number"])  && isset($_POST["direction"]) && isset($_POST["streetname"]) && isset($_POST["city"])
-	&& isset($_POST["state"]) && isset($_POST["zipcode"]) && isset($_POST['apt']))) {
+if (!( isset($_POST["amount"]) && isset($_POST["compounding_per_year"]) && isset($_POST["apr"]) && isset($_POST["n"])
+	&& isset($_POST["loan_name"]) )) {
 	http_response_code(400);
 	respond("All fields are required");
-	header("Location: " . HTTPS_HOST . "/profile");
 	return;
 }
 
@@ -24,10 +22,12 @@ if (!$username) {
 }
 
 try {
-	$address = Address::createAddress($_POST["address_number"], $_POST["direction"], $_POST["streetname"], $_POST["city"], $_POST["state"], $_POST["zipcode"], $_POST['apt']);
-	respond("Address added successfully");
+	$request = LoanRequest::requestLoan($_POST["amount"], $_POST["compounding_per_year"],
+		$_POST["apr"], $_POST["n"], $_POST["loan_name"]);
+	respond("Loan request has been submitted. Pending approval. (It will not be visible until a Loan Manager accepts it.");
+	header("Loan-Request-Number: " . $request->getNumber());
+	header("Loan-Request-Payment: " . $request->getPayment());
 	http_response_code(200);
-	header("Address-ID: " . $address->getAddressId());
 	return;
 } catch (PGException | InvalidArgumentException $pgError) {
 	http_response_code(500);

@@ -1,5 +1,12 @@
 <?php
 
+enum Compound : int{
+	case Annually = 1;
+	case SemiAnnually = 2;
+	case Quarterly = 4;
+	case Monthly = 12;
+}
+
 /**
  * Finds the future value of some given present value. [F/P] Assumes there are no payments (A).
  *
@@ -57,7 +64,7 @@ function uniform_sinking_fund(float $interest, int $periods, float|int $future_v
 }
 
 /**
- * Finds the amount of payments to that can be taken out given a predetermined present value [A/P] Assumes there is no future value (F).
+ * Finds the amount of payments to that can be taken out given a predetermined present value [A/P]. Assumes there is no future value (F).
  *
  * @param $interest float The rate per period, in percentage form (I).
  * @param $periods int The number of periods (N).
@@ -71,7 +78,7 @@ function uniform_capital_recovery(float $interest, int $periods, int|float $pres
 	$numerator = $interest * $exponent;
 	$denominator = $exponent - 1;
 
-	return -$present_value * $numerator / $denominator;
+	return -$present_value * $numerator / $denominator;  // TODO: Add error checking
 }
 
 /**
