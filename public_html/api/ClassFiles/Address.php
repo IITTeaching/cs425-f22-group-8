@@ -14,7 +14,7 @@ class Address extends CS425Class
 
 		if($argc == 1) {
 			call_user_func_array(array($this, "__init__"), $argv);
-		} elseif ($argc == 4){
+		} elseif ($argc == 7){
 			call_user_func_array(array($this, "register"), $argv);
 		} else{
 			parent::__destruct(); //new InvalidArgumentException("The account constructor can only take 1 argument, the account number."));
