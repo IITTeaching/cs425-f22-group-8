@@ -48,7 +48,7 @@ class Address extends CS425Class
 	/**
 	 * @throws PGException
 	 */
-	private function register($address_number, $direction, $streetName, $city, $state, $zipcode, $apt): int
+	private function register($address_number, $direction, $streetName, $city, $state, $zipcode, $apt): void
 	{
 		$address_number = $this->prepareData($address_number);
 		$direction = $this->prepareData($direction);
@@ -61,9 +61,12 @@ class Address extends CS425Class
 		$sql = sprintf("SELECT id FROM Addresses WHERE number = %s AND UPPER(direction::TEXT) = '%s' AND UPPER(street_name) = '%s' AND UPPER(city) = '%s' AND UPPER(state) = '%s' AND zipcode = '%s' AND UPPER(unitnumber) = '%s'",
 			$address_number, strtoupper($direction), strtoupper($streetName), strtoupper($city), strtoupper($state), $zipcode, strtoupper($apt));
 
-		$result = parent::query($sql);
+		$result = $this->query($sql);
 		$address_count = pg_num_rows($result);
-		if($address_count == 1) { return pg_fetch_result($result, 0, 0); }
+		if($address_count == 1) {
+			$this->addressId = pg_fetch_result($result, 0, 0);
+			return;
+		}
 
 		if(strlen($apt) == 0){
 			$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode) VALUES(%s,'%s','%s','%s','%s',%s) RETURNING id",
@@ -72,11 +75,11 @@ class Address extends CS425Class
 			$sql = sprintf("INSERT INTO Addresses(number, direction, street_name, city, state, zipcode, unitnumber) VALUES(%s,'%s','%s','%s','%s',%s,'%s') RETURNING id",
 				$address_number, $direction, $streetName, $city, $state, $zipcode, $apt);
 		}
-		$result = parent::query($sql);
+		$result = $this->query($sql);
 		if(pg_num_rows($result) == 0){
 			throw new InvalidArgumentException("Something happened creating the address tuple");
 		}
 
-		return pg_fetch_result($result, 0, 0);
+		$this->addressId = pg_fetch_result($result, 0, 0);
 	}
 }
