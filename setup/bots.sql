@@ -22,7 +22,7 @@ GRANT CONNECT ON DATABASE cs425 TO verifybot;
 CREATE ROLE loanbot WITH PASSWORD '669e2e48e6abe564fda82128f42e15609c22778d1b47c22960bba05799bfdc7a' LOGIN;
 GRANT SELECT, INSERT, DELETE ON TABLE LoanRequests TO loanbot;
 GRANT SELECT, INSERT, DELETE ON TABLE ApprovedLoans TO loanbot;
-GRANT USAGE, SELECT ON SEQUENCE loanrequests_loan_request_number_seq TO profilebot;
+GRANT USAGE, SELECT ON SEQUENCE loanrequests_loan_request_number_seq TO loanbot;
 GRANT SELECT ON Employee TO loanbot;
 GRANT CONNECT ON DATABASE cs425 TO loanbot;
 

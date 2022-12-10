@@ -37,7 +37,7 @@ class LoanRequest extends CS425Class
 		$n = (int)$this->prepareData($n);
 		$loan_name = $this->prepareData($loan_name);
 
-		$payment = uniform_capital_recovery($apr / $compounding_per_year->value, $n, $amount);
+		$payment = -uniform_capital_recovery($apr / $compounding_per_year->value, $n, $amount);
 
 		$result = $this->query(sprintf("INSERT INTO LoanRequests(customer_id, loan_name, amount, apr, payment, n, compounding_per_year) VALUES(%d,'%s',%f,%f,%f,%d,%d) RETURNING loan_request_id",
 			$user->getUserId(), $loan_name, $amount, $apr, $payment, $n, $compounding_per_year->value));
