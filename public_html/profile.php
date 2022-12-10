@@ -23,6 +23,11 @@ if(!$username){
 
 try{
 	$user = User::fromUsername($username);
+	if(!$user){
+		http_response_code(500);
+		respond("Cannot find ensure a user named " . $username . "exists, even though you are logged in.");
+		return;
+	}
 } catch(PGException | InvalidArgumentException $pgError){
 	http_response_code(500);
 	respond($pgError->getMessage());  # TODO: Add a note telling users how to access the transactions.
