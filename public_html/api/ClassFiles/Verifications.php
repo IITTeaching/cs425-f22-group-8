@@ -15,12 +15,18 @@ class Verifications extends CS425Class
 		parent::__construct(new VerificationConfig());
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public function createVerificationCode($email, $name): string {
 		$time = time();
 		$this->query(sprintf("INSERT INTO AwaitingVerification VALUES('%s','%s',%s)", $email, $name, $time));
 		return password_hash(sprintf("name=%s&time=%d&email=%s", $name, $time, $email), PASSWORD_DEFAULT);
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	public function check_verification($email, $code): bool{
 		$email = $this->prepareData($email);
 		$code = $this->prepareData($code);
@@ -106,7 +112,10 @@ class Verifications extends CS425Class
 		mail($email, $subject, $message, $headers);
 	}
 
-	public function send_verification_email($email, $name){
+	/**
+	 * @throws PGException
+	 */
+	public function send_verification_email(string $email, string $name){
 		$verification_code = $this->createVerificationCode($email, $name);
 		$verification_link = sprintf(HTTPS_HOST . "/api/verify?email=%s&code=%s", $email, $verification_code);
 		$subject = "WCS Account Creation";

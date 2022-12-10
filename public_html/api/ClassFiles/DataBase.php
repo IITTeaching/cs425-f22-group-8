@@ -6,12 +6,12 @@ require_once (dirname(__DIR__) . "/ConfigFiles/DataBaseConfig.php");
 require_once (dirname(__DIR__) . "/Exceptions/PGException.php");
 require_once (dirname(__DIR__) . "/constants.php");
 require_once (dirname(__DIR__) . "/tools.php");
+require_once "Address.php";
+require_once "Authentication.php";
+require_once "CS425Class.php";
 require_once "CookieManager.php";
 require_once "User.php";
 require_once "Verifications.php";
-require_once "CS425Class.php";
-require_once "Authentication.php";
-require_once "Address.php";
 
 class DataBase extends CS425Class
 {

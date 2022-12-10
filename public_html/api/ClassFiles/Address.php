@@ -1,6 +1,7 @@
 <?php
 
 require_once (dirname(__DIR__) . "/ConfigFiles/AddressConfig.php");
+require_once (dirname(__DIR__) . "/ClassFiles/CS425Class.php");
 
 class Address extends CS425Class
 {
