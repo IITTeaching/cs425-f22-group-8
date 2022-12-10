@@ -3,6 +3,7 @@ require_once "api/ClassFiles/CookieManager.php";
 require_once "api/ClassFiles/User.php";
 require_once "api/ClassFiles/Views.php";
 require_once "api/constants.php";
+require_once "api/finance_tools.php";
 
 $cookie = new CookieManager();
 $username = $cookie->getCookieUsername();
@@ -49,6 +50,7 @@ $loans = $user->getLoans();
 	<link href="/css/profile.css" type="text/css" rel="stylesheet"/>
 	<link rel="icon" type="image/x-icon" href="<?php echo FAVICON_LINK; ?>"/>
 	<script type="text/javascript" src="/scripts/transactions.js"></script>
+	<script type="text/javascript" src="/scripts/loan_tools.js"></script>
 	<script type="text/javascript">
 		function openSidebar () {
 			let side = document.getElementById("page-side");
@@ -127,9 +129,10 @@ $loans = $user->getLoans();
 			<th>Can Be Overdrawn</th>
 		</tr>
 	</table>
-	<button class="addMore" title="To edit your account, click on one of your accounts to see the options. To close the transactions menu, click the accounts again.">?</button>
+
+	<button style="width: auto;" title="To edit your account, click on one of your accounts to see the options. To close the transactions menu, click the accounts again.">?</button>
 	<div id="id01" class="modal">
-		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+		<span onclick="parent.style.display='none'" class="close" title="Close Modal">&times;</span>
 		<form class="modal-content" id="create_account_form">
 			<div class="container">
 				<h1>Add Account</h1>
@@ -153,6 +156,41 @@ $loans = $user->getLoans();
 				<div class="clearfix">
 					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
 					<button type="submit" onclick="createAccount()" class="employee_forms signupbtn">Create Account</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="request_loan" class="modal">
+		<span onclick="parent.style.display='none'" class="close" title="Close Modal">&times;</span>
+		<form class="modal-content" id="request_loan_form">
+			<div class="container">
+				<h1>Request Loan</h1>
+				<p style="color: rgb(133, 133, 133);">Please fill in the following form with the new Loan's information.</p>
+
+				<hr>
+				<label class="form_label" for="loan_name">Loan Name</label>
+				<input type="text" name="loan_name" id="loan_name" placeholder="New Loan Name" minlength="1" required>
+
+				<label class="form_label" for="initial_amount">Initial Amount</label>
+				<input type="number" name="initial_amount" id="initial_amount" placeholder="$50,000" min="0" max="100000" step="0.01" required>
+
+				<label class="form_label" for="apr">Initial Amount</label>
+				<input type="number" name="apr" id="apr" placeholder="Annual Percentage Rate" min="7" step="0.01" required>%
+
+				<label class="form_label" for="_n">Number of Payback Periods</label>
+				<input type="number" name="_n" id="_n" placeholder="N" min="0" step="1" required>
+
+				<label class="form_label" for="compounding_per_year">Account Type</label>
+				<input type="text" name="compounding_per_year" id="compounding_per_year" list="compound_types" pattern="Annually|SemiAnnually|Quarterly|Monthly" placeholder="Annually" required>
+				<datalist id="compound_types">
+					<?php foreach(Compound::cases() as $compound) { ?>
+						<option><?php echo $compound->name ?></option>
+					<?php } ?>
+				</datalist>
+
+				<div class="clearfix">
+					<button type="button" onclick="document.getElementById('request_loan').style.display='none'" class="employee_forms cancelbtn">Cancel</button>
+					<button type="submit" onclick="requestLoan()" class="employee_forms signupbtn">Create Account</button>
 				</div>
 			</div>
 		</form>
@@ -182,6 +220,7 @@ $loans = $user->getLoans();
 					echo "Internal Server Error";
 				} ?></h3>
 		<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Create New Account</button>
+		<button onclick="document.getElementById('request_loan').style.display='block'" style="width:auto;">Request New Loan</button>
 		<a href="/api/logout">Logout</a>
 
 	</nav>

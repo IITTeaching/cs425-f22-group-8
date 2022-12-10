@@ -79,7 +79,7 @@ function uniform_capital_recovery(interest, periods, present_value = 1)
  * @return float The present value (P).
  */
 function uniform_present_worth(interest, periods, payments = 1) {
-	if (interest == 0) {
+	if (interest === 0) {
 		return payments * periods;
 	}
 	interest /= 100;
@@ -89,14 +89,38 @@ function uniform_present_worth(interest, periods, payments = 1) {
 	return -payments * numerator / denominator;
 }
 
+function requestLoanListener(){
+	alert(this.responseText);
+}
+
+function requestLoan(){
+	const form = document.forms["request_loan_form"];
+	let name = form.elements.loan_name.value;
+	let pv = form.elements.initial_amount.value;
+	let apr = parseFloat(form.elements.apr.value);
+	let n = form.elements._n.value;
+	let cpy = parseFloat(form.elements.compounding_per_year.value);
+
+	let pmt = uniform_present_worth(apr/cpy, n, pv);
+	if(!confirm(`You understand that the payment per period for this loan will be ${pmt}, correct?`)){
+		return;
+	}
+
+	const req = new XMLHttpRequest();
+	req.addEventListener("load", requestLoanListener);
+	req.open("POST", "https://cs425.lenwashingtoniii.com/api/request_loan");
+	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	req.send(`amount=${pv}&compounding_per_year=${cpy}&apr=${apr}&n=${n}&loan_name=${name}`);
+}
+
 const function_map = {
 	"F/P": "single_compound_payment",
-	"P/F":"present_value",
-	"F/A":"uniform_compound",
-	"A/F":"uniform_sinking_fund",
-	"A/P":"uniform_capital_recovery",
-	"P/A":"uniform_present_worth"
+	"P/F": "present_value",
+	"F/A": "uniform_compound",
+	"A/F": "uniform_sinking_fund",
+	"A/P": "uniform_capital_recovery",
+	"P/A": "uniform_present_worth"
 };
 
-console.log(function_map["A/P"](4, 360, 360000));
+//console.log(function_map["A/P"](4, 360, 360000));
 //echo $_function_map["A/P"](8,12,50) . PHP_EOL;

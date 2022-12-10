@@ -106,7 +106,7 @@ CREATE TABLE LoanRequests(
 );
 
 
-CREATE TABLE LoanApprovals(
+CREATE TABLE ApprovedLoans(
     loan_number SERIAL PRIMARY KEY NOT NULL,
     loan_name TEXT NOT NULL,
     approver_id INT NOT NULL REFERENCES Employee(id),

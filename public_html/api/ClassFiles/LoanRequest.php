@@ -63,7 +63,7 @@ class LoanRequest extends CS425Class
 	 * @throws PGException
 	 */
 	public function getCustomer(): User{
-		$result = $this->query(sprintf("SELECT customer_id FROM LoanApprovals WHERE loan_number = %d", $this->loan_request_id));
+		$result = $this->query(sprintf("SELECT customer_id FROM ApprovedLoans WHERE loan_number = %d", $this->loan_request_id));
 		return new User(pg_fetch_result($result, 0));
 	}
 }

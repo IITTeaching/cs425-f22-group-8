@@ -21,7 +21,7 @@ GRANT CONNECT ON DATABASE cs425 TO verifybot;
 
 CREATE ROLE loanbot WITH PASSWORD '669e2e48e6abe564fda82128f42e15609c22778d1b47c22960bba05799bfdc7a' LOGIN;
 GRANT SELECT, INSERT, DELETE ON TABLE LoanRequests TO loanbot;
-GRANT SELECT, INSERT, DELETE ON TABLE LoanApprovals TO loanbot;
+GRANT SELECT, INSERT, DELETE ON TABLE ApprovedLoans TO loanbot;
 GRANT SELECT ON Employee TO loanbot;
 GRANT CONNECT ON DATABASE cs425 TO loanbot;
 
@@ -31,10 +31,10 @@ GRANT SELECT, UPDATE ON TABLE Customers TO profilebot;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE Account TO profilebot;
 GRANT USAGE, SELECT ON SEQUENCE account_number_seq TO profilebot;
 GRANT SELECT ON TABLE AuthorizedUsers TO profilebot;
-GRANT SELECT ON TABLE LoanApprovals TO profilebot;
+GRANT SELECT ON TABLE ApprovedLoans TO profilebot;
 GRANT SELECT ON get_account_types TO profilebot;
-GRANT CONNECT ON DATABASE cs425 TO profilebot;
 GRANT SELECT ON Transactions TO profilebot;
+GRANT CONNECT ON DATABASE cs425 TO profilebot;
 -- GRANT SELECT, UPDATE ON TABLE Logins TO profilebot;  # TODO: If there is time, add the ability to let users change their email and password
 
 

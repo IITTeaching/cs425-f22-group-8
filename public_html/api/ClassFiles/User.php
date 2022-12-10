@@ -64,7 +64,7 @@ class User extends CS425Class
 	 * @throws PGException
 	 */
 	public function getLoans(): array{
-		$result = $this->query(sprintf("SELECT loan_number FROM LoanApprovals WHERE customer_id = %d", $this->getUserId()));
+		$result = $this->query(sprintf("SELECT loan_number FROM ApprovedLoans WHERE customer_id = %d", $this->getUserId()));
 		$loans = array();
 		if(pg_affected_rows($result) != 0){
 			while($row = pg_fetch_array($result)){
@@ -81,7 +81,7 @@ class User extends CS425Class
 	}
 
 	public function getNumberOfLoans(): int{
-		return $this->getBasicResult(sprintf("SELECT COUNT(loan_number) FROM LoanApprovals WHERE customer_id = %d", $this->id));
+		return $this->getBasicResult(sprintf("SELECT COUNT(loan_number) FROM ApprovedLoans WHERE customer_id = %d", $this->id));
 	}
 
 	/**

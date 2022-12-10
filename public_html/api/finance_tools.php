@@ -112,6 +112,6 @@ $_function_map = array(
 	"P/A" => "uniform_present_worth"
 );
 
-echo $_function_map["A/P"](4, 360, 360000);
+//echo $_function_map["A/P"](4, 360, 360000);
 
 //echo $_function_map["A/P"](8,12,50) . PHP_EOL;

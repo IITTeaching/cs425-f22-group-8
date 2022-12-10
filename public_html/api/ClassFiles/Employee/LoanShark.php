@@ -34,7 +34,7 @@ class LoanShark extends Employee
 		$row = $this->query(sprintf("DELETE FROM LoanRequests WHERE loan_request_id = %d RETURNING *;", $loan->getNumber()));
 		$row = pg_fetch_assoc($row);
 
-		$result = $this->query(sprintf("INSERT INTO LoanApprovals(loan_name, approver_id, customer_id, initial_amount, amount_remaining, n, payment, compounding_per_year, apr) VALUES('%s',%d,%d,%f,%f,%d,%f,%d,%f) RETURNING loan_number",
+		$result = $this->query(sprintf("INSERT INTO ApprovedLoans(loan_name, approver_id, customer_id, initial_amount, amount_remaining, n, payment, compounding_per_year, apr) VALUES('%s',%d,%d,%f,%f,%d,%f,%d,%f) RETURNING loan_number",
 					$row["name"], $this->getEmployeeID(), $row["customer_id"], $row["amount"], $row["amount"], $row["n"], $row["payment"], $row["compounding_per_year"], $row["apr"]),
 			sprintf("An error occurred when accepting LoanRequest: %d from Customer id: %d", $loan->getNumber(), $loan->getCustomer()->getUserId()));
 		return new Loan(pg_fetch_result($result, 0));
