@@ -33,7 +33,6 @@ class LoanRequest extends CS425Class
 	 */
 	private function register(User $user, $amount, Compound $compounding_per_year, $apr, $n, $loan_name){
 		$amount = (float)$this->prepareData($amount);
-		$compounding_per_year = $this->prepareData($compounding_per_year);  // String representing Monthly, quarterly, Annually, etc...
 		$apr = (float)$this->prepareData($apr);
 		$n = (int)$this->prepareData($n);
 		$loan_name = $this->prepareData($loan_name);
