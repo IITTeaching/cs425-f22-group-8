@@ -25,7 +25,7 @@ try{
 	$user = User::fromUsername($username);
 	if(!$user){
 		http_response_code(500);
-		respond("Cannot find ensure a user named " . $username . "exists, even though you are logged in.");
+		respond("Cannot find ensure a user named " . $username . " exists, even though you are logged in.");
 		return;
 	}
 } catch(PGException | InvalidArgumentException $pgError){
@@ -180,7 +180,7 @@ $loans = $user->getLoans();
 				<input type="number" name="initial_amount" id="initial_amount" placeholder="$50,000" min="0" max="100000" step="0.01" required>
 
 				<label class="form_label" for="apr">Initial Amount</label>
-				<input type="number" name="apr" id="apr" placeholder="Annual Percentage Rate" min="7" step="0.01" required>%
+				<input type="number" name="apr" id="apr" placeholder="Annual Percentage Rate (%)" min="7" step="0.01" required>
 
 				<label class="form_label" for="_n">Number of Payback Periods</label>
 				<input type="number" name="_n" id="_n" placeholder="N" min="0" step="1" required>

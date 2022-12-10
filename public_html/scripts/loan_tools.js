@@ -57,7 +57,7 @@ function uniform_sinking_fund(interest, periods, future_value = 1)
 /**
  * Finds the amount of payments to that can be taken out given a predetermined present value [A/P] Assumes there is no future value (F).
  *
- * @param {float} interest The rate per period, in percentage form (I).
+ * @param {number} interest The rate per period, in percentage form (I).
  * @param {int} periods The number of periods (N).
  * @param {int|float} present_value The present value (P).
  * @return float The amount per payment (A).
@@ -101,7 +101,7 @@ function requestLoan(){
 	let n = form.elements._n.value;
 	let cpy = parseFloat(form.elements.compounding_per_year.value);
 
-	let pmt = uniform_present_worth(apr/cpy, n, pv);
+	let pmt = uniform_capital_recovery(apr/cpy, n, pv);
 	if(!confirm(`You understand that the payment per period for this loan will be ${pmt}, correct?`)){
 		return;
 	}
