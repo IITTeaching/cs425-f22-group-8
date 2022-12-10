@@ -179,13 +179,13 @@ $loans = $user->getLoans();
 				<label class="form_label" for="initial_amount">Initial Amount</label>
 				<input type="number" name="initial_amount" id="initial_amount" placeholder="$50,000" min="0" max="100000" step="0.01" required>
 
-				<label class="form_label" for="apr">Initial Amount</label>
+				<label class="form_label" for="apr">Annual Percentage Rate (%)</label>
 				<input type="number" name="apr" id="apr" placeholder="Annual Percentage Rate (%)" min="7" step="0.01" required>
 
 				<label class="form_label" for="_n">Number of Payback Periods</label>
 				<input type="number" name="_n" id="_n" placeholder="N" min="0" step="1" required>
 
-				<label class="form_label" for="compounding_per_year">Account Type</label>
+				<label class="form_label" for="compounding_per_year">Yearly Compounding Rate</label>
 				<input type="text" name="compounding_per_year" id="compounding_per_year" list="compound_types" pattern="Annually|SemiAnnually|Quarterly|Monthly" placeholder="Annually" required>
 				<datalist id="compound_types">
 					<?php foreach(Compound::cases() as $compound) { ?>

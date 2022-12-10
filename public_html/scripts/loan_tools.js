@@ -99,10 +99,29 @@ function requestLoan(){
 	let pv = form.elements.initial_amount.value;
 	let apr = parseFloat(form.elements.apr.value);
 	let n = form.elements._n.value;
-	let cpy = parseFloat(form.elements.compounding_per_year.value);
+	let cpy = form.elements.compounding_per_year.value;
+	let num = 0; // Numeric representation of cpy
 
-	let pmt = uniform_capital_recovery(apr/cpy, n, pv);
-	if(!confirm(`You understand that the payment per period for this loan will be ${pmt}, correct?`)){
+	switch(cpy){
+		case "Annually":
+			num = 1;
+			break;
+		case "SemiAnnually":
+			num = 2;
+			break;
+		case "Quarterly":
+			num = 4;
+			break;
+		case "Monthly":
+			num = 12;
+			break;
+		default:
+			console.error("Error, cpy wasn't matched.");
+	}
+
+	let pmt = -uniform_capital_recovery(apr/num, n, pv);
+
+	if(!confirm(`You understand that the payment per period for this loan will be ${pmt.toLocaleString('en-US',{ style: 'currency', currency: 'USD' })}, correct?`)){
 		return;
 	}
 
