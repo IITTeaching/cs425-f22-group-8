@@ -24,8 +24,16 @@ if (!$username) {
 	return;
 }
 
+try{
+	$user = User::fromUsername($username);
+} catch(PGException $e){
+	http_response_code(500);
+	respond($e->getMessage());
+	return;
+}
+
 try {
-	$request = LoanRequest::requestLoan($_POST["amount"], $_POST["compounding_per_year"],
+	$request = LoanRequest::requestLoan($user, $_POST["amount"], $_POST["compounding_per_year"],
 		$_POST["apr"], $_POST["n"], $_POST["loan_name"]);
 	respond("Loan request has been submitted. Pending approval. (It will not be visible until a Loan Manager accepts it.");
 	header("Loan-Request-Number: " . $request->getNumber());

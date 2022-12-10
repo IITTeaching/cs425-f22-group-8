@@ -16,7 +16,7 @@ class LoanRequest extends CS425Class
 
 		if($argc == 1) {
 			call_user_func_array(array($this, "__init__"), $argv);
-		} elseif ($argc == 7){
+		} elseif ($argc == 6){
 			call_user_func_array(array($this, "register"), $argv);
 		} else{
 			parent::__destruct(); //new InvalidArgumentException("The account constructor can only take 1 argument, the account number."));
@@ -28,6 +28,9 @@ class LoanRequest extends CS425Class
 		$this->loan_request_id = $loan_req_id;
 	}
 
+	/**
+	 * @throws PGException
+	 */
 	private function register(User $user, $amount, Compound $compounding_per_year, $apr, $n, $loan_name){
 		$amount = (float)$this->prepareData($amount);
 		$compounding_per_year = $this->prepareData($compounding_per_year);  // String representing Monthly, quarterly, Annually, etc...
@@ -41,19 +44,23 @@ class LoanRequest extends CS425Class
 			$user->getUserId(), $loan_name, $amount, $apr, $payment, $n, $compounding_per_year->value));
 
 		$this->loan_request_id = pg_fetch_result($result, 0, 0);
+		echo $this->loan_request_id;
 	}
 
 	public function getNumber(): int { return $this->loan_request_id; }
 
+	/**
+	 * @throws PGException
+	 */
 	public function getPayment(): int { return $this->getBasicResult(sprintf("SELECT payment FROM loanrequests WHERE loan_request_id = %d", $this->loan_request_id)); }
 
 	/**
 	 * @throws PGException
 	 */
-	public static function requestLoan($amount, $compounding_per_year, $apr, $n, $loan_name): LoanRequest {
+	public static function requestLoan(User $user, $amount, $compounding_per_year, $apr, $n, $loan_name): LoanRequest {
 		foreach(Compound::cases() as $case){
 			if(strtolower($compounding_per_year) == strtolower($case->name)){
-				return new LoanRequest($amount, $case, $apr, $n, $loan_name);
+				return new LoanRequest($user, $amount, $case, $apr, $n, $loan_name);
 			}
 		}
 		throw new InvalidArgumentException("We don't allow a compounding type named: \"" . $compounding_per_year ."\"");
