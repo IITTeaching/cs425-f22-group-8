@@ -3,6 +3,7 @@
 require_once (dirname(__DIR__) . "/api/constants.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/Employee/LoanShark.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/CookieManager.php");
+require_once (dirname(__DIR__) . "/api/ClassFiles/Loan.php");
 require_once (dirname(__DIR__) . "/api/ClassFiles/LoanRequest.php");
 require_once (dirname(__DIR__) . "/api/Exceptions/PGException.php");
 
@@ -37,16 +38,13 @@ try {
 
 
 try {
-	$loan = new LoanRequest("request_id");
+	$loan = $shark->approveLoan(new LoanRequest("request_id"));
 	http_response_code(200);
 	echo json_encode(array(
-		"Loan_Number" => $loan->getNumber(),
+		"Loan_Number" => $loan->getLoanNumber(),
 		"APR" => $loan->getAPR(),
 		"Initial_Amount" => $loan->getInitialAmount(),
-		"Payment_per_Period" => $loan->getPayment(),
-		"N" => $loan->getN(),
-		"CPY" => $loan->getCompoundingPerYear(),
-		"Request_Date" => $loan->getRequestDate()
+		"Payment per Period" => $loan->getPayment()
 	));
 } catch(PGException | InvalidArgumentException $e){
 	http_response_code(500);

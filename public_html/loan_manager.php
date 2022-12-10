@@ -87,7 +87,7 @@ try{
 			req.addEventListener("load", getLoanListener);
 			req.open("POST", "https://cs425.lenwashingtoniii.com/api/get_loan_request");
 			req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			req.send(`loan_id=${loan_id}`);
+			req.send(`request_id=${loan_id}`);
 		}
 	</script>
 </head>

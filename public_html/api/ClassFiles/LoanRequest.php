@@ -51,11 +51,6 @@ class LoanRequest extends CS425Class
 	/**
 	 * @throws PGException
 	 */
-	public function getPayment(): int { return $this->getBasicResult(sprintf("SELECT payment FROM loanrequests WHERE loan_request_id = %d", $this->loan_request_id)); }
-
-	/**
-	 * @throws PGException
-	 */
 	public static function requestLoan(User $user, $amount, $compounding_per_year, $apr, $n, $loan_name): LoanRequest {
 		foreach(Compound::cases() as $case){
 			if(strtolower($compounding_per_year) == strtolower($case->name)){
@@ -73,4 +68,44 @@ class LoanRequest extends CS425Class
 		$result = $this->query(sprintf("SELECT customer_id FROM ApprovedLoans WHERE loan_number = %d", $this->loan_request_id));
 		return new User(pg_fetch_result($result, 0));
 	}
+
+	/**
+	 * @throws PGException
+	 */
+	public function getName(): string{ return $this->getBasicResult(sprintf("SELECT loan_name FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
+
+	/**
+	 * @throws PGException
+	 */
+	public function getInitialAmount(): float{ return $this->getBasicResult(sprintf("SELECT amount FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
+
+	/**
+	 * @throws PGException
+	 */
+	public function getAPR(): float{ return $this->getBasicResult(sprintf("SELECT apr FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
+
+	/**
+	 * @throws PGException
+	 */
+	public function getPayment(): float { return $this->getBasicResult(sprintf("SELECT payment FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
+
+	/**
+	 * @throws PGException
+	 */
+	public function getN(): int { return $this->getBasicResult(sprintf("SELECT n FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
+
+	/**
+	 * @throws PGException
+	 */
+	public function getCompoundingPerYear(): float { return $this->getBasicResult(sprintf("SELECT compounding_per_year FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
+
+	/**
+	 * @throws PGException
+	 */
+	public function getRequestDate() { return $this->getBasicResult(sprintf("SELECT request_date FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
+
+	/**
+	 * @throws PGException
+	 */
+	public function getI(): float{ return $this->query(sprintf("SELECT apr / compounding_per_year FROM LoanRequests WHERE loan_request_id = %d", $this->loan_request_id)); }
 }
