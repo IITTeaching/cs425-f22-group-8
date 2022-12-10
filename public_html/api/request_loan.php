@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 require_once(dirname(__DIR__) . "/api/ClassFiles/CookieManager.php");
 require_once(dirname(__DIR__) . "/api/ClassFiles/LoanRequest.php");
 require_once(dirname(__DIR__) . "/api/Exceptions/PGException.php");
@@ -8,7 +11,7 @@ require_once(dirname(__DIR__) . "/api/tools.php");
 if (!( isset($_POST["amount"]) && isset($_POST["compounding_per_year"]) && isset($_POST["apr"]) && isset($_POST["n"])
 	&& isset($_POST["loan_name"]) )) {
 	http_response_code(400);
-	respond("All fields are required");
+	respond("All fields are required.");
 	return;
 }
 

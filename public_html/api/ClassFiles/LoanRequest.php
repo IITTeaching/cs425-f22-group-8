@@ -1,5 +1,6 @@
 <?php
 
+require_once (dirname(__DIR__) . "/ClassFiles/CS425Class.php");
 require_once (dirname(__DIR__) . "/ConfigFiles/LoanConfig.php");
 require_once (dirname(__DIR__) . "/finance_tools.php");
 
